@@ -6,21 +6,19 @@
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
 import os
-from pathlib import Path
 from inc import config as cfg
- 
-
 
 class BreakoutGroups():
-    """ test the preformance of numpy array calcs""" 
+    """ build the breakout groups, eliminate""" 
+    items = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    items = [1,2,3,4,5,6,7,8,9]
+    set_size = 3
+    rounds = 3
+
     def func(self,):
         pass
  
  
 if __name__ == '__main__':
-    # set the config file working directory
-    wkdir = str(Path(__file__).resolve().parent) + os.sep
-    cfg.wkdir = wkdir
-    cfg.incdir = wkdir + 'inc' + os.sep
     bg = BreakoutGroups()
-    print(cfg,wkdir)
+    print(cfg)

@@ -8,14 +8,9 @@
 import unittest
 import os
 from pathlib import Path
-from inc import config as cfg
 from numpy import testing as npt
-
-"""
-assert samples
-        self.assertEqual(wd.name, expected_wkdir_name)
-        npt.assert_almost_equal(expected_freq, result_freq,2)
-"""
+#from inc import config as cfg
+import breakout_groups as bg
  
 class TestConfig(unittest.TestCase):
     """ tests for the """ 
@@ -25,11 +20,13 @@ class TestConfig(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         """class set up""" 
-        print("\n ------- \nTesting modules - test_config.py")
+        print("\n ------- \nTesting module - test_breakout_groups.py")
         if not os.path.exists(cls.testfile_path):
             os.mkdir(cls.testfile_path)
 
-        cfg.datadir = str(Path.joinpath(cfg.wkdir_path, cls.testfile_path))
+        # set path to test data file
+        bg.cfg.datadir = str(Path.joinpath(bg.cfg.wkdir_path, cls.testfile_path))
+
         return
 
     @classmethod
@@ -50,26 +47,15 @@ class TestConfig(unittest.TestCase):
 
         return
 
-    def test_a_check_directories(self):
-        """ test check the directory settings """
-        # absolute path on different systems will vary, just use name as starting point
+    def test_get_combinatins(self):
+
         expected_wkdir_name = "breakout_groups"
+        result_freq = []
 
         wd = Path(cfg.wkdir)
         self.assertEqual(wd.name, expected_wkdir_name)
         cfg.debug_print()
-
-    def test_set_default_config(self):
-        """test set_default_config """
-        pass        
-
-    def test_remove_default_comments(self,):
-        """test remove_default_comments """
-        pass
-
-    def test_write_ini(self,):
-        """test write on ini_file"""
-        pass
+        # npt.assert_almost_equal(expected_freq, result_freq,2)
 
 if __name__ == '__main__':
     #unittest.main()

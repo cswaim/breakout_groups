@@ -25,7 +25,7 @@ def init():
 
     # set the directories
     if wkdir is None:
-        wkdir_path = Path(__file__)
+        wkdir_path = Path(__file__).parent.parent.resolve()
         incdir = str(Path(__file__).resolve().parent) + os.sep
         wkdir = str(Path(incdir).resolve().parent) + os.sep
         datadir = str(Path(wkdir).resolve()) + os.sep + 'data' + os.sep
@@ -36,7 +36,7 @@ def init():
         config.read(f"{datadir}{flnm}") 
     else:
         config = set_default_config(config)
-        config = create_ini(config)
+        config = write_ini(config)
         # remove comments from sections to be consistent with data from read
         remove_default_comments(config)
     return config
@@ -66,13 +66,15 @@ def remove_default_comments(config):
             if key[0][:1] in config._comment_prefixes:
                 config.remove_option(s, key[0])
     
-def create_ini(config):
+def write_ini(config):
+    """ write the ini file from the current cfg settings"""
     with open(f"{datadir}{flnm}", 'w') as configfile:
         config.write(configfile)
         
     return config
 
 def debug_print():
+    print("")
     print(f"    wkdir: {wkdir}")
     print(f"  inc dir: {incdir}")
     print(f" data dir: {datadir}")
@@ -84,7 +86,7 @@ def debug_print():
     for key, val in config['GROUP_LABELS'].items():
         print(f"   {key}:{val}")
 
-    print(config['DEFAULT']['num_members'])
+    # print("    ",config['DEFAULT']['num_members'])
     # print(dir(config))
 
 config = init()
