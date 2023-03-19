@@ -29,14 +29,14 @@ class BreakoutGroups():
         """setup"""
         pass
 
-    def show_opts(self,):
+    def show_opts(self,) -> None:
         """analyze various approaches"""
         p = math.perm(len(self.items), self.group_size)
         c = math.comb(len(self.items), self.group_size)
         f = math.factorial(len(self.items))
         print(f"perm: {p}  comb: {c}  fact: {f}")
 
-    def get_sub(self,):
+    def get_sub(self,)-> None:
         """test combinations"""
         ng = len(self.m) / self.gs
         c = list(combinations(self.m, self.gs))
@@ -46,11 +46,12 @@ class BreakoutGroups():
         print(f" memb size: {len(self.m)}")
         print(f"group size: {self.gs}")
         print(f"num groups: {ng}")
+        print("---")
         print(f"comb c: {len(c)} - {c}")
         print(f"comb set: {len(ms)} - {ms}")
         print("###")
 
-    def unique_group(iterable, k, n):
+    def unique_group(iterable, k, n) -> list:
         """Return an iterator, comprising groups of size `k` with combinations of size `n`."""
         # Build separate combinations of `n` characters
         groups = ("".join(i) for i in it.combinations(iterable, n))    # 'AB', 'AC', 'AD', ...
@@ -60,7 +61,7 @@ class BreakoutGroups():
                     if len(set("".join(i))) == sum((map(len, i))))     # ('AB', 'CD'), ('AB', 'CE'), ... 
 
 
-    def combined(groups1, groups2):
+    def combined(groups1, groups2) -> list:
         """Return an iterator with unique combinations of groups (k and l)."""
         # Build a unique cartesian product of groups `k` and `l`, filtering non-disjoints
         return (i[0] + i[1]

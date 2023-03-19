@@ -43,8 +43,11 @@ def init():
 
 def set_default_config(config):
     """define the default config file """
-    config['DEFAULT'] = {'num_members': 30,
-                         'num_in_group': 6, 
+    config['DEFAULT'] = {'members': 30,
+                         'group_size': 6,
+                         'groups_per_session': 5,
+                         'sessions': 3,
+
                         }
     # config['GROUP_LABELS'] = {'# list labels as session1 = label1,label2,label3...':'',
     #                           '# labels can be different for each breakout session',
