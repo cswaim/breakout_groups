@@ -2,6 +2,11 @@
 # -*- coding: utf-8 -*-
 #
 #  config.py
+#     in each module, from src import config as cfg
+#     access variables in this module as cfg.xxxxxx
+# 
+#     the breakout_groups.ini file is created in the data directory and can be modified
+#     to reflect the number of groups, attendees size 
 #  
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
@@ -9,8 +14,6 @@ import configparser
 from pathlib import Path
 import os
 
-# class Config():
-#     """ read and write the breakout ini file""" 
 flnm = "breakout_groups.ini"
 wkdir_path = None
 wkdir = None
@@ -31,7 +34,19 @@ def init():
         datadir = str(Path(wkdir).resolve()) + os.sep + 'data' + os.sep
 
     config = configparser.ConfigParser(allow_no_value=True)
+    config = read_config_file(config)
     
+    # if Path(f"{datadir}{flnm}").is_file():
+    #     config.read(f"{datadir}{flnm}") 
+    # else:
+    #     config = set_default_config(config)
+    #     config = write_ini(config)
+    #     # remove comments from sections to be consistent with data from read
+    #     remove_default_comments(config)
+    return config
+
+def read_config_file(config):
+    """read in the breakout_groups.ini file if exists or create it"""
     if Path(f"{datadir}{flnm}").is_file():
         config.read(f"{datadir}{flnm}") 
     else:
@@ -43,7 +58,7 @@ def init():
 
 def set_default_config(config):
     """define the default config file """
-    config['DEFAULT'] = {'members': 30,
+    config['DEFAULT'] = {'attendees': 30,
                          'group_size': 6,
                          'groups_per_session': 5,
                          'sessions': 3,
@@ -53,11 +68,13 @@ def set_default_config(config):
     #                           '# labels can be different for each breakout session',
     #                           '# if no sessions listed, default lable of group1, group2, ... will be used',
 
-    config.add_section('GROUP_LABELS')                          
+    if not config.has_section('GROUP_LABELS'):
+        config.add_section('GROUP_LABELS')                          
     config.set('GROUP_LABELS', '# list labels as session1 = label1,label2,label3...')
     config.set('GROUP_LABELS', '# labels can be different for each breakout session')
     config.set('GROUP_LABELS', '# if no sessions listed, default lable of group1, group2, ... will be used')
-    config.set('GROUP_LABELS', 'session1', 'group1,group2,group3,group4')
+    config.set('GROUP_LABELS', 'session1', 'group1,group2,group3,group4,group5')
+    config.set('GROUP_LABELS', 'session2', 'group1,group2,group3,group4,group5')
                             
     return config
 

@@ -8,7 +8,7 @@
 import unittest
 import os
 from pathlib import Path
-from inc import config as cfg
+from src import config as cfg
 from numpy import testing as npt
 
 """
@@ -29,7 +29,7 @@ class TestConfig(unittest.TestCase):
         if not os.path.exists(cls.testfile_path):
             os.mkdir(cls.testfile_path)
 
-        cfg.datadir = str(Path.joinpath(cfg.wkdir_path, cls.testfile_path))
+        cfg.datadir = str(Path.joinpath(cfg.wkdir_path, cls.testfile_path)) + os.sep
         return
 
     @classmethod
@@ -61,7 +61,13 @@ class TestConfig(unittest.TestCase):
 
     def test_set_default_config(self):
         """test set_default_config """
-        pass        
+        # load the default values
+        config = cfg.read_config_file(cfg.config)
+
+        self.assertEqual(config.getint('DEFAULT','attendees'), 30)
+        self.assertEqual(config.getint('DEFAULT','group_size'), 6)
+        self.assertEqual(config.getint('DEFAULT','groups_per_session'), 5) 
+        self.assertEqual(config.getint('DEFAULT','sessions'), 3)         
 
     def test_remove_default_comments(self,):
         """test remove_default_comments """
