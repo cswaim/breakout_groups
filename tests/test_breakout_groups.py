@@ -11,11 +11,18 @@ from pathlib import Path
 from numpy import testing as npt
 #from inc import config as cfg
 import breakout_groups as bg
+
+"""
+    self.assertEqual(wd.name, expected_wkdir_name)
+    npt.assert_almost_equal(expected_freq, result_freq,2)
+
+"""
  
 class TestConfig(unittest.TestCase):
     """ tests for the """ 
 
     testfile_path = "tests/testfiles/"
+    bgc = None
 
     @classmethod
     def setUpClass(cls):
@@ -26,6 +33,8 @@ class TestConfig(unittest.TestCase):
 
         # set path to test data file
         bg.cfg.datadir = str(Path.joinpath(bg.cfg.wkdir_path, cls.testfile_path))
+        cls.bgc = bg.BreakoutGroups()
+
 
         return
 
@@ -47,14 +56,9 @@ class TestConfig(unittest.TestCase):
 
         return
 
-    def test_get_combinatins(self):
+    def test_get_sub(self):
 
-        expected_wkdir_name = "breakout_groups"
-        result_freq = []
-
-        wd = Path(cfg.wkdir)
-        self.assertEqual(wd.name, expected_wkdir_name)
-        cfg.debug_print()
+        self.bgc.get_sub()
         # npt.assert_almost_equal(expected_freq, result_freq,2)
 
 if __name__ == '__main__':
