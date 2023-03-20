@@ -19,6 +19,14 @@ wkdir_path = None
 wkdir = None
 incdir = None
 datadir = None
+
+# retreat variables
+attendees_list = []
+attendees = 0
+group_size = 0
+groups_per_session = 0
+sessions = 0
+
 # config obj
 config = None
 
@@ -35,14 +43,9 @@ def init():
 
     config = configparser.ConfigParser(allow_no_value=True)
     config = read_config_file(config)
-    
-    # if Path(f"{datadir}{flnm}").is_file():
-    #     config.read(f"{datadir}{flnm}") 
-    # else:
-    #     config = set_default_config(config)
-    #     config = write_ini(config)
-    #     # remove comments from sections to be consistent with data from read
-    #     remove_default_comments(config)
+
+    set_retreat_variables(config)
+
     return config
 
 def read_config_file(config):
@@ -92,6 +95,20 @@ def write_ini(config):
         config.write(configfile)
         
     return config
+def set_retreat_variables(config):
+    """set the retreat variables for consistant access"""
+    global attendees, attendees_list, group_size, groups_per_session, sessions
+    attendees = config.getint('DEFAULT','attendees')
+    group_size = config.getint('DEFAULT','group_size')
+    groups_per_session = config.getint('DEFAULT','groups_per_session')
+    sessions = config.getint('DEFAULT','sessions')
+
+    attendees_list = gen_attendees_list()
+
+def gen_attendees_list():
+    """generate the list for attendees"""
+    attendees_list = [x for x in range(attendees)]
+    return attendees_list
 
 def debug_print():
     print("")

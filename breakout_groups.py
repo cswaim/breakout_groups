@@ -25,15 +25,27 @@ class BreakoutGroups():
 
     def __init__(self) -> None:
         """setup"""
-        self.attendees = cfg.config.getint('DEFAULT','attendees')
-        self.group_size = cfg.config.getint('DEFAULT','group_size')
-        self.groups_per_session = cfg.config.getint('DEFAULT','groups_per_session')
-        self.sessions = cfg.config.getint('DEFAULT','sessions')
+        self.attendees = cfg.attendees
+        self.group_size = cfg.group_size
+        self.groups_per_session = cfg.groups_per_session
+        self.sessions = cfg.sessions
+        self.attendees_list = cfg.attendees_list
 
-        self.gen_attendees_list()
-
-    def gen_attendees_list(self,):
-        self.attendees_list = [x for x in range(self.members)]
+    def print_variables(self,):
+        """print the variables refereced two ways"""
+        print("")
+        print("variables can be refenced as self.xxx if set in init")
+        print(f"    attendees_list: {self.attendees_list}")
+        print(f"         attendees: {self.attendees}")
+        print(f"        group_size: {self.group_size}")
+        print(f"groups_per_session: {self.groups_per_session}")
+        print(f"          sessions: {self.sessions}")
+        print("or variables can be refenced directly from the cfg module as cfg.xxxx")
+        print(f"    attendees_list: {cfg.attendees_list}")
+        print(f"         attendees: {cfg.attendees}")
+        print(f"        group_size: {cfg.group_size}")
+        print(f"groups_per_session: {cfg.groups_per_session}")
+        print(f"          sessions: {cfg.sessions}")
 
 
 
@@ -41,3 +53,4 @@ class BreakoutGroups():
 if __name__ == '__main__':
     
     bg = BreakoutGroups()
+    bg.print_variables()
