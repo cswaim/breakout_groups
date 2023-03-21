@@ -30,7 +30,7 @@ Any of the above commands but with the -m parameter
 HANDY COMMAND LINE OPTIONS
 --------------------------
 -s   Output from all python print() statements is written to console
--cov  generate a coverage report.  Ask me about this.
+-v   verbose output.  Lists each test
 
 
 FIXTURES
@@ -39,7 +39,6 @@ Syntactically, these are just Python decorators.  They play many roles
 1. Replace start-up and tear_down
 2. Paramtrize inputs to tests
 3. Global variables, but in a sane manner
-
 
 
 
@@ -58,17 +57,43 @@ The file "conftest.py" plays many roles.
 DIFFERENCES FROM UnitTest
 -------------------------
 There is no explicit setup and tear down methods.  Rather fixtures
-   do those tasks.  More on Fixtures later
+   do those tasks.  More on Fixtures later.
 
+
+HANDY PYTEST FEATURES
+---------------------
+1. Do you know bout brekpoint() and the pytest debugger?
+2. Pytest has its own set commands to handle temporry directories.
+   The come and go with eh test run.  See the fixture named
+   "setup_directories"
 
 """
  
-import pytest
-import os
-from pathlib import Path
+
 from src import config as cfg
-from numpy import testing as npt
+import pytest
+
+# Simple example of pytest temporary directories.
+# tmp_dir is a built_in fixture
+# ToDo move this fixture to conftest.py
+# Also, this is an example of a pytest marker
+pytest.mark.simple
+def test_make_temp_directory(tmp_path):
+   base_dir = tmp_path / "breakout_groups"
+   base_dir.mkdir()
+   # does the directory exist?
+   assert base_dir.exists()
+   assert base_dir.is_dir()
 
 
-def test_config_files():
-   assert True
+# ToDo Convert to a fixture so that config info is available everywhere
+pytest.mark.not_so_simple
+def test_default_config():
+   """test set_default_config """
+   # load the default values
+   config = cfg.read_config_file(cfg.config)
+   # breakpoint()
+   assert config.getint('DEFAULT','attendees') == 30
+   assert config.getint('DEFAULT','group_size') == 6
+   assert config.getint('DEFAULT','groups_per_session') == 5
+   assert config.getint('DEFAULT','sessions') == 3       
