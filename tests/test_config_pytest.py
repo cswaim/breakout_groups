@@ -62,13 +62,12 @@ There is no explicit setup and tear down methods.  Rather fixtures
 
 HANDY PYTEST FEATURES
 ---------------------
-1. Do you know bout brekpoint() and the pytest debugger?
-2. Pytest has its own set commands to handle temporry directories.
-   The come and go with eh test run.  See the fixture named
+1. Do you know about brekpoint() and the pytest debugger?
+2. Pytest has its own set commands to handle temporary directories.
+   The come and go with each test run.  See the fixture named
    "setup_directories"
 
-"""
- 
+"""   
 
 from src import config as cfg
 import pytest
