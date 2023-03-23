@@ -7,6 +7,8 @@ def test_get_interactions(retreat_cards):
     retreat = Retreat()
     result = retreat.get_interactions(all_cards=retreat_cards)
     assert result
-    for k in result.keys():
-        print(f"\n{k}")
-        print(f"   {result[k]}\n")
+
+def test_show_interactions_by_persons(retreat_cards):
+    retreat = Retreat()
+    result = retreat.show_interactions_by_persons(all_cards=retreat_cards)
+    assert result is None

@@ -39,6 +39,25 @@ class Retreat():
         return interact
 
 
+    def show_cards(self,all_cards=None):
+        # ToDo conver input to a pandas dataframe and
+        # Use pandas pretty printing for a dataframe
+
+        # Print nice header
+
+
+        # Each row is a card
+        for row in all_cards.keys():
+            pass
+
+    def show_interactions_by_persons(self,all_cards=None):
+        """For each person, list interactions with other persons."""
+        result =self.get_interactions(all_cards=all_cards)
+        for k in result.keys():
+            print(f"\n{k}")
+            print(f"   {result[k]}\n") 
+
+    
     def find_missing_persons(self):
         pass
 

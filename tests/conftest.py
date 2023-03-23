@@ -18,7 +18,7 @@ def get_random_seed():
     return 3331
 
 @pytest.fixture
-def retreat_cards(get_config):
+def retreat_cards(get_config, get_random_seed):
     card_1 = Card()
     config = get_config
     n_attendees = config.getint('DEFAULT','attendees')
