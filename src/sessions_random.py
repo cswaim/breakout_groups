@@ -22,13 +22,17 @@ class Sessions():
         self.sessions = {i:[] for i in range(1, cfg.sessions +1)}
         self.rand_attendees = copy.copy(cfg.attendees_list)
 
-    def create_a_session(self, ) -> None:
+    def create_a_session(self, ) -> list:
         """ create a single session from the attendees list"""
         # shuffle the list 
         random.shuffle(self.rand_attendees)
         sess = []
         for i in range(0, cfg.attendees, cfg.group_size):
             sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
+        
+        # if last group is not full size group, randomly allocate members to other groups
+        if len(sess[-1]) != cfg.group_size:
+            pass
 
         return sess
 
