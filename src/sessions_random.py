@@ -33,8 +33,10 @@ class Sessions():
         # if last group is not full size group, randomly allocate members to other groups
         if len(sess) > cfg.groups_per_session and len(sess[-1]) != cfg.group_size:
             for x in sess[-1]:
-                g = random.range(cfg.groups_per_session)
-                sess(g).append(x)
+                g_list = []
+                
+                g = random.randrange(cfg.groups_per_session )
+                sess[g].append(x)
             # remove last group
             sess.pop()
 
