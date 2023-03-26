@@ -31,8 +31,15 @@ class Sessions():
             sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
         
         # if last group is not full size group, randomly allocate members to other groups
-        if len(sess[-1]) != cfg.group_size:
-            pass
+        g_used = []
+        if len(sess) > cfg.groups_per_session and len(sess[-1]) != cfg.group_size:
+            for x in sess[-1]:
+                # gen number until not used
+                while (g:= random.randrange(cfg.groups_per_session )) in g_used: pass
+                g_used.append(g)
+                sess[g].append(x)
+            # remove last group
+            sess.pop()
 
         return sess
 
