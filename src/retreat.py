@@ -1,4 +1,6 @@
 from src.card import Card
+
+from collections import Counter as counter
 import pytest
 
 """Conduct a retreat."""
@@ -53,11 +55,20 @@ class Retreat():
     def show_interactions_by_persons(self,all_cards=None):
         """For each person, list interactions with other persons."""
         result =self.get_interactions(all_cards=all_cards)
+        # for k in result.keys():
+        #     print(f"\n{k}")
+        #     print(f"   {result[k]}\n") 
+
+        pass
         for k in result.keys():
+            simple_counts = counter(result[k])
+            sorted_counts = dict(sorted(simple_counts.items()))
             print(f"\n{k}")
-            print(f"   {result[k]}\n") 
+            for person in sorted_counts.keys():
+                print(f"   {person}:  {sorted_counts[person]}")
 
     
+
     def find_missing_persons(self):
         pass
 

@@ -37,6 +37,23 @@ class Card():
         while True:
             yield random.randint(1,n_groups)
 
-    def print_the_cards(self):
+    def print_the_cards_by_person(self, all_cards=None):
         " With catchy labels like continents, cars, and ski areas"
-        pass
+        for card in all_cards:
+            print(card['name'])
+            for session in card.keys():
+                if 'session' in session:
+                    print(f"   {session}: {card[session]}")
+
+
+    def print_the_cards_by_session(self, all_cards=None):
+        # Gather the persons by session
+
+        # Show each session
+        sessions = []
+        for card in all_cards:
+            for session in card.keys():
+                if 'session' in session:
+                    pass
+
+        return None

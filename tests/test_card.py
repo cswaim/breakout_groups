@@ -44,3 +44,14 @@ def test_cards_for_retreat(get_config, get_random_seed):
 
     assert result
    
+
+def test_print_the_cards_by_person(retreat_cards):
+    card_1 = Card()
+    result = card_1.print_the_cards_by_person(retreat_cards)
+    assert result is None
+
+
+def test_print_the_cards_by_session(retreat_cards):
+    card_1 = Card()
+    result = card_1.print_the_cards_by_session(retreat_cards)
+    assert result is None
