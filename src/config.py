@@ -26,6 +26,7 @@ attendees = 0
 group_size = 0
 groups_per_session = 0
 sessions = 0
+group_labels = []
 
 # config obj
 config = None
@@ -104,11 +105,27 @@ def set_retreat_variables(config):
     sessions = config.getint('DEFAULT','sessions')
 
     attendees_list = gen_attendees_list()
+    global group_labels
+    group_labels = build_group_labels()
 
-def gen_attendees_list():
+def gen_attendees_list() -> list:
     """generate the list for attendees"""
     attendees_list = [x for x in range(attendees)]
     return attendees_list
+
+def build_group_labels() -> list:
+    """read group label dict and build a list of lists of the labels for each 
+       group in a session
+       this removes the key from the dict and does not force a naming convention 
+       in the ini file
+    """
+
+    group_labels = []
+    for k, v in config['GROUP_LABELS'].items():
+        if k not in config['DEFAULT']:
+            group_labels.append(v.split(','))
+
+    return group_labels
 
 def debug_print():
     print("")

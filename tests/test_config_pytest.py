@@ -96,4 +96,10 @@ def test_default_config():
    # assert config.getint('DEFAULT','attendees') == 30
    # assert config.getint('DEFAULT','group_size') == 6
    # assert config.getint('DEFAULT','groups_per_session') == 5
-   # assert config.getint('DEFAULT','sessions') == 3       
+   # assert config.getint('DEFAULT','sessions') == 3     
+
+def test_build_session_labels():
+   """ test the building of the session labels"""
+   cfg.build_group_labels()
+   res = ['group1', 'group2', 'group3', 'group4', 'group5']
+   assert cfg.group_labels[0] == res  
