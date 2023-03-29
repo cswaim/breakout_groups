@@ -61,10 +61,10 @@ def read_config_file(config):
 
 def set_default_config(config):
     """define the default config file """
-    config['DEFAULT'] = {'attendees': 30,
+    config['DEFAULT'] = {'attendees': 30, 
                          'group_size': 6,
                          'groups_per_session': 5,
-                         'sessions': 3,
+                         'sessions': 5,
 
                         }
     # config['GROUP_LABELS'] = {'# list labels as session1 = label1,label2,label3...':'',
@@ -75,7 +75,8 @@ def set_default_config(config):
         config.add_section('GROUP_LABELS')                          
     config.set('GROUP_LABELS', '# list labels as session1 = label1,label2,label3...')
     config.set('GROUP_LABELS', '# labels can be different for each breakout session')
-    config.set('GROUP_LABELS', '# if no sessions listed, default lable of group1, group2, ... will be used')
+    config.set('GROUP_LABELS', '# if no sessions listed, default la    # sc.groups = [1,2,3,]')
+    # session_attendees = [1,2,3,4,5,6,7,]ble of group1, group2, ... will be used')
     config.set('GROUP_LABELS', 'session1', 'group1,group2,group3,group4,group5')
     config.set('GROUP_LABELS', 'session2', 'group1,group2,group3,group4,group5')
                             
