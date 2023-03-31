@@ -1,11 +1,12 @@
-from src.card import Card
-
 from collections import Counter as counter
-import pytest
+from src.card import Card
+from src.sessions_random import Sessions
 
 """Conduct a event."""
 
 class Event():
+    """"""
+
     def __init__(self) -> None:
         pass
 

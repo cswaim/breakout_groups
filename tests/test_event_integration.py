@@ -1,4 +1,4 @@
-def test_run_a_retreat():
+def test_run_a_event():
     # Step: Select an algorithm
     
     # Step: Form the groups for every session
