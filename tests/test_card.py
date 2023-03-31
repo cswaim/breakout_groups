@@ -29,7 +29,7 @@ def test_random_grouping_algorithm(get_random_seed):
     assert c[5] == 5
 
 
-def test_cards_for_retreat(get_config, get_random_seed):
+def test_cards_for_event(get_config, get_random_seed):
     card_1 = Card()
     config = get_config
     n_attendees = config.getint('DEFAULT','attendees')
@@ -37,7 +37,7 @@ def test_cards_for_retreat(get_config, get_random_seed):
     grouping_algorithm = card_1.random_grouping_algorithm(
         n_groups=groups_per_session, seed=get_random_seed)
     
-    result = card_1.cards_for_retreat(
+    result = card_1.cards_for_event(
         n_attendees=n_attendees, 
         groups_per_session=groups_per_session,
         grouping_algorithm = grouping_algorithm)
@@ -45,13 +45,13 @@ def test_cards_for_retreat(get_config, get_random_seed):
     assert result
    
 
-def test_print_the_cards_by_person(retreat_cards):
+def test_print_the_cards_by_person(event_cards):
     card_1 = Card()
-    result = card_1.print_the_cards_by_person(retreat_cards)
+    result = card_1.print_the_cards_by_person(event_cards)
     assert result is None
 
 
-def test_print_the_cards_by_session(retreat_cards):
+def test_print_the_cards_by_session(event_cards):
     card_1 = Card()
-    result = card_1.print_the_cards_by_session(retreat_cards)
+    result = card_1.print_the_cards_by_session(event_cards)
     assert result is None

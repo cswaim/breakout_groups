@@ -20,11 +20,11 @@ sc = Sessions()
 
 def test_init():
     """test Sessions init"""
-    assert len(sc.sessions) == cfg.sessions
+    assert len(sc.sessions) == cfg.n_sessions
 
 def test_check_sess_attendees():
     """test check_sess_attendees"""
-    good_session = [x for x in range(cfg.attendees)]    
+    good_session = [x for x in range(cfg.n_attendees)]    
     sc.build_sessions()
     # res_list = list(sc.sessions[1]) #.values()).sort()
     for k, v in sc.sessions.items():
@@ -36,9 +36,9 @@ def test_check_sess_attendees():
 def test_build_sessions():
     """ test build sessions"""
     print("\n\n****")
-    print(f"   attendees: {cfg.attendees}")
+    print(f"   attendees: {cfg.n_attendees}")
     print(f"  group_size: {cfg.group_size}")
-    print(f"    sessions: {cfg.sessions}")
+    print(f"    sessions: {cfg.n_sessions}")
 
     # ss = group_items(cfg.attendees_list, cfg.group_size, cfg.sessions)
     # print(f" subsets: {len(ss)}")

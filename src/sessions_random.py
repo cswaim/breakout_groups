@@ -19,7 +19,7 @@ class Sessions():
 
     def __init__(self,):
         """init"""  
-        self.sessions = {i:[] for i in range(1, cfg.sessions +1)}
+        self.sessions = {i:[] for i in range(1, cfg.n_sessions +1)}
         self.rand_attendees = copy.copy(cfg.attendees_list)
 
     def create_a_session(self, ) -> list:
@@ -27,15 +27,15 @@ class Sessions():
         # shuffle the list 
         random.shuffle(self.rand_attendees)
         sess = []
-        for i in range(0, cfg.attendees, cfg.group_size):
+        for i in range(0, cfg.n_attendees, cfg.group_size):
             sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
         
         # if last group is not full size group, randomly allocate members to other groups
         g_used = []
-        if len(sess) > cfg.groups_per_session and len(sess[-1]) != cfg.group_size:
+        if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
             for x in sess[-1]:
                 # gen number until not used
-                while (g:= random.randrange(cfg.groups_per_session )) in g_used: pass
+                while (g:= random.randrange(cfg.n_groups )) in g_used: pass
                 g_used.append(g)
                 sess[g].append(x)
             # remove last group

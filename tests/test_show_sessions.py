@@ -5,7 +5,7 @@ from src.sessions_util import SessionsUtils as su
 from src.sessions_random import Sessions
 
 def test_get_session_interactions():
-    breakpoint()
+    #breakpoint()
     sc = Sessions()
     interactions = su.get_session_interactions(session=sc)
     assert interactions is not None
