@@ -20,12 +20,12 @@ wkdir = None
 incdir = None
 datadir = None
 
-# retreat variables
+# event variables
 attendees_list = []
-attendees = 0
+n_attendees = 0
 group_size = 0
-groups_per_session = 0
-sessions = 0
+n_groups = 0
+n_sessions = 0
 group_labels = []
 
 # config obj
@@ -45,7 +45,7 @@ def init():
     config = configparser.ConfigParser(allow_no_value=True)
     config = read_config_file(config)
 
-    set_retreat_variables(config)
+    set_event_variables(config)
 
     return config
 
@@ -97,13 +97,13 @@ def write_ini(config):
         config.write(configfile)
         
     return config
-def set_retreat_variables(config):
-    """set the retreat variables for consistant access"""
-    global attendees, attendees_list, group_size, groups_per_session, sessions
-    attendees = config.getint('DEFAULT','attendees')
+def set_event_variables(config):
+    """set the event variables for consistant access"""
+    global n_attendees, attendees_list, group_size, n_groups, n_sessions
+    n_attendees = config.getint('DEFAULT','attendees')
     group_size = config.getint('DEFAULT','group_size')
-    groups_per_session = config.getint('DEFAULT','groups_per_session')
-    sessions = config.getint('DEFAULT','sessions')
+    n_groups = config.getint('DEFAULT','groups_per_session')
+    n_sessions = config.getint('DEFAULT','sessions')
 
     attendees_list = gen_attendees_list()
     global group_labels
@@ -111,7 +111,7 @@ def set_retreat_variables(config):
 
 def gen_attendees_list() -> list:
     """generate the list for attendees"""
-    attendees_list = [x for x in range(attendees)]
+    attendees_list = [x for x in range(n_attendees)]
     return attendees_list
 
 def build_group_labels() -> list:

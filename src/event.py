@@ -3,9 +3,9 @@ from src.card import Card
 from collections import Counter as counter
 import pytest
 
-"""Conduct a retreat."""
+"""Conduct a event."""
 
-class Retreat():
+class Event():
     def __init__(self) -> None:
         pass
 
@@ -22,7 +22,7 @@ class Retreat():
         
         """
         interact = {}
-        # For every person attending the retreat ...
+        # For every person attending the event ...
         for person in all_cards:
             interact[person['name']] = []
             sessions = [k for k in person.keys() if "session" in k]

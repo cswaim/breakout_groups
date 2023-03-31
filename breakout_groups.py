@@ -25,10 +25,10 @@ class BreakoutGroups():
 
     def __init__(self) -> None:
         """setup"""
-        self.attendees = cfg.attendees
+        self.attendees = cfg.n_attendees
         self.group_size = cfg.group_size
-        self.groups_per_session = cfg.groups_per_session
-        self.sessions = cfg.sessions
+        self.groups_per_session = cfg.n_groups
+        self.sessions = cfg.n_sessions
         self.attendees_list = cfg.attendees_list
 
     def print_variables(self,):
@@ -42,10 +42,10 @@ class BreakoutGroups():
         print(f"          sessions: {self.sessions}")
         print("or variables can be refenced directly from the cfg module as cfg.xxxx")
         print(f"    attendees_list: {cfg.attendees_list}")
-        print(f"         attendees: {cfg.attendees}")
+        print(f"         attendees: {cfg.n_attendees}")
         print(f"        group_size: {cfg.group_size}")
-        print(f"groups_per_session: {cfg.groups_per_session}")
-        print(f"          sessions: {cfg.sessions}")
+        print(f"groups_per_session: {cfg.n_groups}")
+        print(f"          sessions: {cfg.n_sessions}")
 
 
 

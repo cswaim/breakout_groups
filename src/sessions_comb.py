@@ -32,7 +32,7 @@ class Sessions():
 
     def __init__(self,):
         """init"""  
-        self.sessions = {i:[] for i in range(1, cfg.sessions +1)}
+        self.sessions = {i:[] for i in range(1, cfg.n_sessions +1)}
 
     def gen_combinations(self, attendee_list, group_size) -> None:
         """ gen all possible combinations of group_size"""
@@ -54,12 +54,12 @@ class Sessions():
         random.shuffle(self.groups)
 
         # build session dict     
-        self.sessions = {i:[] for i in range(1, cfg.sessions +1)}
+        self.sessions = {i:[] for i in range(1, cfg.n_sessions +1)}
         self.build_first_session()
 
         gcnt = 0
         # loop until out of groups or all sessions built
-        while (sess_cnt := len([b[0] for b in self.sessions.values() if b])) < cfg.sessions and gcnt < len(self.groups):
+        while (sess_cnt := len([b[0] for b in self.sessions.values() if b])) < cfg.n_sessions and gcnt < len(self.groups):
             print(f"inloop {len(self.groups)} - {gcnt}", end="\r")
             # get non empty session count
             sess_cnt += 1
@@ -86,7 +86,7 @@ class Sessions():
         # random.shuffle(rand_attd)
 
         sess = []
-        for i in range(0, cfg.attendees, cfg.group_size):
+        for i in range(0, cfg.n_attendees, cfg.group_size):
             sess.append(sorted(rand_atnd[i: i + cfg.group_size]))
        
         self.add_to_sessions(1, sess)
@@ -112,7 +112,7 @@ class Sessions():
 
         # for each session loop through groups and build a session
         sess.append(self.groups[0])
-        for i in range(cfg.groups_per_session):
+        for i in range(cfg.n_groups):
             # loop thru groups,
             for j, g in enumerate(self.groups):
                 if sess[i] == self.groups[j]:

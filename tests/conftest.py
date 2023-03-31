@@ -18,7 +18,7 @@ def get_random_seed():
     return 3331
 
 @pytest.fixture
-def retreat_cards(get_config, get_random_seed):
+def event_cards(get_config, get_random_seed):
     card_1 = Card()
     config = get_config
     n_attendees = config.getint('DEFAULT','attendees')
@@ -26,7 +26,7 @@ def retreat_cards(get_config, get_random_seed):
     grouping_algorithm = card_1.random_grouping_algorithm(
         n_groups=groups_per_session, seed=get_random_seed)
     
-    return card_1.cards_for_retreat(
+    return card_1.cards_for_event(
         n_attendees=n_attendees, 
         groups_per_session=groups_per_session,
         grouping_algorithm = grouping_algorithm)
