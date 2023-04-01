@@ -1,14 +1,21 @@
 from collections import Counter as counter
+import src.config as cfg
 from src.card import Card
 from src.sessions_random import Sessions
 
 """Conduct a event."""
 
 class Event():
-    """"""
+    """the event object"""
+
+    cards = None     # list of all card objects
 
     def __init__(self) -> None:
-        pass
+        self.build_cards(cfg.n_attendees)
+
+    def build_cards(self, nc):
+        for i in range(nc):
+            self.cards.append(Counter())
 
     def get_interactions(self,all_cards=None):
         """Create dictionary of interactions among all attendees
@@ -40,6 +47,15 @@ class Event():
                         interact[person['name']].append(person_other['name'])
 
         return interact
+        """
+        from itertools import chain
+        for k,v in sessions.items():
+            update_interact(list(chain.from_iterable(v)))
+
+            # update card with group info
+            for g in v:
+                update_cards(g)
+        """
 
 
     def show_cards(self,all_cards=None):
@@ -68,7 +84,14 @@ class Event():
             for person in sorted_counts.keys():
                 print(f"   {person}:  {sorted_counts[person]}")
 
-    
+    def update_card_interactions(self, ):
+        """ update individual acard iteractions"""
+        for k,v in sessions.items():
+            update_interact(list(chain.from_iterable(v)))
+
+            # update card with group info
+            for g in v:
+                update_cards(g)
 
     def find_missing_persons(self):
         pass
