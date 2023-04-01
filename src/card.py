@@ -10,12 +10,6 @@ from collections import Counter
 class Card():
     """the card object"""
 
-    id = None
-    name = None
-    breakout_groups = []
-    card_interactions = Counter()
-
-
     def __init__(self) -> None:
         self.name = None
         self.breakout_groups = []
