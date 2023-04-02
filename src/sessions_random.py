@@ -43,8 +43,9 @@ class Sessions():
 
         return sess
 
-    def build_sessions(self) -> None:
+    def build_sessions(self, seed=None) -> None:
         """build sessions"""
+        random.seed(seed)
         for i in  self.sessions.keys():
             sess = self.create_a_session()
             self.sessions[i] = sess
