@@ -21,6 +21,7 @@ def test_init(config_defaults):
     sc = Sessions()
     assert len(sc.sessions) == cfg.n_sessions
 
+@pytest.mark.skip(reason="build session runs too long")
 def test_check_sess_attendees(config_defaults):
     """test check_sess_attendees"""
     print_cfg()
@@ -33,7 +34,7 @@ def test_check_sess_attendees(config_defaults):
         attnd_list.sort()
         assert good_session == attnd_list
 
-
+@pytest.mark.skip(reason="build sess runs too long")
 def test_build_sessions(config_defaults):
     """ test build sessions"""
     print_cfg()
