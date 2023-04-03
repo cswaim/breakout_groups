@@ -32,7 +32,12 @@ class Event():
                 upd_dict = self.cards[0].convert_grp_to_dict(g)
                 for c in g:
                     self.cards[c].update_cards(upd_dict)
-                    self.cards[c].update_sess_labels(cfg.group_labels[k][n])
+                    # set the group label, if label not found, use default
+                    try:
+                        glabel = cfg.group_labels[k][n]
+                    except:
+                        glabel = f"group{n}"
+                    self.cards[c].update_sess_labels(glabel)
 
     def build_all_card_interactions(self,):
         """build a list of all the interactions from all cards """
