@@ -22,15 +22,17 @@ class Event():
 
     def update_card_interactions(self, ):
         """ update individual card iteractions"""
+        # k is sess num, v is group list
         for k, v in self.sess.sessions.items():
             #
             #update_interact(list(chain.from_iterable(v)))
 
-            # update card with group info
-            for g in v:
+            # update card with group info, n grp num and g is group list of attendees
+            for n, g in enumerate(v):
                 upd_dict = self.cards[0].convert_grp_to_dict(g)
                 for c in g:
                     self.cards[c].update_cards(upd_dict)
+                    self.cards[c].update_sess_labels(cfg.group_labels[k][n])
 
     def build_all_card_interactions(self,):
         """build a list of all the interactions from all cards """

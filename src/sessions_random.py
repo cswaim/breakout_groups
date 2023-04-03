@@ -19,7 +19,7 @@ class Sessions():
 
     def __init__(self,):
         """init"""  
-        self.sessions = {i:[] for i in range(1, cfg.n_sessions +1)}
+        self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
         self.rand_attendees = copy.copy(cfg.attendees_list)
 
     def create_a_session(self, ) -> list:

@@ -12,7 +12,7 @@ class CCard(Card):
     def __init__(self, id) -> None:
         super().__init__()
         self.id = id
-        self.labels = []
+        self.sess_labels = []
  
     def convert_grp_to_dict(self, group):
         """convert the group to a dict for the counter update"""
@@ -27,4 +27,8 @@ class CCard(Card):
         if type(upd_dict) != dict:
             upd_dict = self.convert_grp_to_dict(upd_dict)
         self.card_interactions.update(upd_dict)
+
+    def update_sess_labels(self, label) -> None:
+        """append the label to the sess label list"""
+        self.sess_labels.append(label)
 
