@@ -13,12 +13,9 @@ from src import config as cfg
 class Sessions():
     """ Use random to build sessions"""
 
-    groups = []
-    sessions = {}
-    rand_attendees = []
-
     def __init__(self,):
         """init"""  
+        self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
         self.rand_attendees = copy.copy(cfg.attendees_list)
 
