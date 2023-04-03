@@ -23,7 +23,7 @@ def test_build_cards(config_defaults, get_random_seed):
 def test_all_card_interactions(config_defaults, get_random_seed):
     """test build of all_card_interactions list"""
     event = Event(seed=get_random_seed)
-    # event.update_card_interactions()
+    event.update_card_interactions()
     event.build_all_card_interactions()
     res0 = Counter({0:4, 5:2, 6:2, 3:2, 9:2, 1:1, 7:1})
     res1 = Counter({1:4, 7:3, 9:1, 3:1, 4:1, 5:1, 2:2, 0:1})

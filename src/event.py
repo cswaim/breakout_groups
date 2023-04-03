@@ -8,10 +8,9 @@ from src.sessions_random import Sessions
 class Event():
     """the event object"""
 
-    all_card_interactions = []
-    cards = []     # list of all card objects
-
     def __init__(self, seed=None) -> None:
+        self.all_card_interactions = []
+        self.cards = []     # list of all card objects
         self.build_cards(cfg.n_attendees)
         self.sess = Sessions()
         self.sess.build_sessions(seed)
