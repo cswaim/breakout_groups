@@ -5,20 +5,22 @@
 #  
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
  
-from src.sessions_random import Sessions
 import pytest
 
 from src import config as cfg
- 
-"""Unit tests for Sessions methods."""
-sc = Sessions()
+from src.sessions_random import Sessions 
 
-def test_init():
+"""Unit tests for Sessions methods."""
+
+
+def test_init(config_defaults):
     """test Sessions init"""
+    sc = Sessions()
     assert len(sc.sessions) == cfg.n_sessions
 
-def test_check_sess_attendees():
+def test_check_sess_attendees(config_defaults):
     """test check_sess_attendees"""
+    sc = Sessions()
     good_session = [x for x in range(cfg.n_attendees)]   
     sc.build_sessions()
     for k, v in sc.sessions.items():
@@ -26,8 +28,9 @@ def test_check_sess_attendees():
         attnd_list.sort()
         assert good_session == attnd_list
 
-def test_build_sessions():
+def test_build_sessions(config_defaults):
     """ test build sessions"""
+    sc = Sessions()
     sc.build_sessions()
     assert len(sc.sessions) == cfg.n_sessions 
 

@@ -12,6 +12,7 @@ from itertools import combinations, chain
 import itertools as it
 
 from src import config as cfg
+from src.event import Event
 
 class BreakoutGroups():
     """ generate breakout groups """ 
@@ -52,5 +53,6 @@ class BreakoutGroups():
  
 if __name__ == '__main__':
     
+    event = Event()
+    event.run()
     bg = BreakoutGroups()
-    bg.print_variables()
