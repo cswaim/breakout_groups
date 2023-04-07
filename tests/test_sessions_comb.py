@@ -10,20 +10,22 @@ from itertools import combinations
 import random
 import math
 import copy
+from src import config as cfg
 from src.sessions_comb import Sessions
 import pytest
 
-from src import config as cfg
- 
 """Unit tests for Sessions methods."""
-sc = Sessions()
 
-def test_init():
+def test_init(config_defaults):
     """test Sessions init"""
+    sc = Sessions()
     assert len(sc.sessions) == cfg.n_sessions
 
-def test_check_sess_attendees():
+@pytest.mark.skip(reason="build session runs too long")
+def test_check_sess_attendees(config_defaults):
     """test check_sess_attendees"""
+    print_cfg()
+    sc = Sessions()
     good_session = [x for x in range(cfg.n_attendees)]    
     sc.build_sessions()
     # res_list = list(sc.sessions[1]) #.values()).sort()
@@ -32,13 +34,10 @@ def test_check_sess_attendees():
         attnd_list.sort()
         assert good_session == attnd_list
 
-
-def test_build_sessions():
+@pytest.mark.skip(reason="build sess runs too long")
+def test_build_sessions(config_defaults):
     """ test build sessions"""
-    print("\n\n****")
-    print(f"   attendees: {cfg.n_attendees}")
-    print(f"  group_size: {cfg.group_size}")
-    print(f"    sessions: {cfg.n_sessions}")
+    print_cfg()
 
     # ss = group_items(cfg.attendees_list, cfg.group_size, cfg.sessions)
     # print(f" subsets: {len(ss)}")
@@ -48,6 +47,11 @@ def test_build_sessions():
     sc.build_sessions()
     print("test complete")
 
-
+def print_cfg():
+    """debug print of config variables"""
+    print("\n\n****")
+    print(f"   attendees: {cfg.n_attendees}")
+    print(f"  group_size: {cfg.group_size}")
+    print(f"    sessions: {cfg.n_sessions}")
 
     

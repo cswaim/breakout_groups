@@ -13,6 +13,7 @@ class Card():
     def __init__(self) -> None:
         self.name = None
         self.breakout_groups = []
+        self.card_interactions = Counter()
 
     def cards_for_event(self, 
                           n_attendees=None, 
