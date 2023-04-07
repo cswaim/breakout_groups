@@ -6,10 +6,16 @@
 name: Python application
 
 on:
+  # [push, pull_request]:
   push:
-    branches: [ "main" ]
+    branches: 
+      - main
+    # [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
+  # pull_request:
+  #   branches: [ "main" ]
 
 permissions:
   contents: read
