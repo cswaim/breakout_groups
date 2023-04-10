@@ -62,24 +62,21 @@ def read_config_file(config):
 
 def set_default_config(config):
     """define the default config file """
-    config['DEFAULT'] = {'attendees': 30, 
-                         'group_size': 6,
-                         'groups_per_session': 5,
-                         'sessions': 5,
-
+    config['DEFAULT'] = {'attendees': 11, 
+                         'group_size': 3,
+                         'groups_per_session':3,
+                         'sessions': 4,
                         }
-    # config['GROUP_LABELS'] = {'# list labels as session1 = label1,label2,label3...':'',
-    #                           '# labels can be different for each breakout session',
-    #                           '# if no sessions listed, default lable of group1, group2, ... will be used',
 
     if not config.has_section('GROUP_LABELS'):
         config.add_section('GROUP_LABELS')                          
     config.set('GROUP_LABELS', '# list labels as session1 = label1,label2,label3...')
     config.set('GROUP_LABELS', '# labels can be different for each breakout session')
-    config.set('GROUP_LABELS', '# if no sessions listed, default la    # sc.groups = [1,2,3,]')
-    # session_attendees = [1,2,3,4,5,6,7,]ble of group1, group2, ... will be used')
+    config.set('GROUP_LABELS', '# if no sessions listed, default lable of group1, group2, ... will be used')
     config.set('GROUP_LABELS', 'session1', 'group1,group2,group3,group4,group5')
-    config.set('GROUP_LABELS', 'session2', 'group1,group2,group3,group4,group5')
+    config.set('GROUP_LABELS', 'session2', 'blue,red,green,yellow,pink')
+    config.set('GROUP_LABELS', 'session3', 'Portales,Santa Fe,Taos,Chama,Cuba')
+    config.set('GROUP_LABELS', 'session4', 'Elbert,Massive,Harvard,Blanca,La Plata')
                             
     return config
 
