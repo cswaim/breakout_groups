@@ -1,5 +1,6 @@
 # Workflow #
 
+
 ## Summary of Proposed Practices
 
 * A structured branch naming Prod, Staging, fix/xxx, etc has not been adopted for this small project.  Use your own names or create from issue->pull request.
@@ -12,12 +13,10 @@
 * The pull request will automatically close the issue
 * the pull request will delete the source branch
 
-## Intro
+## Introduction
 
 This document summarizes the findings from researching possible workflows for using Git.  The three git hosting providers, GitHub, BitBucket and GitLab are compared.
 (see comparison section below)
-
-There are variances depending on whether the account is a free account or paid and with the free account, features differ depending on the repo being private or public.
 
 ## GitHub Process
 
@@ -37,6 +36,9 @@ There are variances depending on whether the account is a free account or paid a
 
 
 ## Comparison 
+
+There are variances depending on whether the account is a free account or paid and with the free account, features differ depending on the repo being private or public.
+
 * Pr - private
 * Pu - public
 * checkmark is implemented
@@ -69,3 +71,4 @@ There are variances depending on whether the account is a free account or paid a
 #### Github
 
     - Private libraries recieve warnings on checks, so invalid merges to main are allowed
+
