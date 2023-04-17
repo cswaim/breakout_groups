@@ -22,7 +22,7 @@ class Event():
 
     def update_card_interactions(self, ):
         """ update individual card iteractions"""
-        # k is sess num, v is group list
+        # k is session num,ber v is group list
         for k, v in self.sess.sessions.items():
             #
             #update_interact(list(chain.from_iterable(v)))
@@ -75,27 +75,17 @@ class Event():
                         interact[person['name']].append(person_other['name'])
 
         return interact
-        """
-        from itertools import chain
-        for k,v in sessions.items():
-            update_interact(list(chain.from_iterable(v)))
-
-            # update card with group info
-            for g in v:
-                update_cards(g)
-        """
-
+    
 
     def show_cards(self,all_cards=None):
         # ToDo convert input to a pandas dataframe and
-        # Use pandas pretty printing for a dataframe
+        # Should use pandas pretty printing for a dataframe
 
         # Print nice header
 
-
         # Each row is a card
         for row in all_cards.keys():
-            pass
+            print(row)
 
     def show_interactions_by_persons(self,all_cards=None):
         """For each person, list interactions with other persons."""

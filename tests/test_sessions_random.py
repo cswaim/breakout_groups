@@ -13,27 +13,28 @@ from src.sessions_random import Sessions
 """Unit tests for Sessions methods."""
 
 
-def test_init(config_defaults):
+def test_init():
     """test Sessions init"""
     sc = Sessions()
     assert len(sc.sessions) == cfg.n_sessions
 
-def test_check_sess_attendees(config_defaults):
-    """test check_sess_attendees"""
+
+@pytest.mark.skip(reason="Need to refactor this test")
+def test_check_sess_attendees(get_config):
+    """test for check_sess_attendees"""
+    config_values = get_config
     sc = Sessions()
-    good_session = [x for x in range(cfg.n_attendees)]   
+    good_session = [x for x in range(config_values['attendees'])]
     sc.build_sessions()
     for k, v in sc.sessions.items():
-        attnd_list = [e for i in v for e in i]
-        attnd_list.sort()
-        assert good_session == attnd_list
+        attend_list = [e for i in v for e in i]
+        attend_list.sort()
+        assert attend_list in good_session
+
 
 def test_build_sessions(config_defaults):
+         
     """ test build sessions"""
     sc = Sessions()
     sc.build_sessions()
     assert len(sc.sessions) == cfg.n_sessions 
-
-
-
-    

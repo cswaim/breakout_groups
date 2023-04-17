@@ -1,40 +1,40 @@
-from collections import Counter
 import src.config as cfg
 from src.event import Event
 
-def test_find_missing_persons(config_defaults, get_random_seed):
-    assert True
+from collections import Counter
+import pytest
 
-def test_build_cards(config_defaults):
-    """test build of cards (11 attendees/cards)"""
+def test_event(get_config):
+    config_values = get_config
     event = Event()
-    res = 11
-    assert res == len(event.cards)
+    assert event.all_card_interactions == []
+    assert len(event.cards) == config_values['attendees']
 
-def test_build_cards(config_defaults, get_random_seed):
-    """test build of cards (11 attendees/cards)"""
+
+def test_build_card_interactions(get_random_seed, get_config):
+    config_values = get_config
+    # Test results assume a certain configuration
+    if (    (config_values['attendees'] != 30)  or \
+            (config_values['group_size'] != 6)  or \
+            (config_values['groups_per_session'] != 5)  or \
+            (config_values['sessions'] != 5) \
+        ):
+        pytest.skip("For this configuration expected values are unknown")
     event = Event(seed=get_random_seed)
     event.update_card_interactions()
-    res0 = Counter({0:4, 5:2, 6:2, 3:2, 9:2, 1:1, 7:1})
-    res1 = Counter({1:4, 7:3, 9:1, 3:1, 4:1, 5:1, 2:2, 0:1})
+    # breakpoint()
+    res0 = Counter({0: 5, 19: 3, 3: 2, 22: 2, 20: 2, 25: 2, 18: 2, 6: 2, \
+        7: 1, 13: 1, 26: 1, 21: 1, 1: 1, 27: 1, 15: 1, 12: 1, 17: 1, 29: 1})
+    res1 = Counter({1: 5, 18: 3, 23: 2, 24: 2, 20: 2, 22: 2, \
+        16: 1, 17: 1, 21: 1, 25: 1, 9: 1, 11: 1, 29: 1, 0: 1, 27: 1, 7: 1, 12: 1, 3: 1, 13: 1, 28: 1})
     assert res0 == event.cards[0].card_interactions
     assert res1 == event.cards[1].card_interactions
 
-def test_all_card_interactions(config_defaults, get_random_seed):
-    """test build of all_card_interactions list"""
-    event = Event(seed=get_random_seed)
-    event.update_card_interactions()
-    event.build_all_card_interactions()
-    res0 = Counter({0:4, 5:2, 6:2, 3:2, 9:2, 1:1, 7:1})
-    res1 = Counter({1:4, 7:3, 9:1, 3:1, 4:1, 5:1, 2:2, 0:1})
-    assert res0 == event.all_card_interactions[0]
-    assert res1 == event.all_card_interactions[1]
 
-
-# def test_get_interactions(event_cards):
-#     event = Event()
-#     result = event.get_interactions(all_cards=event_cards)
-#     assert result
+def test_get_interactions(event_cards):
+    event = Event()
+    result = event.get_interactions(all_cards=event_cards)
+    assert result
 
 # def test_show_interactions_by_persons(event_cards):
 #     event = Event()
