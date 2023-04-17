@@ -76,7 +76,6 @@ import pytest
 # tmp_dir is a built_in fixture
 # ToDo move this fixture to conftest.py
 # Also, this is an example of a pytest marker
-pytest.mark.simple
 def test_make_temp_directory(tmp_path):
    base_dir = tmp_path / "breakout_groups"
    base_dir.mkdir()
@@ -86,8 +85,7 @@ def test_make_temp_directory(tmp_path):
 
 
 # ToDo Convert to a fixture so that config info is available everywhere
-pytest.mark.not_so_simple
-def test_default_config(config_defaults, tmp_path):
+def test_default_config(config_EVENTs, tmp_path):
    """test set_default_config """
    base_dir = tmp_path / "breakout_groups"
    base_dir.mkdir()

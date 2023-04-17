@@ -9,15 +9,15 @@ def get_config():
     """Parses the configuration file values and returns them in a dict"""
     config = cfg.read_config_file(cfg.config)
     config_values = {}
-    config_values['attendees'] = config.getint('DEFAULT','attendees')
-    config_values['group_size'] = config.getint('DEFAULT','group_size')
-    config_values['groups_per_session'] = config.getint('DEFAULT','groups_per_session')
-    config_values['sessions'] = config.getint('DEFAULT','sessions')     
+    config_values['n_attendees'] = config.getint('EVENT','n_attendees')
+    config_values['group_size'] = config.getint('EVENT','group_size')
+    config_values['n_groups'] = config.getint('EVENT','n_groups')
+    config_values['n_sessions'] = config.getint('EVENT','n_sessions')     
     return config_values
 
 @pytest.fixture
-def config_defaults():
-    """set cfg variables to default values"""
+def config_EVENTs():
+    """set cfg variables to EVENT values"""
     cfg.n_attendees = 11
     cfg.n_groups = 3
     cfg.group_size = 3
@@ -38,12 +38,12 @@ def get_random_seed():
 def event_cards(get_config, get_random_seed):
     config_values = get_config
     card_1 = Card()
-    n_attendees = config_values["attendees"]
-    groups_per_session = config_values['groups_per_session']
+    n_attendees = config_values["n_attendees"]
+    n_groups = config_values['n_groups']
     grouping_algorithm = card_1.random_grouping_algorithm(
-        n_groups=groups_per_session, seed=get_random_seed)
+        n_groups=n_groups, seed=get_random_seed)
     
     return card_1.cards_for_event(
         n_attendees=n_attendees, 
-        groups_per_session=groups_per_session,
+        n_groups=n_groups,
         grouping_algorithm = grouping_algorithm)
