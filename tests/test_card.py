@@ -31,9 +31,9 @@ def test_random_grouping_algorithm(get_random_seed):
 
 def test_cards_for_event(get_config, get_random_seed):
     card_1 = Card()
-    config = get_config
-    n_attendees = config.getint('DEFAULT','attendees')
-    groups_per_session = config.getint('DEFAULT','groups_per_session')
+    config_values = get_config
+    n_attendees = config_values["attendees"]
+    groups_per_session = config_values['groups_per_session']
     grouping_algorithm = card_1.random_grouping_algorithm(
         n_groups=groups_per_session, seed=get_random_seed)
     
