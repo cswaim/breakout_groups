@@ -17,7 +17,7 @@ import os
 flnm = "breakout_groups.ini"
 wkdir_path = None
 wkdir = None
-incdir = None
+srcdir = None
 datadir = None
 
 # event variables
@@ -33,13 +33,13 @@ config = None
 
 def init():
     """ on init, read the config file, if not found, write the default file"""
-    global wkdir_path, wkdir, incdir, datadir, config
+    global wkdir_path, wkdir, srcdir, datadir, config
 
     # set the directories
     if wkdir is None:
         wkdir_path = Path(__file__).parent.parent.resolve()
-        incdir = str(Path(__file__).resolve().parent) + os.sep
-        wkdir = str(Path(incdir).resolve().parent) + os.sep
+        srcdir = str(Path(__file__).resolve().parent) + os.sep
+        wkdir = str(Path(srcdir).resolve().parent) + os.sep
         datadir = str(Path(wkdir).resolve()) + os.sep + 'data' + os.sep
 
     config = configparser.ConfigParser(allow_no_value=True)
@@ -62,24 +62,22 @@ def read_config_file(config):
 
 def set_default_config(config):
     """define the default config file """
-    config['DEFAULT'] = {'attendees': 30, 
-                         'group_size': 6,
-                         'groups_per_session': 5,
-                         'sessions': 5,
-
+    config['EVENT'] = {'n_attendees': 11, 
+                         'group_size': 3,
+                         'n_groups':3,
+                         'n_sessions': 4,
                         }
-    # config['GROUP_LABELS'] = {'# list labels as session1 = label1,label2,label3...':'',
-    #                           '# labels can be different for each breakout session',
-    #                           '# if no sessions listed, default lable of group1, group2, ... will be used',
 
     if not config.has_section('GROUP_LABELS'):
         config.add_section('GROUP_LABELS')                          
     config.set('GROUP_LABELS', '# list labels as session1 = label1,label2,label3...')
     config.set('GROUP_LABELS', '# labels can be different for each breakout session')
-    config.set('GROUP_LABELS', '# if no sessions listed, default la    # sc.groups = [1,2,3,]')
-    # session_attendees = [1,2,3,4,5,6,7,]ble of group1, group2, ... will be used')
+    config.set('GROUP_LABELS', '# if no sessions listed, default lable of group1, group2, ... will be used')
+    config.set('GROUP_LABELS', '# the session key must be unique but is ignored, only the values are used')
     config.set('GROUP_LABELS', 'session1', 'group1,group2,group3,group4,group5')
-    config.set('GROUP_LABELS', 'session2', 'group1,group2,group3,group4,group5')
+    config.set('GROUP_LABELS', 's2', 'blue,red,green,yellow,pink')
+    config.set('GROUP_LABELS', 'sess3', 'Portales,Santa Fe,Taos,Chama,Cuba')
+    config.set('GROUP_LABELS', 'se2', 'Elbert,Massive,Harvard,Blanca,La Plata')
                             
     return config
 
@@ -100,10 +98,10 @@ def write_ini(config):
 def set_event_variables(config):
     """set the event variables for consistant access"""
     global n_attendees, attendees_list, group_size, n_groups, n_sessions
-    n_attendees = config.getint('DEFAULT','attendees')
-    group_size = config.getint('DEFAULT','group_size')
-    n_groups = config.getint('DEFAULT','groups_per_session')
-    n_sessions = config.getint('DEFAULT','sessions')
+    n_attendees = config.getint('EVENT','n_attendees')
+    group_size = config.getint('EVENT','group_size')
+    n_groups = config.getint('EVENT','n_groups')
+    n_sessions = config.getint('EVENT','n_sessions')
 
     attendees_list = gen_attendees_list()
     global group_labels
@@ -120,7 +118,6 @@ def build_group_labels() -> list:
        this removes the key from the dict and does not force a naming convention 
        in the ini file
     """
-
     group_labels = []
     for k, v in config['GROUP_LABELS'].items():
         if k not in config['DEFAULT']:
@@ -131,7 +128,7 @@ def build_group_labels() -> list:
 def debug_print():
     print("")
     print(f"    wkdir: {wkdir}")
-    print(f"  inc dir: {incdir}")
+    print(f"  inc dir: {srcdir}")
     print(f" data dir: {datadir}")
     print(f"file name: {flnm}")
 
