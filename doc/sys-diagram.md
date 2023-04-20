@@ -2,15 +2,22 @@
 
 ## Overview
 
-## See it
+The breakout groups application is designed to assign attendees of an event into small groups.  There may be multiple sessions of small groups and the goal is to have as much interaction among the participants as possible, minimizing the number of times an attendee is in a group with the same other attendees.
+
+The output is a 'card' for each attendee which identifies by session which group the attendee is assigned to. 
+
+Several reports are provided to analyze the effectiveness of the grouping alogrithm - is it achieving the interactions desired.  These reports also allow for comparision of different algorithms.
+
+## System diagram
 
 ```mermaid
   graph TD;
-      A[breakout_groups.py]-->B[config as cfg];
+      A[breakout_groups.py]-->B[config<br/>contains run parameters];
       B-->C[Events];
       C-->|grouping<br/>algorithm parm| D(Sessions);
       C-->E(Cards);
       C-->F(Reports);
+      G(Constraints &<br/>Exceptions)-->D
 ```
 ## Config
 
@@ -49,3 +56,5 @@ The implementation of this concept can be done multiple ways.  Each approach ass
 
 * creating an interface class and subclassing based on a parameter
 * importing the appropriate module based on the parameter
+
+TODO: Pass exceptions or constraints to the grouping algorithm to modify the grouping interactions.  To be defined.
