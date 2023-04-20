@@ -8,7 +8,7 @@
   graph TD;
       A[breakout_groups.py]-->B[config as cfg];
       B-->C[Events];
-      C-->|grouping<br/>algorithm parm| D[Sessions];
+      C-->|grouping<br/>algorithm parm| D(Sessions);
       C-->E(Cards);
       C-->F(Reports);
 ```
