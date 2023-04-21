@@ -77,6 +77,7 @@ import pytest
 # ToDo move this fixture to conftest.py
 # Also, this is an example of a pytest marker
 def test_make_temp_directory(tmp_path):
+   """test make temp dir"""
    base_dir = tmp_path / "breakout_groups"
    base_dir.mkdir()
    # does the directory exist?

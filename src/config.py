@@ -10,6 +10,9 @@
 #  
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
+# import this module as the first application module:
+#     import src.config as cfg
+
 import configparser
 from pathlib import Path
 import os
@@ -22,14 +25,22 @@ datadir = None
 
 # event variables
 attendees_list = []
-n_attendees = 0
-group_size = 0
-n_groups = 0
-n_sessions = 0
-group_labels = []
+n_attendees = 11
+group_size = 3
+n_groups = 3
+n_sessions = 4
+group_labels = [['group1,group2,group3,group4,group5'],
+                ['blue,red,green,yellow,pink'],
+                ['Portales,Santa Fe,Taos,Chama,Cuba'],
+                ['Elbert,Massive,Harvard,Blanca,La Plata'],
+               ] 
 
 # config obj
 config = None
+
+# system variables
+sys_version = '0.1'
+sys_group_algorithm = ""
 
 def init():
     """ on init, read the config file, if not found, write the default file"""
@@ -56,28 +67,38 @@ def read_config_file(config):
     else:
         config = set_default_config(config)
         config = write_ini(config)
-        # remove comments from sections to be consistent with data from read
-        remove_default_comments(config)
+
+     # if the sys_version is different, write out the new config file
+    if not config.has_option('SYSTEM', 'sys_version') or sys_version != config.get('SYSTEM', 'sys_version'):
+        config = set_event_variables(config)
+        config = set_default_config(config)
+        config = write_ini(config)
+    
+    # remove comments from sections to be consistent with data from read
+    remove_default_comments(config)
     return config
 
 def set_default_config(config):
     """define the default config file """
-    config['EVENT'] = {'n_attendees': 11, 
-                         'group_size': 3,
-                         'n_groups':3,
-                         'n_sessions': 4,
+    config['EVENT'] = {'n_attendees': n_attendees, 
+                         'group_size': group_size,
+                         'n_groups': n_groups,
+                         'n_sessions': n_sessions,
                         }
 
     if not config.has_section('GROUP_LABELS'):
-        config.add_section('GROUP_LABELS')                          
+        config.add_section('GROUP_LABELS') 
+    config["GROUP_LABELS"].clear()                         
     config.set('GROUP_LABELS', '# list labels as session1 = label1,label2,label3...')
     config.set('GROUP_LABELS', '# labels can be different for each breakout session')
     config.set('GROUP_LABELS', '# if no sessions listed, default lable of group1, group2, ... will be used')
     config.set('GROUP_LABELS', '# the session key must be unique but is ignored, only the values are used')
-    config.set('GROUP_LABELS', 'session1', 'group1,group2,group3,group4,group5')
-    config.set('GROUP_LABELS', 's2', 'blue,red,green,yellow,pink')
-    config.set('GROUP_LABELS', 'sess3', 'Portales,Santa Fe,Taos,Chama,Cuba')
-    config.set('GROUP_LABELS', 'se2', 'Elbert,Massive,Harvard,Blanca,La Plata')
+    for i, g in enumerate(group_labels):
+        config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
+
+    if not config.has_section('SYSTEM'):
+        config.add_section('SYSTEM')                          
+    config.set('SYSTEM', 'sys_version', str(sys_version))
                             
     return config
 
@@ -92,9 +113,9 @@ def remove_default_comments(config):
 def write_ini(config):
     """ write the ini file from the current cfg settings"""
     with open(f"{datadir}{flnm}", 'w') as configfile:
-        config.write(configfile)
-        
+        config.write(configfile)  
     return config
+    
 def set_event_variables(config):
     """set the event variables for consistant access"""
     global n_attendees, attendees_list, group_size, n_groups, n_sessions
@@ -106,6 +127,11 @@ def set_event_variables(config):
     attendees_list = gen_attendees_list()
     global group_labels
     group_labels = build_group_labels()
+
+    # system parameters
+    # do not set the version from the file
+    # global sys_xxx
+    # sys_xxx = config.get('SYSTEM', 'xxx')
 
 def gen_attendees_list() -> list:
     """generate the list for attendees"""
@@ -120,7 +146,7 @@ def build_group_labels() -> list:
     """
     group_labels = []
     for k, v in config['GROUP_LABELS'].items():
-        if k not in config['DEFAULT']:
+        if k not in config['EVENT']:
             group_labels.append(v.split(','))
 
     return group_labels
