@@ -65,16 +65,16 @@ one approach is to use polymorphism to create different class with the same inte
       Sessions <|-- Random2
       Sessions <|-- Perfect
       Sessions : +String grouping algorithm
-      Sessions : +List list of groups by session
-      Sessions: +build_sessions()
+      Sessions : +Dict list of groups by session
+      Sessions : +build_sessions() Dict
       class Random1{
-        +build_sessions()
+        +build_sessions():Dict
       }
       class Random2{
-        +build_sessions()
+        +build_sessions():Dict
       }
       class Perfect{
-        +build_sessions()
+        +build_sessions():Dict
       }
 ```
 
