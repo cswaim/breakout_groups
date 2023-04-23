@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  untitled.py
+#  test_sessions_random.py
 #  
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
  
@@ -24,7 +24,7 @@ def test_check_sess_attendees(get_config):
     """test for check_sess_attendees"""
     config_values = get_config
     sc = Sessions()
-    good_session = [x for x in range(config_values['attendees'])]
+    good_session = [x for x in range(config_values['n_attendees'])]
     sc.build_sessions()
     for k, v in sc.sessions.items():
         attend_list = [e for i in v for e in i]
@@ -32,7 +32,7 @@ def test_check_sess_attendees(get_config):
         assert attend_list in good_session
 
 
-def test_build_sessions(config_defaults):
+def test_build_sessions(config_EVENTs):
          
     """ test build sessions"""
     sc = Sessions()

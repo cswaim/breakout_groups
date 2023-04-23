@@ -32,15 +32,15 @@ def test_random_grouping_algorithm(get_random_seed):
 def test_cards_for_event(get_config, get_random_seed):
     card_1 = Card()
     config_values = get_config
-    n_attendees = config_values["attendees"]
-    groups_per_session = config_values['groups_per_session']
+    n_attendees = config_values["n_attendees"]
+    n_groups = config_values['n_groups']
     grouping_algorithm = card_1.random_grouping_algorithm(
-        n_groups=groups_per_session, seed=get_random_seed)
+        n_groups=n_groups, seed=get_random_seed)
     
     result = card_1.cards_for_event(
         n_attendees=n_attendees, 
-        groups_per_session=groups_per_session,
-        grouping_algorithm = grouping_algorithm)
+        n_groups=n_groups,
+        grouping_algorithm=grouping_algorithm)
 
     assert result
    

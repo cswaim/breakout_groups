@@ -17,17 +17,17 @@ class Card():
 
     def cards_for_event(self, 
                           n_attendees=None, 
-                          groups_per_session=None,
+                          n_groups=None,
                           grouping_algorithm=None):
         """Creates all the cards for the event."""
         all_cards_for_event = []
-        for attendee_number in range(1, n_attendees+1):
+        for attendee_number in range(1, n_attendees + 1):
             card = Card()
             card.name = "Person" + str(attendee_number)
             session= {'name' : card.name}
-            for breakout_group_number in range(1,groups_per_session+1):
-                session['session'+str(breakout_group_number)] = \
-                    'group'+str(next(grouping_algorithm))
+            for breakout_group_number in range(1, n_groups + 1):
+                session['session' + str(breakout_group_number)] = \
+                    'group' + str(next(grouping_algorithm))
             all_cards_for_event.append(session)
 
         return all_cards_for_event

@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  untitled.py
+#  test_sessions_comb.py
 #  
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
  
@@ -16,13 +16,13 @@ import pytest
 
 """Unit tests for Sessions methods."""
 
-def test_init(config_defaults):
+def test_init(config_EVENTs):
     """test Sessions init"""
     sc = Sessions()
     assert len(sc.sessions) == cfg.n_sessions
 
 @pytest.mark.skip(reason="build session runs too long")
-def test_check_sess_attendees(config_defaults):
+def test_check_sess_attendees(config_EVENTs):
     """test check_sess_attendees"""
     print_cfg()
     sc = Sessions()
@@ -35,7 +35,7 @@ def test_check_sess_attendees(config_defaults):
         assert good_session == attnd_list
 
 @pytest.mark.skip(reason="build sess runs too long")
-def test_build_sessions(config_defaults):
+def test_build_sessions(config_EVENTs):
     """ test build sessions"""
     print_cfg()
 

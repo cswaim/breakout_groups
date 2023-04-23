@@ -8,15 +8,15 @@ def test_event(get_config):
     config_values = get_config
     event = Event()
     assert event.all_card_interactions == []
-    assert len(event.cards) == config_values['attendees']
+    assert len(event.cards) == config_values['n_attendees']
 
 
 def test_build_card_interactions(get_random_seed, get_config):
     config_values = get_config
     # Test results assume a certain configuration
-    if (    (config_values['attendees'] != 30)  or \
+    if (    (config_values['n_attendees'] != 30)  or \
             (config_values['group_size'] != 6)  or \
-            (config_values['groups_per_session'] != 5)  or \
+            (config_values['n_groups'] != 5)  or \
             (config_values['sessions'] != 5) \
         ):
         pytest.skip("For this configuration expected values are unknown")

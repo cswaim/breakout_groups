@@ -19,17 +19,17 @@ class BreakoutGroups():
 
     attendees_list = []
 
-    attendees = 0
+    n_attendees = 0
     group_size = 0
-    groups_per_session = 0
-    sessions = 0
+    n_groups = 0
+    n_sessions = 0
 
     def __init__(self) -> None:
         """setup"""
-        self.attendees = cfg.n_attendees
+        self.n_attendees = cfg.n_attendees
         self.group_size = cfg.group_size
-        self.groups_per_session = cfg.n_groups
-        self.sessions = cfg.n_sessions
+        self.n_groups = cfg.n_groups
+        self.n_sessions = cfg.n_sessions
         self.attendees_list = cfg.attendees_list
 
     def print_variables(self,):
@@ -37,10 +37,10 @@ class BreakoutGroups():
         print("")
         print("variables can be refenced as self.xxx if set in init")
         print(f"    attendees_list: {self.attendees_list}")
-        print(f"         attendees: {self.attendees}")
+        print(f"         attendees: {self.n_attendees}")
         print(f"        group_size: {self.group_size}")
-        print(f"groups_per_session: {self.groups_per_session}")
-        print(f"          sessions: {self.sessions}")
+        print(f"groups_per_session: {self.n_groups}")
+        print(f"          sessions: {self.n_sessions}")
         print("or variables can be refenced directly from the cfg module as cfg.xxxx")
         print(f"    attendees_list: {cfg.attendees_list}")
         print(f"         attendees: {cfg.n_attendees}")
