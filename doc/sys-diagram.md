@@ -17,7 +17,9 @@ Several reports are provided to analyze the effectiveness of the grouping alogri
       C-->|grouping<br/>algorithm parm| D(Sessions);
       C-->E(Cards);
       C-->F(Reports);
-      G(Constraints &<br/>Exceptions)-->D
+      G(Constraints &<br/>Exceptions)-->D;
+      D-->H(algo 1);
+      D-->I(algo 2);
 ```
 ## Config
 
@@ -31,7 +33,31 @@ TODO: Add version number & grouping algrothrim parm.  When version changes, read
 
 The Sessions
 
-* one approach is to use polymorphism to create different class with the same interface. 
+One or two variables will be added to the config file:
+```
+[SYSTEM]
+sys_group_algorithm = "mmmmmm"
+sys_group_class = "ccccccccc"
+```
+>where:
+>* mmmmmm = the grouping algorithm module name without the .py located in src
+>* cccccc = the class name, if classes are used.
+
+The Sessions Class will:
+* dynamically call the sys_group_algorithm and load the class
+* call the 'build_sessions' or 'run' function - pick one for all modules
+* the module will return a dict of sessions in the format of
+  ``` 
+        {0:[[1,2,3],[4,5,6],....],
+         1:[[6,3,8], [7,1,9],...],
+        }
+    one entry for each session.
+  ```
+
+
+### Design Approach (maybe - to be reviewed)
+
+one approach is to use polymorphism to create different class with the same interface. 
 
 ```mermaid
   classDiagram
@@ -57,4 +83,4 @@ The implementation of this concept can be done multiple ways.  Each approach ass
 * creating an interface class and subclassing based on a parameter
 * importing the appropriate module based on the parameter
 
-TODO: Pass exceptions or constraints to the grouping algorithm to modify the grouping interactions.  To be defined.
+**TODO**: Pass exceptions or constraints to the grouping algorithm to modify the grouping interactions.  To be defined.
