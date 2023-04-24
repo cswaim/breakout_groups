@@ -37,15 +37,13 @@ One or two variables will be added to the config file:
 ```
 [SYSTEM]
 sys_group_algorithm = "mmmmmm"
-sys_group_class = "ccccccccc"
 ```
 >where:
 >* mmmmmm = the grouping algorithm module name without the .py located in src
->* cccccc = the class name, if classes are used.
 
 The Sessions Class will:
 * dynamically call the sys_group_algorithm and load the class
-* call the 'build_sessions' or 'run' function - pick one for all modules
+* call the 'run' function (this is not a method but a function) 
 * the module will return a dict of sessions in the format of
   ``` 
         {0:[[1,2,3],[4,5,6],....],
@@ -59,6 +57,8 @@ The Sessions Class will:
 
 one approach is to use polymorphism to create different class with the same interface. 
 
+a second approach is to have the sessions class load the grouping alogrithm module and run a predefined function in the algorithm module.
+
 ```mermaid
   classDiagram
       Sessions <|-- Random1
@@ -66,15 +66,15 @@ one approach is to use polymorphism to create different class with the same inte
       Sessions <|-- Perfect
       Sessions : +String grouping algorithm
       Sessions : +Dict list of groups by session
-      Sessions : +build_sessions() Dict
+      Sessions : -load_algorithm() Dict
       class Random1{
-        +build_sessions():Dict
+        +run():Dict
       }
       class Random2{
-        +build_sessions():Dict
+        +run():Dict
       }
       class Perfect{
-        +build_sessions():Dict
+        +run():Dict
       }
 ```
 

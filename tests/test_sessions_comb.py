@@ -11,21 +11,21 @@ import random
 import math
 import copy
 from src import config as cfg
-from src.sessions_comb import Sessions
+from src.sessions_comb import SessionsCombinations
 import pytest
 
 """Unit tests for Sessions methods."""
 
 def test_init(config_EVENTs):
     """test Sessions init"""
-    sc = Sessions()
+    sc = SessionsCombinations()
     assert len(sc.sessions) == cfg.n_sessions
 
 @pytest.mark.skip(reason="build session runs too long")
 def test_check_sess_attendees(config_EVENTs):
     """test check_sess_attendees"""
     print_cfg()
-    sc = Sessions()
+    sc = SessionsCombinations()
     good_session = [x for x in range(cfg.n_attendees)]    
     sc.build_sessions()
     # res_list = list(sc.sessions[1]) #.values()).sort()
@@ -43,7 +43,7 @@ def test_build_sessions(config_EVENTs):
     # print(f" subsets: {len(ss)}")
     # print(ss)
 
-    sc = Sessions()
+    sc = SessionsCombinations()
     sc.build_sessions()
     print("test complete")
 

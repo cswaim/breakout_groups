@@ -1,7 +1,7 @@
 from collections import Counter 
 import src.config as cfg
 from src.card_child import CCard as Card
-from src.sessions_random import Sessions
+from src.sessions import Sessions
 
 """Conduct a event."""
 
@@ -12,8 +12,8 @@ class Event():
         self.all_card_interactions = []
         self.cards = []     # list of all card objects
         self.build_cards(cfg.n_attendees)
-        self.sess = Sessions()
-        self.sess.build_sessions(seed)
+        self.sess = Sessions(cfg.sys_group_algorithm, seed)
+        #self.sess.build_sessions(seed)
 
 
     def build_cards(self, nc):

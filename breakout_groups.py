@@ -5,11 +5,11 @@
 #  
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
-import os
-from pathlib import Path
-import math
-from itertools import combinations, chain
-import itertools as it
+# import os
+# from pathlib import Path
+# import math
+# from itertools import combinations, chain
+# import itertools as it
 
 from src import config as cfg
 from src.event import Event
@@ -33,26 +33,27 @@ class BreakoutGroups():
         self.attendees_list = cfg.attendees_list
 
     def print_variables(self,):
-        """print the variables refereced two ways"""
-        print("")
-        print("variables can be refenced as self.xxx if set in init")
-        print(f"    attendees_list: {self.attendees_list}")
-        print(f"         attendees: {self.n_attendees}")
-        print(f"        group_size: {self.group_size}")
-        print(f"groups_per_session: {self.n_groups}")
-        print(f"          sessions: {self.n_sessions}")
-        print("or variables can be refenced directly from the cfg module as cfg.xxxx")
+        """print config variables"""
         print(f"    attendees_list: {cfg.attendees_list}")
         print(f"         attendees: {cfg.n_attendees}")
         print(f"        group_size: {cfg.group_size}")
         print(f"groups_per_session: {cfg.n_groups}")
         print(f"          sessions: {cfg.n_sessions}")
+        print("")
 
+    def run(self,):
+        """create breakout groups for event"""
+        self.print_variables()
+        event = Event()
+        event.run()
+        for i, val in event.sess.sessions.items():
+            print(f"Session {i:02} - {val}")
 
 
  
 if __name__ == '__main__':
     
-    event = Event()
-    event.run()
     bg = BreakoutGroups()
+    bg.run()
+    
+    

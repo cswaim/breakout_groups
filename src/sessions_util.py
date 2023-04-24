@@ -1,4 +1,4 @@
-from src.sessions_random import Sessions
+from src.sessions_random import SessionsRandom
 
 from collections import Counter
 from itertools import combinations

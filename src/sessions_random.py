@@ -10,7 +10,7 @@ from src import config as cfg
 '''
 
 
-class Sessions():
+class SessionsRandom():
     """ Use random to build sessions"""
 
     def __init__(self,):
@@ -40,9 +40,18 @@ class Sessions():
 
         return sess
 
-    def build_sessions(self, seed=None) -> None:
+    def build_sessions(self, seed=None) -> list:
         """build sessions"""
         random.seed(seed)
         for i in  self.sessions.keys():
             sess = self.create_a_session()
             self.sessions[i] = sess
+        return self.sessions
+
+
+def run() -> list:
+    """create the sessions"""
+    sr = SessionsRandom()
+    sessions = sr.build_sessions()
+    return sessions
+    

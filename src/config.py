@@ -40,7 +40,11 @@ config = None
 
 # system variables
 sys_version = '0.1'
-sys_group_algorithm = ""
+sys_group_algorithm = "sessions_random"
+sys_ga_class = "SessionsRandom"
+# sys_group_algorithm = "sessions_comb"
+# sys_ga_class = "SessionsCombinations"
+
 
 def init():
     """ on init, read the config file, if not found, write the default file"""

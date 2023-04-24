@@ -22,7 +22,7 @@ Note that the code assumes that the number of items is a multiple of the subset 
 
 '''
 
-class Sessions():
+class SessionsCombinations():
     """ Use combinations to build sessions"""
 
     groups = []
@@ -160,3 +160,10 @@ class Sessions():
         #     calc_group_similarity(g)
         self.groups_to_sessions()
         # print(f"{len(self.sessions)}: {self.sessions}")
+
+
+def run() -> list:
+    """create the sessions"""
+    sr = SessionsCombinations()
+    sessions = sr.build_sessions()
+    return sessions
