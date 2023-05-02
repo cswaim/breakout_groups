@@ -13,6 +13,7 @@
 
 from src import config as cfg
 from src.event import Event
+from src.logger_setup import log
 
 class BreakoutGroups():
     """ generate breakout groups """ 
@@ -44,6 +45,7 @@ class BreakoutGroups():
     def run(self,):
         """create breakout groups for event"""
         self.print_variables()
+        log.info("starting event processing")
         event = Event()
         event.run()
         for i, val in event.sess.sessions.items():
@@ -52,8 +54,9 @@ class BreakoutGroups():
 
  
 if __name__ == '__main__':
-    
+    log.info("start breakout-groups")
     bg = BreakoutGroups()
     bg.run()
+    log.info("end of breakout-groups")
     
     
