@@ -17,6 +17,7 @@ import configparser
 from pathlib import Path
 import os
 
+
 flnm = "breakout_groups.ini"
 wkdir_path = None
 wkdir = None
@@ -40,10 +41,10 @@ config = None
 
 # system variables
 sys_version = '0.1'
-sys_group_algorithm = "sessions_random"
-sys_ga_class = "SessionsRandom"
-# sys_group_algorithm = "sessions_comb"
-# sys_ga_class = "SessionsCombinations"
+# file name, without .py, in the src directory, that contains the algorithm
+sys_group_algorithm_ = "algo_interface"  
+# Class name for the algorithm
+sys_group_algorithm_class = "AlgoInterface"
 
 
 def init():
@@ -82,6 +83,7 @@ def read_config_file(config):
     remove_default_comments(config)
     return config
 
+
 def set_default_config(config):
     """define the default config file """
     config['EVENT'] = {'n_attendees': n_attendees, 
@@ -103,7 +105,10 @@ def set_default_config(config):
     if not config.has_section('SYSTEM'):
         config.add_section('SYSTEM')                          
     config.set('SYSTEM', 'sys_version', str(sys_version))
-                            
+
+    config.set('SYSTEM', 'sys_group_algorithm_file', 'algo_Interface')  
+    config.set('SYSTEM', 'sys_group_algorithm_class',  'AlgoInterface')
+
     return config
 
 def remove_default_comments(config):
@@ -155,6 +160,29 @@ def build_group_labels() -> list:
 
     return group_labels
 
+
+def build_algorithm(sys_group_algorithm_file, sys_group_algorithm_class):
+    """ Return the algorithm's run method.
+    
+    In order to be generic across many classes, this process 
+    is a bit convoluted. 
+    
+    A single source file may contain many algorithm classes.
+    """
+    
+    # Get the algorithm module 
+    s = __import__("src.{0}".format(sys_group_algorithm_file))
+    # find the module which is the file which contains the algorithm,
+    mod = getattr(s, sys_group_algorithm_file)
+    # From the module, get the name of the class.  
+    # algo_name = dir(mod.cfg)[0]
+    # Extract the class from the module.  Might be several in there.
+    module_class = getattr(mod, sys_group_algorithm_class)
+    # Finally, return the run method from that class
+    
+    return module_class.run
+
+
 def debug_print():
     print("")
     print(f"    wkdir: {wkdir}")
@@ -170,6 +198,7 @@ def debug_print():
 
     # print("    ",config['DEFAULT']['num_members'])
     # print(dir(config))
+
 
 config = init()
 

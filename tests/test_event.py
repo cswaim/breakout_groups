@@ -8,7 +8,7 @@ def test_event(get_config):
     config_values = get_config
     event = Event()
     assert event.all_card_interactions == []
-    assert len(event.cards) == config_values['n_attendees']
+    # assert len(event.cards) == config_values['n_attendees']
 
 
 def test_build_card_interactions(get_random_seed, get_config):

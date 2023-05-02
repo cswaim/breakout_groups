@@ -86,13 +86,13 @@ def test_make_temp_directory(tmp_path):
 
 
 # ToDo Convert to a fixture so that config info is available everywhere
-def test_default_config(config_EVENTs, tmp_path):
+def test_default_config(tmp_path):
    """test set_default_config """
    base_dir = tmp_path / "breakout_groups"
    base_dir.mkdir()
    cfg.datadir = base_dir
    # load the default values
-   config = cfg.read_config_file(cfg.config)
+   # config = cfg.read_config_file(cfg.config)
    # When experienting with different config value, 
    #    might not pass.
    assert cfg.n_attendees == 11
@@ -107,6 +107,19 @@ def test_build_session_labels():
    res2 = ['Portales', 'Santa Fe', 'Taos', 'Chama', 'Cuba']
    assert cfg.group_labels[0] == res0 
    assert cfg.group_labels[2] == res2 
+
+
+
+def test_build_exec():
+   algorithm_path = cfg.sys_group_algorithm_path
+   algorithm_name = cfg.sys_group_algorithm_class
+
+   executable_run = cfg.build_algorithm(algorithm_path, algorithm_name)
+
+   assert getattr(executable_run, '__name__')  == 'run'
+   assert getattr(executable_run, '__qualname__') == \
+      cfg.sys_group_algorithm_class+ '.run'
+
 
 @pytest.mark.skip(reason="pending")
 def test_remove_default_comments(config_defaults):

@@ -5,14 +5,16 @@ from src.card import Card
 """ Central repository for Pytest fixtures for breakout groups."""
 
 @pytest.fixture
-def get_config():
+def get_config(get_random_seed):
     """Parses the configuration file values and returns them in a dict"""
     config = cfg.read_config_file(cfg.config)
     config_values = {}
     config_values['n_attendees'] = config.getint('EVENT','n_attendees')
     config_values['group_size'] = config.getint('EVENT','group_size')
     config_values['n_groups'] = config.getint('EVENT','n_groups')
-    config_values['n_sessions'] = config.getint('EVENT','n_sessions')     
+    config_values['n_sessions'] = config.getint('EVENT','n_sessions')  
+    config_values['seed'] = get_random_seed 
+   
     return config_values
 
 @pytest.fixture
