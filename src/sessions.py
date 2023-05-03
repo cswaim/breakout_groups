@@ -6,17 +6,22 @@
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
 import importlib
+import logging
+#log = logging.getLogger('debug_logger')
+log = logging.getLogger(__name__)
 
 class Sessions():
     """ this is the driver for the the session generations""" 
 
     def __init__(self, algorithm, seed=None):
         # import module
+        log.info(f"beg algorithm: {algorithm}")
         self.algorithm = algorithm
         #self.clsnm = clsnm
         self.sessions = []
         self.seed = seed
         self.load_algorithm()
+        log.info(f"end of algorithm run")
  
     def load_algorithm(self, ):
         """ load the algorithm module and execute"""

@@ -13,7 +13,9 @@
 
 from src import config as cfg
 from src.event import Event
-from src.logger_setup import log
+from src import logger_setup 
+import logging
+log = logging.getLogger(__name__)
 
 class BreakoutGroups():
     """ generate breakout groups """ 
@@ -32,6 +34,9 @@ class BreakoutGroups():
         self.n_groups = cfg.n_groups
         self.n_sessions = cfg.n_sessions
         self.attendees_list = cfg.attendees_list
+        self.event = None
+        logger_setup.run()
+        log.info("beg breakout-groups")
 
     def print_variables(self,):
         """print config variables"""
@@ -44,17 +49,17 @@ class BreakoutGroups():
 
     def run(self,):
         """create breakout groups for event"""
+        log.info("beg event processing")
         self.print_variables()
-        log.info("starting event processing")
-        event = Event()
-        event.run()
-        for i, val in event.sess.sessions.items():
+        self.event = Event()
+        self.event.run()
+        for i, val in self.event.sess.sessions.items():
             print(f"Session {i:02} - {val}")
 
 
  
 if __name__ == '__main__':
-    log.info("start breakout-groups")
+    """ create breakout goups for an event"""
     bg = BreakoutGroups()
     bg.run()
     log.info("end of breakout-groups")

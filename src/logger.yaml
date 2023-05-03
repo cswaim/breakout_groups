@@ -41,24 +41,28 @@ handlers:
     level: DEBUG
     filters: [skip_infocon]
     formatter: debug
-    filename: data/logger.log
+    filename: logger.log
     mode : w
   file_rotate:
     class: logging.handlers.RotatingFileHandler
     level: DEBUG
+    filters: [skip_infocon]
     formatter: debug
-    filename: data/logger.log
-    maxBytes: 524288
+    filename: logger.log
+    maxBytes: 5120
     backupCount: 3
+    mode: a
+    delay: False
 loggers:
   info_logger:
     level: INFO
-    handlers: [console, file]
+    handlers: [console, file_rotate]
     propagate: no
   debug_logger:
     level: DEBUG
-    handlers: [console, file]
+    handlers: [console, file_rotate]
     propagate: no
 root:
   level: DEBUG
-  handlers: [console, file]
+  handlers: [console, file_rotate]
+disable_existing_loggers: False
