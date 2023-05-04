@@ -39,11 +39,9 @@ group_labels = [['group1,group2,group3,group4,group5'],
 config = None
 
 # system variables
-sys_version = '0.1'
+sys_version = '0.2'
 sys_group_algorithm = "sessions_random"
-sys_ga_class = "SessionsRandom"
-# sys_group_algorithm = "sessions_comb"
-# sys_ga_class = "SessionsCombinations"
+sys_group_algorithm_class = "SessionsRandom"
 
 
 def init():
@@ -74,9 +72,9 @@ def read_config_file(config):
 
      # if the sys_version is different, write out the new config file
     if not config.has_option('SYSTEM', 'sys_version') or sys_version != config.get('SYSTEM', 'sys_version'):
-        config = set_event_variables(config)
-        config = set_default_config(config)
-        config = write_ini(config)
+        set_event_variables(config)
+        set_default_config(config)
+        write_ini(config)
     
     # remove comments from sections to be consistent with data from read
     remove_default_comments(config)
@@ -103,6 +101,8 @@ def set_default_config(config):
     if not config.has_section('SYSTEM'):
         config.add_section('SYSTEM')                          
     config.set('SYSTEM', 'sys_version', str(sys_version))
+    config.set('SYSTEM', 'sys_group_algorithm', sys_group_algorithm)
+    config.set('SYSTEM', 'sys_group_algorithm_class', sys_group_algorithm_class)
                             
     return config
 
@@ -121,12 +121,12 @@ def write_ini(config):
     return config
     
 def set_event_variables(config):
-    """set the event variables for consistant access"""
+    """set the event variables from config for consistant access"""
     global n_attendees, attendees_list, group_size, n_groups, n_sessions
-    n_attendees = config.getint('EVENT','n_attendees')
-    group_size = config.getint('EVENT','group_size')
-    n_groups = config.getint('EVENT','n_groups')
-    n_sessions = config.getint('EVENT','n_sessions')
+    n_attendees = config.getint('EVENT','n_attendees', fallback=n_attendees)
+    group_size = config.getint('EVENT','group_size', fallback=group_size)
+    n_groups = config.getint('EVENT','n_groups', fallback=n_groups)
+    n_sessions = config.getint('EVENT','n_sessions', fallback=n_sessions)
 
     attendees_list = gen_attendees_list()
     global group_labels
@@ -134,8 +134,10 @@ def set_event_variables(config):
 
     # system parameters
     # do not set the version from the file
-    # global sys_xxx
-    # sys_xxx = config.get('SYSTEM', 'xxx')
+    global sys_group_algorithm, sys_group_algorithm_class
+    sys_group_algorithm = config.get('SYSTEM', 'sys_group_algorithm', fallback=sys_group_algorithm)
+    sys_group_algorithm_class = config.get('SYSTEM', 'sys_group_algorithm_class', fallback=sys_group_algorithm_class)
+    return config
 
 def gen_attendees_list() -> list:
     """generate the list for attendees"""
@@ -163,13 +165,21 @@ def debug_print():
     print(f"file name: {flnm}")
 
     print(config.sections())
-    print(config['GROUP_LABELS'])
 
+    # print event variables
+    print(config['EVENT'])
+    for key, val in config['EVENT'].items():
+        print(f"   {key}:{val}")
+
+    # print group labels
+    print(config['GROUP_LABELS'])
     for key, val in config['GROUP_LABELS'].items():
         print(f"   {key}:{val}")
 
-    # print("    ",config['DEFAULT']['num_members'])
-    # print(dir(config))
+    # print system variables
+    print(config['SYSTEM'])
+    for key, val in config['SYSTEM'].items():
+        print(f"   {key}:{val}")
 
 config = init()
 

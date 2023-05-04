@@ -13,11 +13,14 @@ from src import config as cfg
 class SessionsRandom():
     """ Use random to build sessions"""
 
-    def __init__(self,):
+    def __init__(self, autorun=True):
         """init"""  
         self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
+        self.interactions = {}
         self.rand_attendees = copy.copy(cfg.attendees_list)
+        if autorun:
+            self.run()
 
     def create_a_session(self, ) -> list:
         """ create a single session from the attendees list"""
@@ -49,9 +52,7 @@ class SessionsRandom():
         return self.sessions
 
 
-def run() -> list:
-    """create the sessions"""
-    sr = SessionsRandom()
-    sessions = sr.build_sessions()
-    return sessions
+    def run(self,) -> list:
+        """create the sessions"""
+        self.sessions = self.build_sessions()
     

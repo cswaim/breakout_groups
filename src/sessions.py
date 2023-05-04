@@ -5,43 +5,59 @@
 #  
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
+import sys
 import importlib
 import logging
-#log = logging.getLogger('debug_logger')
+import traceback
+from src import config as cfg
 log = logging.getLogger(__name__)
 
 class Sessions():
     """ this is the driver for the the session generations""" 
 
-    def __init__(self, algorithm, seed=None):
-        # import module
-        log.info(f"beg algorithm: {algorithm}")
-        self.algorithm = algorithm
-        #self.clsnm = clsnm
-        self.sessions = []
+    def __init__(self, seed=None, autorun=True):
+        """set up variables, import algorithm and run"""
+        log.info(f"beg algorithm: {cfg.sys_group_algorithm}/{cfg.sys_group_algorithm_class}")
+        self.algorithm = cfg.sys_group_algorithm
+        self.algorithm_class = cfg.sys_group_algorithm_class
+        self.sessions = {}
+        self.interactions = {}
         self.seed = seed
+        self.autorun = autorun
         self.load_algorithm()
         log.info(f"end of algorithm run")
  
     def load_algorithm(self, ):
         """ load the algorithm module and execute"""
-        '''
-            def __init__(self, module_name, class_name):
-                """Constructor"""
-                module = __import__(module_name)
-                my_class = getattr(module, class_name)
-                instance = my_class()
-                print instance
+        # import the src modules 
+        try:
+            s = __import__("src.{0}".format(self.algorithm))
+        except Exception as e:
+            log.error(f"import of {self.algorithm} failed")
+            log.error(traceback.format_exc())
+            raise SystemExit()
 
-                 self.amod = __import__(self.algorithm)
-                acls = getattr(self.amod, self.clsnm)
-                self.ci = acls()
-                self.sessions = self.ci.gen_groups()
-        '''
-        s = __import__("src.{0}".format(self.algorithm))
-        mod = getattr(s, self.algorithm)
-        # self.cls = getattr(mod, self.clsnm)
-        # ci = self.cls()
-        # self.sessions = ci.build_sessions()
-        self.sessions = mod.run()
+        # get the module
+        try:
+            mod = getattr(s, self.algorithm)
+        except Exception as e:
+            log.error(f"the module {self.algoritm} was not found")
+            log.error(traceback.format_exc())
+            raise SystemExit()
 
+        # get the class
+        try:
+           self.cls = getattr(mod, self.algorithm_class)
+        except Exception as e:
+            log.error(f"the class {self.algorithm_class} was not found in {self.algorithm}")
+            log.error(traceback.format_exc())
+            raise SystemExit()
+
+        # instantiate the algorithm class 
+        self.ac = self.cls(autorun=self.autorun)
+        # run the algorithm
+        if self.autorun:
+            self.ac.run()
+        self.sessions = self.ac.sessions
+        if hasattr(self.ac,'interactions'):
+            self.interactions = self.ac.interactions

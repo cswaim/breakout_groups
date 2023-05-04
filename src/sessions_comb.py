@@ -25,14 +25,15 @@ Note that the code assumes that the number of items is a multiple of the subset 
 class SessionsCombinations():
     """ Use combinations to build sessions"""
 
-    groups = []
-    sessions = {}
-    used_groups = []
-    session_attendees = []
-
-    def __init__(self,):
+    def __init__(self, autorun=True):
         """init"""  
-        self.sessions = {i:[] for i in range(1, cfg.n_sessions +1)}
+        self.groups = []
+        self.used_groups = []
+        self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
+        self.interactions = {}
+        self.session_attendees = []
+        if autorun:
+            self.run()
 
     def gen_combinations(self, attendee_list, group_size) -> None:
         """ gen all possible combinations of group_size"""
@@ -162,8 +163,6 @@ class SessionsCombinations():
         # print(f"{len(self.sessions)}: {self.sessions}")
 
 
-def run() -> list:
-    """create the sessions"""
-    sr = SessionsCombinations()
-    sessions = sr.build_sessions()
-    return sessions
+    def run(self):
+        """create the sessions"""
+        self.build_sessions()
