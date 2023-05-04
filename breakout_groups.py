@@ -40,6 +40,9 @@ class BreakoutGroups():
 
     def print_variables(self,):
         """print config variables"""
+        print(f"         algorithm: {cfg.sys_group_algorithm}")
+        print(f"   algoritim_class: {cfg.sys_group_algorithm_class}")
+        print("")
         print(f"    attendees_list: {cfg.attendees_list}")
         print(f"         attendees: {cfg.n_attendees}")
         print(f"        group_size: {cfg.group_size}")
