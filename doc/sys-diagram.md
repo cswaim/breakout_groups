@@ -23,27 +23,33 @@ Several reports are provided to analyze the effectiveness of the grouping alogri
 ```
 ## Config
 
-*import src.config as cfg*
+*`import src.config as cfg`*
 
-This module should be imported as the first application module.  The first import reads the config file (data/breakout_groups.ini) and loads the runtime values.  If the ini file does not exist, it is created with the default values.
+This module should be imported as the first application module.  The first import reads the config file (`data/breakout_groups.ini`) and loads the runtime values.  If the ini file does not exist, it is created with the default values.
 
-TODO: Add version number & grouping algrothrim parm.  When version changes, read ini file & rewrite with new information while perserving values set in parm.
+The config creates a namespace so variables can be referenced as cfg.var.  The variable is defined with its default in the namespace.  A config file, *`breakout_groups.ini`* is created on the first run if it does not exist.
+
+Any changes to the ini file in the data folder are local and override the defaults.
+
+If a new variable is added or if the variable name changes, then the version number should be updated.  This will rewrite the local ini file with the new variable.
 
 ## Sessions Class
 
 The Sessions
 
-One or two variables will be added to the config file:
+Two variables will be added to the config file:
 ```
 [SYSTEM]
-sys_group_algorithm = "mmmmmm"
+sys_group_algorithm = mmmmmm
+sys_group_algorithn_class = cccccc
 ```
 >where:
 >* mmmmmm = the grouping algorithm module name without the .py located in src
+>* cccccc = the class in the grouping algorithm module to be loaded
 
 The Sessions Class will:
 * dynamically call the sys_group_algorithm and load the class
-* call the 'run' function (this is not a method but a function) 
+* call the 'run' method of the class 
 * the module will return a dict of sessions in the format of
   ``` 
         {0:[[1,2,3],[4,5,6],....],
@@ -51,6 +57,9 @@ The Sessions Class will:
         }
     one entry for each session.
   ```
+* optionally: a dictionary of interactions will be returned.  An interaction is a dictionary
+      with an entree for each attendee with a Counter.  The counter contains the number of interactions
+      with other participants
 
 
 ### Design Approach (maybe - to be reviewed)
@@ -65,6 +74,7 @@ a second approach is to have the sessions class load the grouping alogrithm modu
       Sessions <|-- Random2
       Sessions <|-- Perfect
       Sessions : +String grouping algorithm
+      Sessions : +String grouping algorithm class
       Sessions : +Dict list of groups by session
       Sessions : -load_algorithm() Dict
       class Random1{
@@ -82,5 +92,7 @@ The implementation of this concept can be done multiple ways.  Each approach ass
 
 * creating an interface class and subclassing based on a parameter
 * importing the appropriate module based on the parameter
+
+See *`src/sessions_model.py`* for a sample of the session algorithm
 
 **TODO**: Pass exceptions or constraints to the grouping algorithm to modify the grouping interactions.  To be defined.
