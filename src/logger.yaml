@@ -1,0 +1,68 @@
+# In Python 3.2, a new means of configuring logging has been introduced, using dictionaries to hold configuration information. This provides a superset of the functionality of the config-file-based approach outlined above, and is the recommended configuration method for new applications and deployments.
+
+# to use yaml
+# pip install pyyaml
+
+# import yaml
+
+# Load the config file
+# with open('logging_config.yaml', 'rt') as f:
+#     config = yaml.safe_load(f.read())
+
+# # Configure the logging module with the config file
+# logging.config.dictConfig(config)
+
+version: 1
+formatters:
+  console:
+    format: '{asctime}.{msecs:0<3.0f} {levelname:8s} - {message}'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+    style: '{'
+  debug_old_style:
+    format: '%(asctime)s.%(msecs)03d - %(module)s:%(lineno)s - %(levelname)s - %(message)s'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+  debug:
+    format: '{asctime}.{msecs:0<3.0f},{module}:{lineno:>04d}, {levelname:8s}, {message}'
+    datefmt: '%Y-%m-%d %H:%M:%S'
+    style: '{'
+
+filters:
+  skip_infocon:
+    (): src.logger_filters.SkipInfocon
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: INFO
+    formatter: console
+    stream: ext://sys.stdout
+  file:
+    class: logging.FileHandler
+    level: DEBUG
+    filters: [skip_infocon]
+    formatter: debug
+    filename: logger.log
+    mode : w
+  file_rotate:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    filters: [skip_infocon]
+    formatter: debug
+    filename: logger.log
+    maxBytes: 5120
+    backupCount: 3
+    mode: a
+    delay: False
+loggers:
+  info_logger:
+    level: INFO
+    handlers: [console, file_rotate]
+    propagate: no
+  debug_logger:
+    level: DEBUG
+    handlers: [console, file_rotate]
+    propagate: no
+root:
+  level: DEBUG
+  handlers: [console, file_rotate]
+disable_existing_loggers: False

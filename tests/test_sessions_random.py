@@ -15,11 +15,11 @@ from src.sessions_random import SessionsRandom
 
 def test_init():
     """test Sessions init"""
-    sc = SessionsRandom()
+    sc = SessionsRandom(autorun=True)
     assert len(sc.sessions) == cfg.n_sessions
 
 
-@pytest.mark.skip(reason="Need to refactor this test")
+# pytest.mark.skip(reason="Need to refactor this test")
 def test_check_sess_attendees(get_config):
     """test for check_sess_attendees"""
     config_values = get_config
@@ -29,7 +29,7 @@ def test_check_sess_attendees(get_config):
     for k, v in sc.sessions.items():
         attend_list = [e for i in v for e in i]
         attend_list.sort()
-        assert attend_list in good_session
+        assert attend_list == good_session
 
 
 def test_build_sessions(config_EVENTs):

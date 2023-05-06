@@ -68,7 +68,7 @@ HANDY PYTEST FEATURES
    "setup_directories"
 
 """   
-
+import os
 from src import config as cfg
 import pytest
 
@@ -88,9 +88,9 @@ def test_make_temp_directory(tmp_path):
 # ToDo Convert to a fixture so that config info is available everywhere
 def test_default_config(config_EVENTs, tmp_path):
    """test set_default_config """
-   base_dir = tmp_path / "breakout_groups"
+   base_dir = tmp_path / "breakout_groups" 
    base_dir.mkdir()
-   cfg.datadir = base_dir
+   cfg.datadir = str(base_dir) + os.sep
    # load the default values
    config = cfg.read_config_file(cfg.config)
    # When experienting with different config value, 
@@ -107,6 +107,47 @@ def test_build_session_labels():
    res2 = ['Portales', 'Santa Fe', 'Taos', 'Chama', 'Cuba']
    assert cfg.group_labels[0] == res0 
    assert cfg.group_labels[2] == res2 
+
+def test_adding_new_data_item(config_EVENTs, tmp_path):
+   """test add new data item  """
+   print("test adding")
+   def prt_file(base_dir, flnm):
+      fp = base_dir.joinpath(flnm)
+      with open(base_dir.joinpath(flnm), 'r') as cf:
+         fdata = cf.read()
+      print(fdata)
+
+   base_dir = tmp_path / "breakout_groups" 
+   base_dir.mkdir()
+   cfg.datadir = str(base_dir) + os.sep
+   # load the default values
+   config = cfg.read_config_file(cfg.config)
+   orig_version = config.get("SYSTEM", "sys_version")
+   # print("initial default ini file")
+   # prt_file(base_dir, cfg.flnm) 
+
+   # remove items from config & change version
+   new_version = "0.0.0"
+   config.remove_option('EVENT', 'n_attendees')
+   config.remove_option("SYSTEM", "sys_group_algorithm")
+   config.set("SYSTEM","sys_version", new_version)
+   config = cfg.write_ini(config)
+   config = cfg.set_event_variables(config)
+   # print("ini file with missing variables")
+   # prt_file(base_dir, cfg.flnm)
+   # confirm ini file version has been reset and n_attendees removed
+   assert(config.has_option("EVENT", "n_attendees") == False)
+   assert(config.has_option("SYSTEM", "sys_group_algorithm") == False)
+
+   # read and build missing options
+   config = cfg.read_config_file(cfg.config)
+   # print("rebuild with new variable")
+   # prt_file(base_dir, cfg.flnm)
+   # confirm options are added back when missing
+   assert(orig_version == cfg.sys_version)
+   assert(config.has_option("EVENT", "n_attendees") == True)
+   assert(config.has_option("SYSTEM", "sys_group_algorithm") == True)
+
 
 @pytest.mark.skip(reason="pending")
 def test_remove_default_comments(config_defaults):

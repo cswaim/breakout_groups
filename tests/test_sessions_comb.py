@@ -18,7 +18,7 @@ import pytest
 
 def test_init(config_EVENTs):
     """test Sessions init"""
-    sc = SessionsCombinations()
+    sc = SessionsCombinations( autorun=False)
     assert len(sc.sessions) == cfg.n_sessions
 
 @pytest.mark.skip(reason="build session runs too long")
