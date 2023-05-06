@@ -75,7 +75,7 @@ def read_config_file(config):
 
      # if the sys_version is different, write out the new config file
     if not config.has_option('SYSTEM', 'sys_version') or sys_version != config.get('SYSTEM', 'sys_version'):
-        config = set_event_variables(config)
+        set_event_variables(config)
         config = set_default_config(config)
         config = write_ini(config)
     
