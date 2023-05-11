@@ -9,7 +9,7 @@ on:
   push:
     branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "design-01", "design-02" ]
 
 permissions:
   contents: read
