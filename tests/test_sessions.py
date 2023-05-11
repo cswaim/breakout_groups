@@ -14,7 +14,7 @@ import pytest
 def test_init(config_EVENTs):
     """test Sessions init"""
     sc = Sessions(autorun=False)
-    assert len(sc.sessions) == cfg.n_sessions
+    assert len(sc.sessions) == 0
 
 def test_load_algorithm(config_EVENTs):
     """test check_sess_attendees"""

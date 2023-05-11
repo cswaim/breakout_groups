@@ -59,7 +59,6 @@ class BreakoutGroups():
         for i, val in self.event.sess.sessions.items():
             print(f"Session {i:02} - {val}")
 
-
  
 if __name__ == '__main__':
     """ create breakout goups for an event"""

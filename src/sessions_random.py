@@ -1,9 +1,12 @@
 import random
 import copy
 from src import config as cfg
+import logging
+log = logging.getLogger(__name__)
 
 '''
-    Build session dictionary 1 thru x (not 0 offset)
+    use variables from cfg
+    Build session dictionary 0 thru x 
     Populate session dictionary by randomly shuffling the attendees list
     the sessions dictionary contains the outbreak sessions
 
@@ -13,7 +16,7 @@ from src import config as cfg
 class SessionsRandom():
     """ Use random to build sessions"""
 
-    def __init__(self, autorun=True):
+    def __init__(self, autorun=False) -> None:
         """init"""  
         self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
@@ -52,7 +55,8 @@ class SessionsRandom():
         return self.sessions
 
 
-    def run(self,) -> list:
+    def run(self,) -> None:
         """create the sessions"""
+        log.info("running sessions_random")
         self.sessions = self.build_sessions()
     

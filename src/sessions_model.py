@@ -1,6 +1,8 @@
 
 import copy
 from src import config as cfg
+import logging
+log = logging.getLogger(__name__)
 
 """
     Run parameters are passed in thru the config module
@@ -47,5 +49,6 @@ class SessionsModel():
             This must create a self.sessions attribute and optionally, can create 
             an interactions attribute
         """
+        log.info("running sessions model")
         self.sessions = self.build_sessions()
     

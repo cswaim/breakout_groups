@@ -25,6 +25,9 @@ class Sessions():
         self.seed = seed
         self.autorun = autorun
         self.load_algorithm()
+        # run the algorithm
+        if self.autorun:
+            self.run_algorithm()
         log.info(f"end of algorithm run")
  
     def load_algorithm(self, ):
@@ -54,10 +57,12 @@ class Sessions():
             raise SystemExit()
 
         # instantiate the algorithm class 
-        self.ac = self.cls(autorun=self.autorun)
-        # run the algorithm
-        if self.autorun:
-            self.ac.run()
+        self.ac = self.cls()
+
+    def run_algorithm(self,):
+        """run the algorithm"""
+        self.ac.run()
+        # get the sessesions and interactions from algorithm
         self.sessions = self.ac.sessions
         if hasattr(self.ac,'interactions'):
             self.interactions = self.ac.interactions
