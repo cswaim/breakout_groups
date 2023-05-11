@@ -1,6 +1,6 @@
-"""Represents a card to sort people for each breakout.
-    Every card, just like every person, has a name.
+"""Represents a card to sort attendees for each breakout.
     For every breakout session, the card specifies the group.
+    the interactions counter captures how many times the attendee interacts with other attendees
 
 """
 
@@ -10,7 +10,9 @@ from collections import Counter
 class Card():
     """the card object"""
 
-    def __init__(self) -> None:
+    def __init__(self, id) -> None:
+        self.id = id
+        self.sess_labels = []
         self.name = None
         self.breakout_groups = []
         self.card_interactions = Counter()
@@ -22,7 +24,7 @@ class Card():
         """Creates all the cards for the event."""
         all_cards_for_event = []
         for attendee_number in range(1, n_attendees + 1):
-            card = Card()
+            card = Card(attendee_number)
             card.name = "Person" + str(attendee_number)
             session= {'name' : card.name}
             for breakout_group_number in range(1, n_groups + 1):
@@ -39,6 +41,27 @@ class Card():
         # get_config.config.getint('DEFAULT','attendees'):
         while True:
             yield random.randint(1,n_groups)
+
+    def convert_grp_to_dict(self, group):
+        """convert the group to a dict for the counter update
+            [1,3,7] becomes {1:1, 3:1, 7:1} the key is the card number
+                & the value is the interaction count
+        """
+        # build update dict
+        upd_dict ={}
+        for x in group:
+            upd_dict[x] = 1
+        return upd_dict
+
+    def update_cards(self, upd_dict):
+        """update an individual card interactions from a group formated as dic"""
+        if type(upd_dict) != dict:
+            upd_dict = self.convert_grp_to_dict(upd_dict)
+        self.card_interactions.update(upd_dict)
+
+    def update_sess_labels(self, label) -> None:
+        """append the label to the sess label list"""
+        self.sess_labels.append(label)
 
     def print_the_cards_by_person(self, all_cards=None):
         " With catchy labels like continents, cars, and ski areas"

@@ -6,7 +6,7 @@ import pytest
 """Unit tests for Card methods."""
 
 def test_init():
-    card = Card()
+    card = Card(1)
     assert card.name is None
     assert card.breakout_groups == []
 
@@ -16,7 +16,7 @@ def test_random_grouping_algorithm(get_random_seed):
     seed = get_random_seed
     groups = 5
     results = []
-    card_1 = Card()
+    card_1 = Card(1)
     num_gen = card_1.random_grouping_algorithm(n_groups=groups, seed=seed)
     while num < 30:
         num +=1
@@ -30,7 +30,7 @@ def test_random_grouping_algorithm(get_random_seed):
 
 
 def test_cards_for_event(get_config, get_random_seed):
-    card_1 = Card()
+    card_1 = Card(1)
     config_values = get_config
     n_attendees = config_values["n_attendees"]
     n_groups = config_values['n_groups']
@@ -46,12 +46,12 @@ def test_cards_for_event(get_config, get_random_seed):
    
 
 def test_print_the_cards_by_person(event_cards):
-    card_1 = Card()
+    card_1 = Card(1)
     result = card_1.print_the_cards_by_person(event_cards)
     assert result is None
 
 
 def test_print_the_cards_by_session(event_cards):
-    card_1 = Card()
+    card_1 = Card(1)
     result = card_1.print_the_cards_by_session(event_cards)
     assert result is None

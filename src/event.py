@@ -1,6 +1,6 @@
 from collections import Counter 
 import src.config as cfg
-from src.card_child import CCard as Card
+from src.card import Card
 from src.sessions import Sessions
 
 """Conduct a event."""

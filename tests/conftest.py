@@ -63,7 +63,7 @@ def get_random_seed():
 @pytest.fixture
 def event_cards(get_config, get_random_seed):
     config_values = get_config
-    card_1 = Card()
+    card_1 = Card(1)
     n_attendees = config_values["n_attendees"]
     n_groups = config_values['n_groups']
     grouping_algorithm = card_1.random_grouping_algorithm(
