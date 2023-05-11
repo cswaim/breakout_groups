@@ -25,7 +25,7 @@ Note that the code assumes that the number of items is a multiple of the subset 
 class SessionsCombinations():
     """ Use combinations to build sessions"""
 
-    def __init__(self, autorun=True):
+    def __init__(self, autorun=False):
         """init"""  
         self.groups = []
         self.used_groups = []

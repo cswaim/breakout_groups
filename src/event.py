@@ -12,7 +12,7 @@ class Event():
         self.all_card_interactions = []
         self.cards = []     # list of all card objects
         self.build_cards(cfg.n_attendees)
-        self.sess = Sessions(seed=seed)
+        self.sess = Sessions(seed=seed, autorun=True)
         self.sessions = self.sess.sessions
         self.interactions = self.sess.interactions
         #self.sess.build_sessions(seed)
