@@ -57,7 +57,7 @@ class Sessions():
             raise SystemExit()
 
         # instantiate the algorithm class 
-        self.ac = self.cls()
+        self.ac = self.cls(seed=self.seed)
 
     def run_algorithm(self,):
         """run the algorithm"""

@@ -14,33 +14,8 @@ class Card():
         self.id = id
         self.sess_labels = []
         self.name = None
-        self.breakout_groups = []
+        # self.breakout_groups = []
         self.card_interactions = Counter()
-
-    def cards_for_event(self, 
-                          n_attendees=None, 
-                          n_groups=None,
-                          grouping_algorithm=None):
-        """Creates all the cards for the event."""
-        all_cards_for_event = []
-        for attendee_number in range(1, n_attendees + 1):
-            card = Card(attendee_number)
-            card.name = "Person" + str(attendee_number)
-            session= {'name' : card.name}
-            for breakout_group_number in range(1, n_groups + 1):
-                session['session' + str(breakout_group_number)] = \
-                    'group' + str(next(grouping_algorithm))
-            all_cards_for_event.append(session)
-
-        return all_cards_for_event
-    
-    def random_grouping_algorithm(self, n_groups=None, seed=None):
-        # Placement in a group is from a uniformly distributed
-        # randum num between 1 and the number of groups
-        random.seed(seed)
-        # get_config.config.getint('DEFAULT','attendees'):
-        while True:
-            yield random.randint(1,n_groups)
 
     def convert_grp_to_dict(self, group):
         """convert the group to a dict for the counter update
@@ -63,23 +38,27 @@ class Card():
         """append the label to the sess label list"""
         self.sess_labels.append(label)
 
-    def print_the_cards_by_person(self, all_cards=None):
-        " With catchy labels like continents, cars, and ski areas"
+    def print_the_cards_by_person(self, all_cards=None) -> int:
+        " print the cards by card id"
+        card_cnt = 0
         for card in all_cards:
-            print(card['name'])
-            for session in card.keys():
-                if 'session' in session:
-                    print(f"   {session}: {card[session]}")
+            card_cnt += 1
+            print(card.id)
+            for n, label in enumerate(card.sess_labels):
+                    print(f"   Session {n}: {label}")
+        return card_cnt
 
 
-    def print_the_cards_by_session(self, all_cards=None):
+    def print_the_cards_by_session(self, sessions, all_cards=None):
+        # Each session will have all cards, just in different order
+        
         # Gather the persons by session
 
+
         # Show each session
-        sessions = []
-        for card in all_cards:
-            for session in card.keys():
-                if 'session' in session:
-                    pass
+        # for card in all_cards:
+        #     for session in card.keys():
+        #         if 'session' in session:
+        #             pass
 
         return None

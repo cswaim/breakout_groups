@@ -16,13 +16,13 @@ import pytest
 
 """Unit tests for Sessions methods."""
 
-def test_init(config_EVENTs):
+def test_init(config_event_defaults):
     """test Sessions init"""
     sc = SessionsCombinations( autorun=False)
     assert len(sc.sessions) == cfg.n_sessions
 
 @pytest.mark.skip(reason="build session runs too long")
-def test_check_sess_attendees(config_EVENTs):
+def test_check_sess_attendees(config_event_defaults):
     """test check_sess_attendees"""
     print_cfg()
     sc = SessionsCombinations()
@@ -35,7 +35,7 @@ def test_check_sess_attendees(config_EVENTs):
         assert good_session == attnd_list
 
 @pytest.mark.skip(reason="build sess runs too long")
-def test_build_sessions(config_EVENTs):
+def test_build_sessions(config_event_defaults):
     """ test build sessions"""
     print_cfg()
 

@@ -1,4 +1,5 @@
 from collections import Counter 
+from itertools import chain
 import src.config as cfg
 from src.card import Card
 from src.sessions import Sessions
@@ -10,20 +11,19 @@ class Event():
 
     def __init__(self, seed=None) -> None:
         self.all_card_interactions = []
-        self.cards = []     # list of all card objects
-        self.build_cards(cfg.n_attendees)
+        self.all_cards = []     # list of all card objects
+        self.init_cards(cfg.n_attendees)
+        # instantiate class
         self.sess = Sessions(seed=seed, autorun=True)
         self.sessions = self.sess.sessions
         self.interactions = self.sess.interactions
-        #self.sess.build_sessions(seed)
 
-
-    def build_cards(self, nc):
+    def init_cards(self, nc):
         for i in range(nc):
-            self.cards.append(Card(i))
+            self.all_cards.append(Card(i))
 
-    def update_card_interactions(self, ):
-        """ update individual card iteractions"""
+    def update_cards(self, ):
+        """ update individual card iteractions and labels"""
         # k is session num,ber v is group list
         for k, v in self.sess.sessions.items():
             #
@@ -31,19 +31,20 @@ class Event():
 
             # update card with group info, n grp num and g is group list of attendees
             for n, g in enumerate(v):
-                upd_dict = self.cards[0].convert_grp_to_dict(g)
+                upd_dict = self.all_cards[0].convert_grp_to_dict(g)
                 for c in g:
-                    self.cards[c].update_cards(upd_dict)
+                    self.all_cards[c].update_cards(upd_dict)
                     # set the group label, if label not found, use default
                     try:
                         glabel = cfg.group_labels[k][n]
                     except:
                         glabel = f"group{n}"
-                    self.cards[c].update_sess_labels(glabel)
+                    self.all_cards[c].update_sess_labels(glabel)
+
 
     def build_all_card_interactions(self,):
         """build a list of all the interactions from all cards """
-        for c in self.cards:
+        for c in self.all_cards:
             self.all_card_interactions.append(c.card_interactions)
 
 
@@ -113,5 +114,5 @@ class Event():
 
     def run(self, ):
         """run for event"""
-        self.update_card_interactions()
+        self.update_cards()
         self.build_all_card_interactions()

@@ -16,12 +16,14 @@ log = logging.getLogger(__name__)
 class SessionsRandom():
     """ Use random to build sessions"""
 
-    def __init__(self, autorun=False) -> None:
+    def __init__(self, seed=None, autorun=False) -> None:
         """init"""  
         self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
         self.interactions = {}
         self.rand_attendees = copy.copy(cfg.attendees_list)
+        self.seed = seed
+        random.seed(seed)
         if autorun:
             self.run()
 
@@ -46,9 +48,8 @@ class SessionsRandom():
 
         return sess
 
-    def build_sessions(self, seed=None) -> list:
+    def build_sessions(self,) -> list:
         """build sessions"""
-        random.seed(seed)
         for i in  self.sessions.keys():
             sess = self.create_a_session()
             self.sessions[i] = sess

@@ -22,18 +22,18 @@ def test_init():
     assert bg.n_attendees == cfg.n_attendees
 
 
-def test_print_variables(config_EVENTs):
+def test_print_variables(config_event_defaults):
     """test of print of event info"""
     bg = BreakoutGroups()
     bg.print_variables()
     assert(True == True)
 
 
-def test_run(tmp_path, config_EVENTs):
+def test_run(tmp_path, config_event_defaults, get_random_seed):
     """ test run with default data"""
     base_dir = tmp_path / "breakout_groups" 
     base_dir.mkdir()
     cfg.datadir = str(base_dir) + os.sep
-    bg = BreakoutGroups()
+    bg = BreakoutGroups(get_random_seed)
     bg.run()
     assert len(bg.event.sess.sessions) == cfg.n_sessions 
