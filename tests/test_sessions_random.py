@@ -32,7 +32,7 @@ def test_check_sess_attendees(get_config):
         assert attend_list == good_session
 
 
-def test_build_sessions(config_EVENTs):
+def test_build_sessions(config_event_defaults):
          
     """ test build sessions"""
     sc = SessionsRandom()

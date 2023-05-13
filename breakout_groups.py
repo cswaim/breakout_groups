@@ -27,7 +27,7 @@ class BreakoutGroups():
     n_groups = 0
     n_sessions = 0
 
-    def __init__(self) -> None:
+    def __init__(self, seed=None) -> None:
         """setup"""
         self.n_attendees = cfg.n_attendees
         self.group_size = cfg.group_size
@@ -35,6 +35,7 @@ class BreakoutGroups():
         self.n_sessions = cfg.n_sessions
         self.attendees_list = cfg.attendees_list
         self.event = None
+        self.seed = seed
         logger_setup.run()
         log.info("beg breakout-groups")
 
@@ -54,10 +55,9 @@ class BreakoutGroups():
         """create breakout groups for event"""
         log.info("beg event processing")
         self.print_variables()
-        self.event = Event()
+        self.event = Event(self.seed)
         self.event.run()
-        for i, val in self.event.sess.sessions.items():
-            print(f"Session {i:02} - {val}")
+        self.event.show_sessions()
 
  
 if __name__ == '__main__':

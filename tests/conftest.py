@@ -2,6 +2,7 @@ import pytest
 import os
 from src import config as cfg
 from src.card import Card
+from src.event import Event
 
 """ Central repository for Pytest fixtures for breakout groups."""
 
@@ -40,7 +41,7 @@ def get_config():
     return config_values
 
 @pytest.fixture
-def config_EVENTs():
+def config_event_defaults():
     """set cfg variables to EVENT values"""
     cfg.n_attendees = 11
     cfg.n_groups = 3
@@ -61,15 +62,17 @@ def get_random_seed():
     return 3331
 
 @pytest.fixture
-def event_cards(get_config, get_random_seed):
-    config_values = get_config
-    card_1 = Card()
-    n_attendees = config_values["n_attendees"]
-    n_groups = config_values['n_groups']
-    grouping_algorithm = card_1.random_grouping_algorithm(
-        n_groups=n_groups, seed=get_random_seed)
-    
-    return card_1.cards_for_event(
-        n_attendees=n_attendees, 
-        n_groups=n_groups,
-        grouping_algorithm = grouping_algorithm)
+def event_cards(config_event_defaults, get_random_seed):
+    #config_values = get_config
+    #card_1 = Card(1)
+    event = Event(seed=get_random_seed)
+    event.run()
+    n_attendees = cfg.n_attendees
+    n_groups = cfg.n_groups
+    # grouping_algorithm = {0:[[1, 6, 8], [0, 3, 5, 4], [2, 7, 9]],
+    #                       1:[[0, 5, 6, 8], [1, 2, 7], [3, 4, 9]],
+    #                       2:[[1, 4, 7, 3], [2, 6, 8], [0, 5, 9]],
+    #                       3:[[3, 5, 9, 4], [1, 6, 8], [0, 2, 7]],
+    #                     }
+
+    return event.all_cards

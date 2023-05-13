@@ -86,7 +86,7 @@ def test_make_temp_directory(tmp_path):
 
 
 # ToDo Convert to a fixture so that config info is available everywhere
-def test_default_config(config_EVENTs, tmp_path):
+def test_default_config(config_event_defaults, tmp_path):
    """test set_default_config """
    base_dir = tmp_path / "breakout_groups" 
    base_dir.mkdir()
@@ -108,7 +108,7 @@ def test_build_session_labels():
    assert cfg.group_labels[0] == res0 
    assert cfg.group_labels[2] == res2 
 
-def test_adding_new_data_item(config_EVENTs, tmp_path):
+def test_adding_new_data_item(config_event_defaults, tmp_path):
    """test add new data item  """
    print("test adding")
    def prt_file(base_dir, flnm):

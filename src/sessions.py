@@ -15,7 +15,7 @@ log = logging.getLogger(__name__)
 class Sessions():
     """ this is the driver for the the session generations""" 
 
-    def __init__(self, seed=None, autorun=True):
+    def __init__(self, seed=None, autorun=False):
         """set up variables, import algorithm and run"""
         log.info(f"beg algorithm: {cfg.sys_group_algorithm}/{cfg.sys_group_algorithm_class}")
         self.algorithm = cfg.sys_group_algorithm
@@ -28,7 +28,7 @@ class Sessions():
         # run the algorithm
         if self.autorun:
             self.run_algorithm()
-        log.info(f"end of algorithm run")
+        log.info(f"end algorithm run")
  
     def load_algorithm(self, ):
         """ load the algorithm module and execute"""
@@ -57,7 +57,7 @@ class Sessions():
             raise SystemExit()
 
         # instantiate the algorithm class 
-        self.ac = self.cls()
+        self.ac = self.cls(seed=self.seed)
 
     def run_algorithm(self,):
         """run the algorithm"""
