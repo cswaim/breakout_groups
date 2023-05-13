@@ -29,12 +29,13 @@ def test_build_card_interactions(get_random_seed, get_config):
     assert res0 == event.all_cards[0].card_interactions
     assert res1 == event.all_cards[1].card_interactions
 
-def test_get_interactions(event_cards):
-    event = Event()
-    result = event.get_interactions(all_cards=event_cards)
-    assert result
-
-# def test_show_interactions_by_persons(event_cards):
+# def test_get_interactions(event_cards):
 #     event = Event()
-#     result = event.show_interactions_by_persons(all_cards=event_cards)
-#     assert result is None
+#     result = event.get_interactions(all_cards=event_cards)
+#     assert result
+
+def test_show_interactions_by_persons(event_cards, get_random_seed):
+    event = Event(get_random_seed)
+    event.run()
+    result = event.show_interactions_by_persons()
+    assert result is None

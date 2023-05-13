@@ -57,8 +57,7 @@ class BreakoutGroups():
         self.print_variables()
         self.event = Event(self.seed)
         self.event.run()
-        for i, val in self.event.sess.sessions.items():
-            print(f"Session {i:02} - {val}")
+        self.event.show_sessions()
 
  
 if __name__ == '__main__':
