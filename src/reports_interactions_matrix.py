@@ -50,7 +50,7 @@ class InteractionsMatrix():
         # set the lower half of df to 0
         for i, row in df.iterrows():
             for c in range(0, i):
-                df.iloc[i][c] = 0
+                df.iloc[i,c] = 0
         
         print(df2)
         print("=================")
