@@ -45,15 +45,18 @@ class InteractionsMatrix():
     def gen_matrix(self,):
         
         df = pd.DataFrame.from_dict(self.all_interactions)
-        df2 = pd.DataFrame.from_dict(self.all_interactions)
 
         # set the lower half of df to 0
         for i, row in df.iterrows():
+            # set diagonal to zero
+            df.iloc[i, i] = 0
+            # set lower half to zero
             for c in range(0, i):
                 df.iloc[i,c] = 0
         
-        print(df2)
         print("=================")
+        df=df.replace(0,"")
+
         print(df)
         print("=================")
         # index = df.index
@@ -63,8 +66,7 @@ class InteractionsMatrix():
             
         df=df.replace(0,np.NaN)
         df.style.background_gradient(cmap=cm,vmin=0,vmax=cfg.group_size).highlight_null('black')
-        print(df)
-
+        # print(df)
 
     def run(self,):
         self.gen_matrix()
