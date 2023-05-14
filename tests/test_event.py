@@ -4,11 +4,10 @@ from src.event import Event
 from collections import Counter
 import pytest
 
-def test_event(get_config):
-    config_values = get_config
-    event = Event()
-    assert event.all_card_interactions == []
-    assert len(event.all_cards) == config_values['n_attendees']
+def test_event(config_event_defaults, get_random_seed):
+    event = Event(get_random_seed)
+    assert event.all_card_interactions == {}
+    assert len(event.all_cards) == cfg.n_attendees
 
 def test_build_card_interactions(get_random_seed, get_config):
     config_values = get_config
