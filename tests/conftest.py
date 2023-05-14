@@ -58,6 +58,7 @@ def config_event_defaults():
     cfg.sys_group_algorithm_class = 'SessionsRandom'
     
     """
+
     0:  ['0:4', '1:1', '2:0', '3:2', '4:0', '5:2', '6:2', '7:1', '8:0', '9:2', '10:0']
     1:  ['0:1', '1:4', '2:2', '3:1', '4:1', '5:1', '6:0', '7:3', '8:0', '9:1', '10:0']
     2:  ['0:0', '1:2', '2:4', '3:0', '4:3', '5:1', '6:1', '7:1', '8:2', '9:0', '10:1']
@@ -96,6 +97,7 @@ def config_event_defaults():
         }
     # all_cards is a list of all card objects...can not manually create
     cfg.all_cards = []
+
     return cfg
 
 @pytest.fixture

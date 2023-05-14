@@ -56,6 +56,7 @@ class InteractionsMatrix():
         
         print("=================")
         df=df.replace(0,"")
+
         print(df)
         print("=================")
         # index = df.index
@@ -66,7 +67,6 @@ class InteractionsMatrix():
         df=df.replace(0,np.NaN)
         df.style.background_gradient(cmap=cm,vmin=0,vmax=cfg.group_size).highlight_null('black')
         # print(df)
-
 
     def run(self,):
         self.gen_matrix()
