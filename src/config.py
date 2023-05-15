@@ -35,13 +35,18 @@ group_labels = [['group1,group2,group3,group4,group5'],
                 ['Elbert,Massive,Harvard,Blanca,La Plata'],
                ] 
 
-# config obj
-config = None
-
 # system variables
 sys_version = '0.2'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
+
+
+# config obj
+config = None
+# variables calculated by event 
+sessions = {}
+all_card_interactions = {}
+all_cards = []
 
 
 def init():

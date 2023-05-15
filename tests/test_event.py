@@ -5,28 +5,40 @@ from collections import Counter
 import pytest
 
 def test_event(config_event_defaults, get_random_seed):
+    """test setup of an event"""
     event = Event(get_random_seed)
     assert event.all_card_interactions == {}
     assert len(event.all_cards) == cfg.n_attendees
 
-def test_build_card_interactions(get_random_seed, get_config):
-    config_values = get_config
-    # Test results assume a certain configuration
-    if (    (config_values['n_attendees'] != 30)  or \
-            (config_values['group_size'] != 6)  or \
-            (config_values['n_groups'] != 5)  or \
-            (config_values['sessions'] != 5) \
-        ):
-        pytest.skip("For this configuration expected values are unknown")
+def test_build_card_interactions(get_random_seed, config_event_defaults):
+    """ test build tnteractions """
     event = Event(seed=get_random_seed)
     event.update_cards()
-    # breakpoint()
-    res0 = Counter({0: 5, 19: 3, 3: 2, 22: 2, 20: 2, 25: 2, 18: 2, 6: 2, \
-        7: 1, 13: 1, 26: 1, 21: 1, 1: 1, 27: 1, 15: 1, 12: 1, 17: 1, 29: 1})
-    res1 = Counter({1: 5, 18: 3, 23: 2, 24: 2, 20: 2, 22: 2, \
-        16: 1, 17: 1, 21: 1, 25: 1, 9: 1, 11: 1, 29: 1, 0: 1, 27: 1, 7: 1, 12: 1, 3: 1, 13: 1, 28: 1})
+    res0 = Counter({0:4, 1:1, 3:2, 5:2, 6:2, 7:1, 9:2})
+    res1 = Counter({0:1, 1:4, 2:2, 3:1, 4:1, 5:1, 7:3, 9:1})
     assert res0 == event.all_cards[0].card_interactions
     assert res1 == event.all_cards[1].card_interactions
+
+    # verify interactions are within range
+    i_min = cfg.group_size * cfg.n_sessions
+    max_grp_size = 0
+    for k, v in cfg.sessions.items():
+        mgs = len(max(v, key=len))
+        if mgs > max_grp_size:
+            max_grp_size = mgs   
+    i_max = max_grp_size * cfg.n_sessions
+    interaction_limit_errors = []
+    for k, v in cfg.all_card_interactions.items():
+        n_interact = v.total()
+        if i_min <= n_interact <= i_max:
+            continue
+        else:
+            interaction_limit_errors.append(f"interaction {k} : {n_interact} is < {i_min} or > {i_max}")
+    if interaction_limit_errors:
+        for err in interaction_limit_errors:
+            print(err)
+    assert [] == interaction_limit_errors
+    
 
 # def test_get_interactions(event_cards):
 #     event = Event()

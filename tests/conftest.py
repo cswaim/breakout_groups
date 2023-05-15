@@ -95,8 +95,12 @@ def config_event_defaults():
         2 : [[3, 5, 9, 0], [1, 2, 7], [4, 6, 8, 10]],
         3 : [[2, 4, 6, 8], [0, 1, 7], [3, 5, 9, 10]],
         }
-    # all_cards is a list of all card objects...can not manually create
+    # all_cards is a list of all card objects...labels have not been added
     cfg.all_cards = []
+    for i in range(cfg.n_attendees):
+        card = Card(i)
+        card.card_interactions = cfg.all_card_interactions[i]
+        cfg.all_cards.append(card)
 
     return cfg
 
