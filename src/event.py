@@ -42,44 +42,10 @@ class Event():
                         glabel = f"group{n}"
                     self.all_cards[c].update_sess_labels(glabel)
 
-
     def build_all_card_interactions(self,):
         """build a list of all the interactions from all cards """
         for c in self.all_cards:
-            self.all_card_interactions[c.id] = c.card_interactions
-
-
-    # def get_interactions(self,all_cards=None):
-    #     """Create dictionary of interactions among all attendees
-    #        where the key is the card id.
-        
-    #     For every card id ...
-    #        check for interaction with every other card id ...
-    #           during every session.
-
-    #     When an interaction between two cards
-    #       in an a session group is found, record that in a counter.
-        
-    #     """
-    #     interact = {}
-    #     # For every person attending the event ...
-    #     for person in all_cards:
-    #         interact[person.name] = []
-    #         sessions = [k for k in person.keys() if "session" in k]
-
-    #         # or possible interaction with every other person
-    #         for person_other in all_cards:
-    #             if person['name'] == person_other['name']:
-    #                 continue
-
-    #             # Will these two people meet in a session?
-    #             # If so, store that in
-    #             for session in sessions:
-    #                 if person[session] == person_other[session]:
-    #                     interact[person['name']].append(person_other['name'])
-
-    #     return interact
-    
+            self.all_card_interactions[c.id] = c.card_interactions   
 
     def show_cards(self,all_cards=None):
         # ToDo convert input to a pandas dataframe and

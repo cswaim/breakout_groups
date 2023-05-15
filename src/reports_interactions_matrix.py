@@ -23,15 +23,7 @@ class InteractionsMatrix():
 
     def build_interactions(self,):
         """create interactions dic with all counts"""
-        #""" convert interactions counter to list"""
-        # interactions = []
-        # for k, v in cfg.all_card_interactions.items():
-        #     ia = []
-        #     for i in range(cfg.n_attendees):
-        #         ia.append(f"{i}:{v[i]}")
-        #     interactions.append([k,ia])
-        #     #print(f"{k}:  {ia}") 
-        # return interactions
+
         interactions = {}
         for k, v in cfg.all_card_interactions.items():
             #ia = {}
@@ -68,8 +60,28 @@ class InteractionsMatrix():
         df.style.background_gradient(cmap=cm,vmin=0,vmax=cfg.group_size).highlight_null('black')
         # print(df)
 
+     
+    def show_ascii_histogram(self,):
+        """Simple horizontal histogram of attendee interactions"""
+        # Count the number of interactions that have a alue of 
+        # 0, 1, etc
+        # Crete a simple histogram to show the distribution
+        # breakpoint()
+        from collections import Counter
+        r = Counter()
+        for i, v in cfg.all_card_interactions.items():
+            r = r + v
+        rows = Counter(r.values())
+        print("\n")
+        for row in sorted(rows):
+             print(f"{row}  {rows[row]}    {'*' * rows[row]} ")
+        pass
+
     def run(self,):
         self.gen_matrix()
+        print("")
+        self.show_ascii_histogram()
+        print("")
  
  
 if __name__ == '__main__':
