@@ -104,7 +104,8 @@ def set_default_config(config):
         config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
 
     if not config.has_section('SYSTEM'):
-        config.add_section('SYSTEM')                          
+        config.add_section('SYSTEM')
+    config["SYSTEM"].clear()                          
     config.set('SYSTEM', 'sys_version', str(sys_version))
     config.set('SYSTEM', 'sys_group_algorithm', sys_group_algorithm)
     config.set('SYSTEM', 'sys_group_algorithm_class', sys_group_algorithm_class)
