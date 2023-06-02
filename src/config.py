@@ -47,7 +47,7 @@ cfg_values = {'EVENT': [('n_attendees', 'i'), ('group_size', 'i'), ('n_groups', 
               'GROUP_LABELS': [],
               'SYSTEM': [('sys_cfg_version', 's'), ('sys_group_algorithm', 's'), ('sys_group_algorithm_class', 's')],
              }
-cfg_comments = {'GROUP_LABELS': ['list labels as session1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no sessions listed, default lable of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
+cfg_comments = {'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
              }
 
@@ -114,6 +114,9 @@ class ConfigParms:
             self.set_default_config(config)
             self.write_cfg(config)
 
+        # verify all attributes are present in config
+        self.verify_config_attributes(config)
+
         # remove comments from sections to be consistent with data from read
         self.remove_default_comments(config)
         return config
@@ -132,6 +135,11 @@ class ConfigParms:
                 config.add_section(sec)
             config[sec].clear()
             self.check_for_comments(sec)
+
+            if sec == 'GROUP_LABELS':
+                for i, g in enumerate(group_labels):
+                    config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
+                continue
 
             for var in vars:
                 var_name = var[0]
@@ -152,14 +160,6 @@ class ConfigParms:
     def set_config_variables(self, config):
         """set the variables from config for consistant access"""
         for sec, vars in self.cfg_values.items():
-            # skip comments section
-            if sec == 'comments':
-                continue
-
-            if sec == 'GROUP_LABELS':
-                for i, g in enumerate(group_labels):
-                    config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
-
             for var in vars:
                 var_name = var[0]
                 # do not override the module version number
@@ -213,6 +213,36 @@ class ConfigParms:
             for key in config[s].items():
                 if key[0][:1] in config._comment_prefixes:
                     config.remove_option(s, key[0])
+
+    def verify_config_attributes(self, config):
+        """verify all attributes are present in config"""
+        for sec, vars in self.cfg_values.items():
+            # create the section
+            if not config.has_section(sec):
+                config.add_section(sec)
+
+            if sec == 'GROUP_LABELS':
+                gl_len = len(config['GROUP_LABELS'])
+                cgl_len = len(globals()['group_labels'])
+                if len(globals()['group_labels']) > gl_len:
+                    for i, g in enumerate(group_labels):
+                        config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
+                    sorted_lbls = {k:config['GROUP_LABELS'][k] for k in sorted(config['GROUP_LABELS'].keys())}
+                    config['GROUP_LABELS'] = sorted_lbls
+                continue
+
+            for var in vars:
+                var_name = var[0]
+                # if variable does not exist
+                if not config.has_option(sec, var_name):
+                    # add the variable
+                    if var[1] == 'l':
+                        # process list - convert to string
+                        listitems = (globals()[var_name])
+                        list_str = ",".join(x for x in listitems)
+                        config.set(sec, var_name, list_str)
+                    else:
+                        config.set(sec, var_name, str(globals()[var_name]))
 
     def gen_attendees_list(self,) -> list:
         """generate the list for attendees"""
