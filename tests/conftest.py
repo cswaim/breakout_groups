@@ -33,7 +33,7 @@ def create_folders(tmp_path_factory):
 @pytest.fixture
 def get_config():
     """Parses the configuration file values and returns them in a dict"""
-    config = cfg.read_config_file(cfg.config)
+    config = cfg.cp.read_config_file(cfg.config)
     config_values = {}
     config_values['n_attendees'] = config.getint('EVENT','n_attendees')
     config_values['group_size'] = config.getint('EVENT','group_size')
@@ -95,11 +95,26 @@ def config_event_defaults():
         2 : [[3, 5, 9, 0], [1, 2, 7], [4, 6, 8, 10]],
         3 : [[2, 4, 6, 8], [0, 1, 7], [3, 5, 9, 10]],
         }
-    # all_cards is a list of all card objects...labels have not been added
+
+    sess_lables = [
+        ['group2', 'red', 'Portales', 'Massive'],
+        ['group1', 'green', 'Santa Fe', 'Massive'],
+        ['group3', 'green', 'Santa Fe', 'Elbert'],
+        ['group1', 'red', 'Portales', 'Harvard'],
+        ['group3', 'green', 'Taos', 'Elbert'],
+        ['group2', 'green', 'Portales', 'Harvard'],
+        ['group2', 'red', 'Taos', 'Elbert'],
+        ['group1', 'blue', 'Santa Fe', 'Massive'],
+        ['group3', 'blue', 'Taos', 'Elbert'],
+        ['group1', 'red', 'Portales', 'Harvard'],
+        ['group3', 'blue', 'Taos', 'Harvard'],
+        ]
+    # all_cards is a list of all card objects
     cfg.all_cards = []
     for i in range(cfg.n_attendees):
         card = Card(i)
         card.card_interactions = cfg.all_card_interactions[i]
+        card.sess_labels = sess_lables[i]
         cfg.all_cards.append(card)
 
     return cfg
