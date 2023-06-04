@@ -280,7 +280,7 @@ class ConfigParms:
 
 """
 This module takes advantage of Python's behavior of importing the module
-the first time and forevery import after the first, only a reference is passed.
+the first time and for every import after the first, only a reference is passed.
 
 There are several ways to instantiate the ConfigParm class which reads
 the cfg file.  Pick an approach that you like.
