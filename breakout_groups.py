@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 #  breakout_groups.py
-#  
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
 # import os
@@ -13,12 +13,12 @@
 
 from src import config as cfg
 from src.event import Event
-from src import logger_setup 
+from src import logger_setup
 import logging
 log = logging.getLogger(__name__)
 
 class BreakoutGroups():
-    """ generate breakout groups """ 
+    """ generate breakout groups """
 
     attendees_list = []
 
@@ -59,11 +59,14 @@ class BreakoutGroups():
         self.event.run()
         self.event.show_sessions()
 
- 
+
 if __name__ == '__main__':
     """ create breakout goups for an event"""
+    # get the cfg parameters
+    cfg.cp.run()
+
     bg = BreakoutGroups()
     bg.run()
     log.info("end of breakout-groups")
-    
-    
+
+

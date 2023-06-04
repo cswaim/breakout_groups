@@ -11,14 +11,14 @@ from src.event import Event
 def create_folders(tmp_path_factory):
     """this is a setup/teardown example"""
     # set_up: set paths
-    base_dir = tmp_path_factory / "breakout_groups" 
+    base_dir = tmp_path_factory / "breakout_groups"
     base_dir.mkdir()
-    base_dir = tmp_path_factory / "breakout_groups" + os.sep + "data" 
+    base_dir = tmp_path_factory / "breakout_groups" + os.sep + "data"
     base_dir.mkdir()
     cfg.datadir = str(base_dir) + os.sep
 
-    # yield, to let all tests within the scope 
-    yield 
+    # yield, to let all tests within the scope
+    yield
 
     # tear_down: remove test dir & files
     if os.path.exists(tmp_path_factory):
@@ -33,12 +33,12 @@ def create_folders(tmp_path_factory):
 @pytest.fixture
 def get_config():
     """Parses the configuration file values and returns them in a dict"""
-    config = cfg.read_config_file(cfg.config)
+    config = cfg.cp.read_config_file(cfg.config)
     config_values = {}
     config_values['n_attendees'] = config.getint('EVENT','n_attendees')
     config_values['group_size'] = config.getint('EVENT','group_size')
     config_values['n_groups'] = config.getint('EVENT','n_groups')
-    config_values['n_sessions'] = config.getint('EVENT','n_sessions')     
+    config_values['n_sessions'] = config.getint('EVENT','n_sessions')
     return config_values
 
 @pytest.fixture
@@ -48,15 +48,15 @@ def config_event_defaults():
     cfg.n_groups = 3
     cfg.group_size = 3
     cfg.n_sessions = 4
-    cfg.gen_attendees_list()
-    cfg.group_labels = []   
+    cfg.cp.gen_attendees_list()
+    cfg.group_labels = []
     cfg.group_labels.append(["group1","group2","group3","group4","group5"])
     cfg.group_labels.append(["blue","red","green","yellow","pink"])
     cfg.group_labels.append(["Portales","Santa Fe","Taos","Chama","Cuba"])
     cfg.group_labels.append(["Elbert","Massive","Harvard","Blanca","La Plata"])
     cfg.sys_group_algorithm = 'sessions_random'
     cfg.sys_group_algorithm_class = 'SessionsRandom'
-    
+
     """
 
     0:  ['0:4', '1:1', '2:0', '3:2', '4:0', '5:2', '6:2', '7:1', '8:0', '9:2', '10:0']
@@ -95,11 +95,26 @@ def config_event_defaults():
         2 : [[3, 5, 9, 0], [1, 2, 7], [4, 6, 8, 10]],
         3 : [[2, 4, 6, 8], [0, 1, 7], [3, 5, 9, 10]],
         }
-    # all_cards is a list of all card objects...labels have not been added
+
+    sess_lables = [
+        ['group2', 'red', 'Portales', 'Massive'],
+        ['group1', 'green', 'Santa Fe', 'Massive'],
+        ['group3', 'green', 'Santa Fe', 'Elbert'],
+        ['group1', 'red', 'Portales', 'Harvard'],
+        ['group3', 'green', 'Taos', 'Elbert'],
+        ['group2', 'green', 'Portales', 'Harvard'],
+        ['group2', 'red', 'Taos', 'Elbert'],
+        ['group1', 'blue', 'Santa Fe', 'Massive'],
+        ['group3', 'blue', 'Taos', 'Elbert'],
+        ['group1', 'red', 'Portales', 'Harvard'],
+        ['group3', 'blue', 'Taos', 'Harvard'],
+        ]
+    # all_cards is a list of all card objects
     cfg.all_cards = []
     for i in range(cfg.n_attendees):
         card = Card(i)
         card.card_interactions = cfg.all_card_interactions[i]
+        card.sess_labels = sess_lables[i]
         cfg.all_cards.append(card)
 
     return cfg
