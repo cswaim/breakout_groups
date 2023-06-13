@@ -57,7 +57,7 @@ def print_dtl(line):
     """print detail report line"""
     print(line)
 
-def print_card_header(hd1, hd2,):
+def print_card_header(hd1, hd2, date_line):
     """print the card headings"""
     ch1 = "{:^35}"
 
@@ -70,6 +70,9 @@ def print_card_header(hd1, hd2,):
     print(ch1.format(hd1))
     if hd2 is not None:
         print(ch1.format(hd2))
+    if date_line is not None:
+        print(ch1.format(date_line))
+
 
     print("\n")
 
@@ -89,8 +92,7 @@ def card_pdf():
     cardpdf = Canvas(f'{cfg.datadir}cards.pdf', pagesize=(3 * inch, 5 * inch))
     cardpdf.setFont("Helvetica", 24)
     cardpdf.setFillColor(blue)
-    title = "My Title"
-    text_width = pdfmetrics.stringWidth(title, "Helvetica", 24)
+    text_width = pdfmetrics.stringWidth(cfg.event_title, "Helvetica", 24)
     x_centered = ((3 * inch) - text_width ) / 2.0
     cardpdf.drawString(x_centered, 4.7 * inch, title)
     cardpdf.line(.5 * inch, 4.5 * inch, 2.5 * inch, 4.5 * inch)

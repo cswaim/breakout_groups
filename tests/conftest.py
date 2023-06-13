@@ -44,6 +44,9 @@ def get_config():
 @pytest.fixture
 def config_event_defaults():
     """set cfg variables to EVENT values"""
+    cfg.event_title = "Pytest Run title"
+    cfg.event_subtitle = "Pytest Run subtitle"
+    cfg.event_date = "yyyy/mm/dd - yyyy/mm/dd"
     cfg.n_attendees = 11
     cfg.n_groups = 3
     cfg.group_size = 3

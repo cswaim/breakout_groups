@@ -24,6 +24,9 @@ srcdir = None
 datadir = None
 
 # event variables
+event_title = "test event"
+event_subtitle = ""
+event_date = ""
 n_attendees = 11
 group_size = 3
 n_groups = 3
@@ -35,7 +38,7 @@ group_labels = [['group1,group2,group3,group4,group5'],
                ]
 
 # system variables
-sys_cfg_version = '0.2'
+sys_cfg_version = '0.3'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 
@@ -43,11 +46,16 @@ sys_group_algorithm_class = "SessionsRandom"
 # dict key is the section, value is list of variable names and type
 #   types are i-integer, f-float, b-boolean, s-string, l-list
 
-cfg_values = {'EVENT': [('n_attendees', 'i'), ('group_size', 'i'), ('n_groups', 'i'), ('n_sessions', 'i')],
+cfg_values = {'EVENT': [
+    ('event_title', 's'), ('event_subtitle', 's'),
+    ('event_data', 's'),
+    ('n_attendees', 'i'), ('group_size', 'i'), ('n_groups', 'i'), ('n_sessions', 'i')],
               'GROUP_LABELS': [],
               'SYSTEM': [('sys_cfg_version', 's'), ('sys_group_algorithm', 's'), ('sys_group_algorithm_class', 's')],
              }
-cfg_comments = {'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
+cfg_comments = {
+    'event_date': ['date is a string and will be printed as entered, examples are:', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
+    'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
              }
 
