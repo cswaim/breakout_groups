@@ -90,18 +90,18 @@ def card_pdf():
     from reportlab.pdfbase import pdfmetrics
     # create 3x5 card canvas
     cardpdf = Canvas(f'{cfg.datadir}cards.pdf', pagesize=(3 * inch, 5 * inch))
-    cardpdf.setFont("Helvetica", 24)
+    cardpdf.setFont("Helvetica", 18)
     cardpdf.setFillColor(blue)
-    text_width = pdfmetrics.stringWidth(cfg.event_title, "Helvetica", 24)
+    text_width = pdfmetrics.stringWidth(cfg.event_title, "Helvetica", 18)
     x_centered = ((3 * inch) - text_width ) / 2.0
-    cardpdf.drawString(x_centered, 4.7 * inch, title)
+    cardpdf.drawString(x_centered, 4.7 * inch, cfg.event_title)
     cardpdf.line(.5 * inch, 4.5 * inch, 2.5 * inch, 4.5 * inch)
 
     # creating a multiline text using
     # textline and for loop
-    cardpdf.setFont("Helvetica", 18)
+    cardpdf.setFont("Helvetica", 16)
     text = cardpdf.beginText(.5 * inch, 4 * inch)
-    text.setFont("Courier", 18)
+    text.setFont("Helvetica", 16)
     text.setFillColor(colors.red)
     for line in textlines:
         text.textLine(line)
