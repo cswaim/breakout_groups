@@ -149,12 +149,14 @@ class CardsReports():
         cardpdf.showPage()
 
     def run(self,):
+        #open pdf file object
         cpdf = self.card_pdf_canvas()
         with open(f'{cfg.datadir}cards.txt', 'w') as ctxt:
             for c in cfg.all_cards:
-                self.card_print(c)
+                # self.card_print(c)
                 self.card_pdf(cpdf, c)
                 self.card_txt(ctxt, c)
+        # close the pdf file
         cpdf.save()
 
 if __name__ == '__main__':
