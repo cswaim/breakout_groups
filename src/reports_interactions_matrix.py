@@ -7,6 +7,7 @@
 
 from pathlib import Path
 import os
+import io
 import pandas as pd
 import numpy as np
 import seaborn as sns
@@ -49,27 +50,40 @@ class InteractionsMatrix():
             for c in range(0, i):
                 df.iloc[i,c] = 0
 
-        hd1 = "Interactions Matrix"
-        hd2  = ""
-        col_hd1 = "| Attendees  ->"
-        col_hd2 = "v  "
-        rptu.print_header(hd1, hd2, col_hd1, col_hd2)
 
         df=df.replace(0,"")
 
-        print(df)
+        return df
 
-        # index = df.index
-        # index.name = "id"
+    def sytle_df_graphic(self, df):
+        """
+            The following code styles the display of the dataframe for graphic
+            output
+
+            not used, kept as doc
+        """
+
+        index = df.index
+        index.name = "id"
 
         cm=sns.color_palette("coolwarm", as_cmap=True)
 
         df=df.replace(0,np.NaN)
         df.style.background_gradient(cmap=cm,vmin=0,vmax=cfg.group_size).highlight_null('black')
-        # print(df)
 
 
-    def show_ascii_histogram(self,):
+    def print_matrix(self, df, fileobj=None):
+        """print the dataframe """
+        hd1 = "Interactions Matrix"
+        hd2  = ""
+        col_hd1 = "| Attendees  ->"
+        col_hd2 = "v  "
+        rptu.print_header(hd1, hd2, col_hd1, col_hd2, fileobj=fileobj)
+
+        print(df, file=fileobj)
+
+
+    def show_ascii_histogram(self, fileobj=None):
         """Simple horizontal histogram of attendee interactions"""
         # Count the number of interactions that have a value of
         # 0, 1, etc
@@ -80,23 +94,30 @@ class InteractionsMatrix():
         hd2  = ""
         col_hd1 = "Inter     Num      Histogram"
         col_hd2 = "Count   Atendees  "
-        rptu.print_header(hd1, hd2, col_hd1, col_hd2)
+        rptu.print_header(hd1, hd2, col_hd1, col_hd2, fileobj=fileobj)
 
         r = Counter()
         for i, v in cfg.all_card_interactions.items():
             r = r + v
         rows = Counter(r.values())
-        rptu.print_dtl("")
+        rptu.print_dtl("", fileobj=fileobj)
         for row in sorted(rows):
              line = f" {row:^5}    {rows[row]:^5}     {'*' * rows[row]} "
-             rptu.print_dtl(line)
+             rptu.print_dtl(line, fileobj=fileobj)
         pass
 
     def run(self,):
-        self.gen_matrix()
-        print("")
-        self.show_ascii_histogram()
-        print("")
+        with open(f'{cfg.datadir}interactions_reports.txt', 'w') as itxt:
+            # make file obj available to all methods
+            self.itxt = itxt
+            df = self.gen_matrix()
+            self.print_matrix(df)
+            self.print_matrix(df, fileobj=itxt)
+            itxt.write("\n\n\n\n")
+            print("\n\n")
+            self.show_ascii_histogram()
+            self.show_ascii_histogram(fileobj=itxt)
+            print("")
 
 
 if __name__ == '__main__':

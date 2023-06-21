@@ -8,7 +8,7 @@ import pytest
 """Unit tests for print cards."""
 
 def test_card_print(config_event_defaults, tmp_path):
-    """test cardpdf"""
+    """test card print to console"""
     cr = CardsReports()
     card_cnt = 0
     for c in cfg.all_cards:
@@ -18,7 +18,7 @@ def test_card_print(config_event_defaults, tmp_path):
     assert card_cnt == cfg.n_attendees
 
 def test_card_txt(config_event_defaults, create_folders):
-    """test cardpdf"""
+    """test card output to text file"""
     #cfg.datadir = str(tcreatemp_path_factory)
     cr = CardsReports()
     card_cnt = 0
@@ -30,7 +30,7 @@ def test_card_txt(config_event_defaults, create_folders):
     assert card_cnt == cfg.n_attendees
 
 def test_card_pdf(config_event_defaults, create_folders):
-    """test cardpdf"""
+    """test card output to pdf"""
     #cfg.datadir = str(tcreatemp_path_factory)
     cr = CardsReports()
     card_cnt = 0
