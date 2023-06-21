@@ -29,83 +29,34 @@ def set_rpt_date(rpt_date=None):
     else:
         dt = rpt_date
 
-def print_header(hd1, hd2=None, col_hd1=None, col_hd2=None,fmt="std"):
-    """print report header"""
+def print_header(hd1, hd2=None, col_hd1=None, col_hd2=None, fmt="std", fileobj=None):
+    """print report header
+        fmt=std will use the template
+        fmt=None will just print the hd1, hd2 as passed
+        fileobj defaults to sys.stdout
+    """
     # set date if not set
     if dt is None:
         set_rpt_date()
 
-    print("")
+    print("", file=fileobj)
     # print report headers
     if fmt == "std":
-        print(hd1_template.format(dt.strftime("%y-%m-%d"), hd1, dt.strftime("%H:%M:%S")))
+        print(hd1_template.format(dt.strftime("%y-%m-%d"), hd1, dt.strftime("%H:%M:%S")), file=fileobj)
     else:
-        print(f"{hd1}")
+        print(f"{hd1}", file=fileobj)
     if hd2 is not None:
         if fmt == "std":
-            print(hd2_template.format(hd2))
+            print(hd2_template.format(hd2), file=fileobj)
         else:
-            print(f"{hd2}")
+            print(f"{hd2}", file=fileobj)
 
     # print column headings
     if col_hd1 is not None:
-        print(col1_template.format(col_hd1))
+        print(col1_template.format(col_hd1), file=fileobj)
     if col_hd2 is not None:
-        print(col2_template.format(col_hd2))
+        print(col2_template.format(col_hd2), file=fileobj)
 
-def print_dtl(line):
+def print_dtl(line, fileobj=None):
     """print detail report line"""
-    print(line)
-
-def print_card_header(hd1, hd2, date_line):
-    """print the card headings"""
-    ch1 = "{:^35}"
-
-    # set date if not set
-    if dt is None:
-        set_rpt_date()
-
-    print("")
-    # print report headers
-    print(ch1.format(hd1))
-    if hd2 is not None:
-        print(ch1.format(hd2))
-    if date_line is not None:
-        print(ch1.format(date_line))
-
-
-    print("\n")
-
-def card_pdf():
-    """https://realpython.com/creating-modifying-pdf/#creating-pdf-files-with-python-and-reportlab
-    https://www.reportlab.com/docs/reportlab-userguide.pdf
-
-    """
-    textlines = ['red', 'Portales', 'Massive', 'group1', 'green', 'Santa Fe', ]
-
-    from reportlab.pdfgen.canvas import Canvas
-    from reportlab.lib.colors import blue
-    from reportlab.lib import colors
-    from reportlab.lib.units import cm, inch
-    from reportlab.pdfbase import pdfmetrics
-    # create 3x5 card canvas
-    cardpdf = Canvas(f'{cfg.datadir}cards.pdf', pagesize=(3 * inch, 5 * inch))
-    cardpdf.setFont("Helvetica", 18)
-    cardpdf.setFillColor(blue)
-    text_width = pdfmetrics.stringWidth(cfg.event_title, "Helvetica", 18)
-    x_centered = ((3 * inch) - text_width ) / 2.0
-    cardpdf.drawString(x_centered, 4.7 * inch, cfg.event_title)
-    cardpdf.line(.5 * inch, 4.5 * inch, 2.5 * inch, 4.5 * inch)
-
-    # creating a multiline text using
-    # textline and for loop
-    cardpdf.setFont("Helvetica", 16)
-    text = cardpdf.beginText(.5 * inch, 4 * inch)
-    text.setFont("Helvetica", 16)
-    text.setFillColor(colors.red)
-    for line in textlines:
-        text.textLine(line)
-    cardpdf.drawText(text)
-    # end page
-    cardpdf.showPage()
-    cardpdf.save()
+    print(line, file=fileobj)
