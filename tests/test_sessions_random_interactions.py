@@ -8,19 +8,20 @@
 import pytest
 
 from src import config as cfg
-from src.sessions_random import SessionsRandom
+from src.sessions_random_interactions import SessionsRandomInteractions
 
 """Unit tests for Sessions methods."""
 
 
 def test_init():
     """test Sessions init"""
-    sc = SessionsRandom(autorun=True)
+    sc = SessionsRandomInteractions(autorun=True)
     assert len(sc.sessions) == cfg.n_sessions
+
 
 def test_check_sess_attendees(config_event_defaults):
     """test for check_sess_attendees"""
-    sc = SessionsRandom()
+    sc = SessionsRandomInteractions()
     good_session = [x for x in range(cfg.n_attendees)]
     sc.build_sessions()
     for k, v in sc.sessions.items():
@@ -31,6 +32,6 @@ def test_check_sess_attendees(config_event_defaults):
 
 def test_build_sessions(config_event_defaults):
     """ test build sessions"""
-    sc = SessionsRandom()
+    sc = SessionsRandomInteractions()
     sc.build_sessions()
     assert len(sc.sessions) == cfg.n_sessions
