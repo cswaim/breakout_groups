@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 #
 #  test_sessions_random.py
-#  
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
- 
+
 import pytest
 
 from src import config as cfg
@@ -18,13 +18,10 @@ def test_init():
     sc = SessionsRandom(autorun=True)
     assert len(sc.sessions) == cfg.n_sessions
 
-
-# pytest.mark.skip(reason="Need to refactor this test")
-def test_check_sess_attendees(get_config):
+def test_check_sess_attendees(config_event_defaults):
     """test for check_sess_attendees"""
-    config_values = get_config
     sc = SessionsRandom()
-    good_session = [x for x in range(config_values['n_attendees'])]
+    good_session = [x for x in range(cfg.n_attendees)]
     sc.build_sessions()
     for k, v in sc.sessions.items():
         attend_list = [e for i in v for e in i]
@@ -33,8 +30,8 @@ def test_check_sess_attendees(get_config):
 
 
 def test_build_sessions(config_event_defaults):
-         
+
     """ test build sessions"""
     sc = SessionsRandom()
     sc.build_sessions()
-    assert len(sc.sessions) == cfg.n_sessions 
+    assert len(sc.sessions) == cfg.n_sessions
