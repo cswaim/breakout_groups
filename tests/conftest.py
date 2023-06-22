@@ -50,7 +50,7 @@ def config_event_defaults():
     cfg.n_groups = 3
     cfg.group_size = 3
     cfg.n_sessions = 4
-    cfg.cp.gen_attendees_list()
+    cfg.attendees_list = cfg.cp.gen_attendees_list()
     cfg.group_labels = []
     cfg.group_labels.append(["group1","group2","group3","group4","group5"])
     cfg.group_labels.append(["blue","red","green","yellow","pink"])
