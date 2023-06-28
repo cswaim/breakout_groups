@@ -35,3 +35,10 @@ def test_build_sessions(config_event_defaults):
     sc = SessionsRandomInteractions()
     sc.build_sessions()
     assert len(sc.sessions) == cfg.n_sessions
+
+def test_update_card_interactions(config_event_defaults):
+    """ test update of interactions """
+    sess = [[], [], []]
+    sc = SessionsRandomInteractions()
+    sc.update_card_interactions(sess)
+    assert len(sc.sessions) == cfg.n_sessions

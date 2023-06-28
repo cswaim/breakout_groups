@@ -66,7 +66,7 @@ class SessionsRandomInteractions():
                 sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
         return sess
 
-    def update_card_interactions(self, sess):
+    def update_card_interactions(self, sess: list):
         """ use sess to update interactions"""
         # update card with group info, n grp num and g is group list of attendees
         for g in sess:
