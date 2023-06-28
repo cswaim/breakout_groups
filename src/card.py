@@ -47,18 +47,3 @@ class Card():
             for n, label in enumerate(card.sess_labels):
                     print(f"   Session {n}: {label}")
         return card_cnt
-
-
-    def print_the_cards_by_session(self, sessions, all_cards=None):
-        # Each session will have all cards, just in different order
-        
-        # Gather the persons by session
-
-
-        # Show each session
-        # for card in all_cards:
-        #     for session in card.keys():
-        #         if 'session' in session:
-        #             pass
-
-        return None
