@@ -136,10 +136,17 @@ class CardsReports():
         # textline and for loop
         last_y += -.3
         text = cardpdf.beginText(.5 * inch, last_y * inch)
-        text.setFont("Helvetica", 12)
-        text.setFillColor(colors.red)
-        for line in card.sess_labels:
-            text.textLine(line)
+
+        for n, label in enumerate(card.sess_labels):
+            line = f"Session {n:3}:"
+            text.setFont("Helvetica", 8)
+            text.setFillColor(colors.black)
+            text.textOut(line)
+            line = f"   {label}"
+            text.setFont("Helvetica", 12)
+            text.setFillColor(colors.red)
+            text.textOut(line)
+            text.textLine(text='')          #new line
         cardpdf.drawText(text)
         # end page
         cardpdf.setFont("Helvetica", 6)
