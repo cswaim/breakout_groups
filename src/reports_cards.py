@@ -4,12 +4,6 @@
 #  reports_interactions_matrix.py
 #
 #  Copyright 2023 cswaim <cswaim@jcrl.net>
-"""
-TODO:
-1) add event_title, event_subtitle to config file
-2) add event_beg_date & event_end_date to config file
-"""
-
 
 from pathlib import Path
 import os

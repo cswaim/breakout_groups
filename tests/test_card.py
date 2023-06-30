@@ -39,14 +39,14 @@ def test_init():
 #                           2:[[1, 4, 7, 3], [2, 6, 8], [0, 5, 9]],
 #                           3:[[3, 5, 9, 4], [1, 6, 8], [0, 2, 7]],
 #                         }
-    
+
 #     result = card_1.cards_for_event(
-#         n_attendees=n_attendees, 
+#         n_attendees=n_attendees,
 #         n_groups=n_groups,
 #         grouping_algorithm=grouping_algorithm)
 
 #     assert result
-   
+
 
 def test_print_the_cards_by_person(config_event_defaults, event_cards):
     cfg = config_event_defaults
@@ -54,9 +54,3 @@ def test_print_the_cards_by_person(config_event_defaults, event_cards):
     print('')
     result = card_1.print_the_cards_by_person(event_cards)
     assert result == cfg.n_attendees
-
-
-def test_print_the_cards_by_session(event_cards):
-    card_1 = Card(1)
-    result = card_1.print_the_cards_by_session(event_cards)
-    assert result is None

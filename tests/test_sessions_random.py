@@ -30,7 +30,6 @@ def test_check_sess_attendees(config_event_defaults):
 
 
 def test_build_sessions(config_event_defaults):
-
     """ test build sessions"""
     sc = SessionsRandom()
     sc.build_sessions()
