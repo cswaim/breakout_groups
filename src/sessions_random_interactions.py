@@ -55,15 +55,44 @@ class SessionsRandomInteractions():
                 sess[g].append(x)
             # remove last group
             sess.pop()
+        print(f"sess {sess_num} completed: {sess}")
 
         return sess
 
     def interactions_weighted_random(self, sess: list) -> list:
         """ build random session with interactions """
         used_attendee = []
+        group = []
+        random.shuffle(self.rand_attendees)
+        for i in range(len(self.rand_attendees)):
+            # get the card number
+            c  = self.rand_attendees[i]
+            print(f"    processing attendee {i} - {c}")
+            if c in used_attendee:
+                print(f"    {c} in used")
+                continue
+            else:
+                # get min interaction for card
+                i_list = self.all_cards[c].card_interactions.most_common()
+                min_int = i_list[-1][0]
+                if min_int in used_attendee or min_int == c:
+                    continue
+                if len(group) < cfg.group_size:
+                    group.append(c)
+                    used_attendee.append(c)
+                if len(group) < cfg.group_size:
+                    group.append(min_int)
+                    used_attendee.append(min_int)
+                if len(group) >= cfg.group_size:
+                    # add group to sess and reset
+                    print(f"  sess  group added {group}")
+                    sess.append(copy.copy(group))
+                    group.clear()
+                    print(f"    -----sess {sess}")
 
-        for i in range(0, cfg.n_attendees, cfg.group_size):
-                sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
+        if len(group) != 0:
+            sess.append(group)
+        print(f"sess: {sess}")
         return sess
 
     def update_card_interactions(self, sess: list):
@@ -86,6 +115,9 @@ class SessionsRandomInteractions():
 
     def run(self,) -> None:
         """create the sessions"""
-        log.info("running sessions_random")
+        log.info("beg sessions_random_interactions")
         self.build_sessions()
+        for k, v in self.sessions.items():
+            print(f"{k}  {v}")
+        log.info("end sessions_random_interactions")
 

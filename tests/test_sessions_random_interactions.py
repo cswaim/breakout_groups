@@ -19,9 +19,9 @@ def test_init():
     assert len(sc.sessions) == cfg.n_sessions
 
 
-def test_check_sess_attendees(config_event_defaults):
+def test_check_sess_attendees(config_event_defaults, get_random_seed):
     """test for check_sess_attendees"""
-    sc = SessionsRandomInteractions()
+    sc = SessionsRandomInteractions(get_random_seed)
     good_session = [x for x in range(cfg.n_attendees)]
     sc.build_sessions()
     for k, v in sc.sessions.items():
@@ -30,15 +30,19 @@ def test_check_sess_attendees(config_event_defaults):
         assert attend_list == good_session
 
 
-def test_build_sessions(config_event_defaults):
+def test_build_sessions(config_event_defaults, get_random_seed):
     """ test build sessions"""
     sc = SessionsRandomInteractions()
-    sc.build_sessions()
+    sc.build_sessions(get_random_seed)
     assert len(sc.sessions) == cfg.n_sessions
 
-def test_update_card_interactions(config_event_defaults):
+def test_update_card_interactions(config_event_defaults, get_random_seed):
     """ test update of interactions """
-    sess = [[], [], []]
-    sc = SessionsRandomInteractions()
+    sess = [[1, 3, 10, 8], [0, 6, 9], [4, 5, 7, 2]]
+    sc = SessionsRandomInteractions(get_random_seed)
     sc.update_card_interactions(sess)
-    assert len(sc.sessions) == cfg.n_sessions
+    assert sc.all_cards[0].card_interactions[6] == 1
+    assert sc.all_cards[0].card_interactions[9] == 1
+    assert sc.all_cards[1].card_interactions[1] == 1
+    assert sc.all_cards[1].card_interactions[10] == 1
+    assert sc.all_cards[1].card_interactions[6] == 0
