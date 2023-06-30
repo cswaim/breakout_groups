@@ -30,6 +30,7 @@ class SessionsRandomInteractions():
         self.all_cards = {}
         for i in range(cfg.n_attendees):
             self.all_cards[i] = Card(i)
+        self.used_attendee = []
         if autorun:
             self.run()
 
@@ -59,36 +60,49 @@ class SessionsRandomInteractions():
 
         return sess
 
+    def get_unused_attendee(self, i):
+        """get attend id"""
+        c = self.rand_attendees[i]
+        if c in self.used_attendee:
+            c_set = set(self.rand_attendees) - set(self.used_attendee)
+            c = c_set.pop()
+        return c
+
     def interactions_weighted_random(self, sess: list) -> list:
         """ build random session with interactions """
-        used_attendee = []
+        self.used_attendee = []
         group = []
         random.shuffle(self.rand_attendees)
         for i in range(len(self.rand_attendees)):
+            if len(self.used_attendee) == len(self.rand_attendees):
+                break
             # get the card number
-            c  = self.rand_attendees[i]
+            c = self.get_unused_attendee(i)
             print(f"    processing attendee {i} - {c}")
-            if c in used_attendee:
-                print(f"    {c} in used")
-                continue
-            else:
-                # get min interaction for card
-                i_list = self.all_cards[c].card_interactions.most_common()
-                min_int = i_list[-1][0]
-                if min_int in used_attendee or min_int == c:
-                    continue
-                if len(group) < cfg.group_size:
-                    group.append(c)
-                    used_attendee.append(c)
-                if len(group) < cfg.group_size:
+            # if c in self.used_attendee:
+            #     print(f"    {c} in used")
+            #     continue
+            # else:
+
+            # get min interaction for card
+            i_list = self.all_cards[c].card_interactions.most_common()
+            min_int = i_list[-1][0]
+
+            if len(group) < cfg.group_size:
+                group.append(c)
+                self.used_attendee.append(c)
+            if len(group) < cfg.group_size:
+                if min_int in self.used_attendee or min_int == c:
+                    pass
+                else:
                     group.append(min_int)
-                    used_attendee.append(min_int)
-                if len(group) >= cfg.group_size:
-                    # add group to sess and reset
-                    print(f"  sess  group added {group}")
-                    sess.append(copy.copy(group))
-                    group.clear()
-                    print(f"    -----sess {sess}")
+                    self.used_attendee.append(min_int)
+            if len(group) >= cfg.group_size:
+                # add group to sess and reset
+                print(f"  sess  group added {group}")
+                sess.append(copy.copy(group))
+                group.clear()
+                print(f"    -----sess {sess}")
 
         if len(group) != 0:
             sess.append(group)

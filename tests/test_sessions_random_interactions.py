@@ -24,6 +24,7 @@ def test_check_sess_attendees(config_event_defaults, get_random_seed):
     sc = SessionsRandomInteractions(get_random_seed)
     good_session = [x for x in range(cfg.n_attendees)]
     sc.build_sessions()
+    # each session must include attendees
     for k, v in sc.sessions.items():
         attend_list = [e for i in v for e in i]
         attend_list.sort()
@@ -32,8 +33,8 @@ def test_check_sess_attendees(config_event_defaults, get_random_seed):
 
 def test_build_sessions(config_event_defaults, get_random_seed):
     """ test build sessions"""
-    sc = SessionsRandomInteractions()
-    sc.build_sessions(get_random_seed)
+    sc = SessionsRandomInteractions(get_random_seed)
+    sc.build_sessions()
     assert len(sc.sessions) == cfg.n_sessions
 
 def test_update_card_interactions(config_event_defaults, get_random_seed):
