@@ -14,12 +14,21 @@ def test_build_interactions(config_event_defaults):
     assert result[1][1] == 4
 
 def test_gen_matrix(config_event_defaults, create_folders):
+    """ test gen of matrix and stats"""
     rim = InteractionsMatrix()
-    print('')
     df = rim.gen_matrix()
     # df is a class
     assert True == isinstance(df, pd.DataFrame)
+    assert rim.inter_cnt == 38
+    assert rim.pui == 55
+    assert rim.gc == 12
+    assert rim.puc == 165
 
+def test_print_matrix(config_event_defaults, create_folders):
+    """test the print"""
+    rim = InteractionsMatrix()
+    df = rim.gen_matrix()
+    print('')
     result = rim.print_matrix(df)
     with open(f'{cfg.datadir}interactions_reports.txt', 'w') as itxt:
         rim.print_matrix(df, fileobj=itxt)
