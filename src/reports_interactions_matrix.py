@@ -25,6 +25,7 @@ class InteractionsMatrix():
         self.all_interactions = self.build_interactions()
         self.inter_cnt = 0
         self.miss_inter_cnt = 0
+        self.dup_inter_cnt = 0
         if autorun:
             self.run()
 
@@ -53,14 +54,21 @@ class InteractionsMatrix():
             for c in range(0, i):
                 df.iloc[i, c] = 0
 
-        # event run performance
-        # calc interaction stats
+        # event run performance calculations
+
+        # reset counters
+        self.inter_cnt = 0
+        self.miss_inter_cnt = 0
+        self.dup_inter_cnt = 0
+
         for i, row in df.iterrows():
             for c in row:
                 if c > 0:
                     self.inter_cnt += 1
                 if c == 0:
                     self.miss_inter_cnt += 1
+                if c > 1:
+                    self.dup_inter_cnt += 1
 
 
         # possible unique interactions possible n(n-1)/2
@@ -103,12 +111,14 @@ class InteractionsMatrix():
 
         print("\n\n", file=fileobj)
         print("Run Analysis \n", file=fileobj)
-        print (f"           Unique interactions: {self.inter_cnt}", file=fileobj)
-        print (f"  Possible Unique interactions: {self.pui}", file=fileobj)
-        print(f"                 effective rate: {self.inter_cnt / self.pui:0.2} ", file=fileobj)
+        print(f"           Unique interactions: {self.inter_cnt}", file=fileobj)
+        print(f"  Possible Unique interactions: {self.pui}", file=fileobj)
+        print(f"                effective rate: {self.inter_cnt / self.pui:0.2}", file=fileobj)
+        print(f"     Num orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
+        print(f"    Num duplicate interactions: {self.dup_inter_cnt}", file=fileobj)
         print("", file=fileobj)
-        print (f"            group combinations: {self.gc}", file=fileobj)
-        print (f"   Possible group combinations: {self.puc}", file=fileobj)
+        print(f"            group combinations: {self.gc}", file=fileobj)
+        print(f"   Possible group combinations: {self.puc}", file=fileobj)
 
 
 
