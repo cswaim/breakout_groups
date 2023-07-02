@@ -56,8 +56,6 @@ class SessionsRandomInteractions():
                 sess[g].append(x)
             # remove last group
             sess.pop()
-        print(f"sess {sess_num} completed: {sess}")
-
         return sess
 
     def get_unused_attendee(self, i):
@@ -78,11 +76,6 @@ class SessionsRandomInteractions():
                 break
             # get the card number
             c = self.get_unused_attendee(i)
-            print(f"    processing attendee {i} - {c}")
-            # if c in self.used_attendee:
-            #     print(f"    {c} in used")
-            #     continue
-            # else:
 
             # get min interaction for card
             i_list = self.all_cards[c].card_interactions.most_common()
@@ -99,14 +92,11 @@ class SessionsRandomInteractions():
                     self.used_attendee.append(min_int)
             if len(group) >= cfg.group_size:
                 # add group to sess and reset
-                print(f"  sess  group added {group}")
                 sess.append(copy.copy(group))
                 group.clear()
-                print(f"    -----sess {sess}")
 
         if len(group) != 0:
             sess.append(group)
-        print(f"sess: {sess}")
         return sess
 
     def update_card_interactions(self, sess: list):
@@ -131,7 +121,5 @@ class SessionsRandomInteractions():
         """create the sessions"""
         log.info("beg sessions_random_interactions")
         self.build_sessions()
-        for k, v in self.sessions.items():
-            print(f"{k}  {v}")
         log.info("end sessions_random_interactions")
 
