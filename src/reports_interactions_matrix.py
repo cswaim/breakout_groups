@@ -102,7 +102,7 @@ class InteractionsMatrix():
         print(df, file=fileobj)
 
         print("\n\n", file=fileobj)
-        print("Run Analysis\n", file=fileobj)
+        print("Run Analysis \n", file=fileobj)
         print (f"           Unique interactions: {self.inter_cnt}", file=fileobj)
         print (f"  Possible Unique interactions: {self.pui}", file=fileobj)
         print(f"                 effective rate: {self.inter_cnt / self.pui:0.2} ", file=fileobj)
