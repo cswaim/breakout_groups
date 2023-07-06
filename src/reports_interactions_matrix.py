@@ -70,9 +70,11 @@ class InteractionsMatrix():
                 if c > 1:
                     self.dup_inter_cnt += 1
 
-
         # possible unique interactions possible n(n-1)/2
         self.pui = math.comb(cfg.n_attendees, 2)
+        self.inter_ratio_tot = self.inter_cnt / self.pui
+        self.unique_inter_cnt = self.inter_cnt - self.dup_inter_cnt
+        self.inter_ratio_unique = self.unique_inter_cnt / self.pui
 
         # possible combinations n! / r!(n-r)!    r is group size
         self.puc = math.comb(cfg.n_attendees, cfg.group_size)
@@ -111,14 +113,17 @@ class InteractionsMatrix():
 
         print("\n\n", file=fileobj)
         print("Run Analysis \n", file=fileobj)
-        print(f"           Unique interactions: {self.inter_cnt}", file=fileobj)
-        print(f"  Possible Unique interactions: {self.pui}", file=fileobj)
-        print(f"                effective rate: {self.inter_cnt / self.pui:0.2}", file=fileobj)
-        print(f"     Num orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
-        print(f"    Num duplicate interactions: {self.dup_inter_cnt}", file=fileobj)
+        print(f"               Total Interactions: {self.inter_cnt}", file=fileobj)
+        print(f"              Unique Interactions: {self.unique_inter_cnt}", file=fileobj)
+        print(f"           Duplicate Interactions: {self.dup_inter_cnt}", file=fileobj)
+        print(f"     Possible Unique interactions: {self.pui}", file=fileobj)
+        print(f"    Tot effective rate (tot/poss): {self.inter_ratio_tot:0.2}", file=fileobj)
+        print(f"Unique effective rate (uniq/poss): {self.inter_ratio_unique:0.2}", file=fileobj)
+        print(f"        Num orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
+        print(f"       Num duplicate interactions: {self.dup_inter_cnt}", file=fileobj)
         print("", file=fileobj)
-        print(f"            group combinations: {self.gc}", file=fileobj)
-        print(f"   Possible group combinations: {self.puc}", file=fileobj)
+        print(f"               group combinations: {self.gc}", file=fileobj)
+        print(f"      Possible group combinations: {self.puc}", file=fileobj)
 
 
 
