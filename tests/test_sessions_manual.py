@@ -61,7 +61,7 @@ def test_update_sess_attendees(config_event_defaults, get_random_seed):
 
 def test_create_sessions(config_event_defaults, get_random_seed):
     """ test create of all sessions from comb"""
-    exp_res1 = [[0,1,2],[3,4,5], [6,7,8]]
+    exp_res1 = [[0,1,2,10],[3,4,5], [6,7,8,9]]
     sc = SessionsManual(get_random_seed)
     # sc.sess_setup()
     sc.gen_group_combinations()
@@ -104,7 +104,7 @@ def test_build_missing_groups(config_event_defaults, get_random_seed):
 
 def test_run(config_event_defaults, get_random_seed):
     """ test update of interactions """
-    sess1 = [[0,3,4], [1,6,7], [5,8,9]]
+    sess1 = [[0,3,4,2], [1,6,7], [5,8,9,10]]
     sc = SessionsManual(get_random_seed)
     sc.run()
     assert sc.sessions[1] == sess1

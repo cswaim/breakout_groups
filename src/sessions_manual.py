@@ -83,6 +83,10 @@ class SessionsManual():
             while len(g) < cfg.n_groups and self.loop_cnt < self.max_loop:
                 self.build_missing_groups(s, g)
 
+        # get missing attendees
+        for s, a in self.sess_attendees.items():
+            self.append_missed_attendees(s, a)
+
         # if last group is not full size group, randomly allocate members to other groups
         for s, g in self.sessions.items():
             g_used = []
@@ -155,6 +159,17 @@ class SessionsManual():
         print('')
         return
 
+    def append_missed_attendees(self, s:int, a:list):
+        """append missed attendee as new session group"""
+        if len(a) == 0:
+            pass
+        elif len(a) < cfg.group_size:
+            self.sessions[s].append(copy.copy(a))
+        else:
+            for i in range(0, len(a), cfg.group_size):
+                self.sessions[s].append(sorted(a[i: i + cfg.group_size]))
+        # remove attendees
+        self.update_sess_attendees(s, copy.copy(a))
 
     def create_a_session(self, sess_num) -> list:
         """ create a single session from the attendees list"""
