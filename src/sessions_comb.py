@@ -6,6 +6,8 @@ import math
 import copy
 import functools as ft
 from src import config as cfg
+import logging
+log = logging.getLogger(__name__)
 
 '''
 The group_items function takes three arguments:
@@ -26,7 +28,7 @@ class SessionsCombinations():
     """ Use combinations to build sessions"""
 
     def __init__(self, autorun=False):
-        """init"""  
+        """init"""
         self.groups = []
         self.used_groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
@@ -38,7 +40,7 @@ class SessionsCombinations():
     def gen_combinations(self, attendee_list, group_size) -> None:
         """ gen all possible combinations of group_size"""
         gc = list(it.combinations(attendee_list, group_size))
-        
+
         # gc = [list(g) for g in gc]
         newgc =[]
         for g in gc:
@@ -46,7 +48,7 @@ class SessionsCombinations():
             newgc.append(gs)
 
         self.groups = newgc
-        return 
+        return
 
     def groups_to_sessions(self,) -> None:
         """ create session which contains groups_per_session with each attendee in each session"""
@@ -54,7 +56,7 @@ class SessionsCombinations():
         # mix up the groups
         random.shuffle(self.groups)
 
-        # build session dict     
+        # build session dict
         self.sessions = {i:[] for i in range(1, cfg.n_sessions +1)}
         self.build_first_session()
 
@@ -74,11 +76,11 @@ class SessionsCombinations():
             if sess_complete:
                 self.add_to_sessions(sess_cnt, sess)
                 self.update_used_groups()
-        
+
             gcnt += 1
         print()
 
-        return 
+        return
 
     def build_first_session(self, ) -> list:
         """ build first session"""
@@ -89,11 +91,11 @@ class SessionsCombinations():
         sess = []
         for i in range(0, cfg.n_attendees, cfg.group_size):
             sess.append(sorted(rand_atnd[i: i + cfg.group_size]))
-       
+
         self.add_to_sessions(1, sess)
         self.update_used_groups()
 
-        return 
+        return
 
     def add_to_sessions(self, inx, sess) -> None:
         """add session groups to sessions list """
@@ -135,7 +137,7 @@ class SessionsCombinations():
         if sess_complete:
             pass
         else:
-            # reset 
+            # reset
             pass
         return sess_complete
 
@@ -147,7 +149,7 @@ class SessionsCombinations():
                 sess_attendees.append(a)
         sess_attendees.sort()
 
-        self.session_attendees = sess_attendees 
+        self.session_attendees = sess_attendees
         res = sess_attendees == cfg.attendees_list
         return res
 
@@ -165,4 +167,6 @@ class SessionsCombinations():
 
     def run(self):
         """create the sessions"""
+        log.info("beg sessions_comb")
         self.build_sessions()
+        log.info("end sessions_comb")
