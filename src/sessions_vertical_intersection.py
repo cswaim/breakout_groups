@@ -19,6 +19,7 @@ class SessionsVerticalIntersection():
     def __init__(self, seed=None, autorun=False):
         """init"""
         self.seed = seed
+        random.seed(self.seed)
         self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
         self.interactions = {}
@@ -68,20 +69,21 @@ class SessionsVerticalIntersection():
 
         shuffle(group_after)
 
-        print("group before", group_before)
-        print("group after", group_after)
+        # print("group before", group_before)
+        # print("group after", group_after)
 
         new_group_session=[[] for j in range(int(cfg.n_attendees/cfg.group_size))]
         #print('debug',int(num_attendees/sm_grp_size))
 
 
         #form next small group (index group_after) by picking one member from each prior small group (index group_before)
-        for j in range(len(group_before)):
+        for j in range(cfg.n_groups):
             #member number
-            for i in range(len(group_before)):
+            for i in range(cfg.group_size):
                 #print('i,j,group_before[j]',i,j,[group_before[j]])
-                suffix=subdiv_session[group_before[j]][i]
+                suffix = subdiv_session[group_before[j]][i]
                 new_group_session[group_after[i]].append(suffix)
+                pass
         return(new_group_session)
 
 
@@ -137,10 +139,11 @@ class SessionsVerticalIntersection():
         whole_retreat=[]
         whole_retreat.append(input)
         elapsed = end - start
-        print('group',0,input,'% 6.4f sec,' % elapsed)
+        # print('group',0,input,'% 6.4f sec,' % elapsed)
+        print('group',0,input,' \n')
 
 
-        for i in range(1,10):
+        for i in range(cfg.n_sessions):
             #print('going in',input)
             output = self.shuffle_between_groups(input)
             whole_retreat.append(output)
@@ -148,7 +151,8 @@ class SessionsVerticalIntersection():
             end=time.time()
             elapsed = end - start
             (length,max_pairs)= self.flatten_retreat(whole_retreat,attendees)
-            print('group',i,output,'% 6.4f sec,' % elapsed,length,'groups,',max_pairs-len(non_interactions),'/',max_pairs,'pairs satisfied')
+            print(f"group {i}  {output} \n")
+            #print('group',i,output,'% 6.4f sec,' % elapsed,length,'groups,',max_pairs-len(non_interactions),'/',max_pairs,'pairs satisfied')
             input = output.copy()
 
         return whole_retreat
@@ -159,18 +163,20 @@ class SessionsVerticalIntersection():
             an interactions attribute
         """
         log.info(f"beg {__name__}")
-        cfg.group_size=4
-        cfg.n_attendees=cfg.group_size*cfg.group_size
+        cfg.group_size = 3
+        cfg.n_groups = 3
+        cfg.n_attendees = 9
+        cfg.n_sessions = 10
 
         self.sessions = self.build_sessions()
         log.info(f"end {__name__}")
 
 
 
-# if __name__ == '__main__':
-#     """ create breakout goups for an event"""
-#     # get the cfg parameters
-#     cfg.cp.run()
+if __name__ == '__main__':
+    """ create breakout goups for an event"""
+    # get the cfg parameters
+    cfg.cp.run()
 
-#     svi = SessionsVerticalIntersection(seed=3331)
-#     svi.run()
+    svi = SessionsVerticalIntersection(seed=3331)
+    svi.run()
