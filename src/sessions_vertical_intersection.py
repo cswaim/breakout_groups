@@ -33,14 +33,18 @@ class SessionsVerticalIntersection():
     def shuffle_session(self, num_attendees, sm_grp_size):
         """ this function creates a randomized first session"""
 
-        session=[]
-        for i in range(num_attendees):
-            session.append(i)
+        # session=[]
+        # for i in range(num_attendees):
+        #     session.append(i)
+        session = [i for i in range(num_attendees) ]
         shuffle(session)
-        subdiv_session=[[] for j in range(int(num_attendees/sm_grp_size))]
-        for i in range(int(num_attendees/sm_grp_size)):
-            for j in range(sm_grp_size):
-                subdiv_session[i].append(session[j+i*(sm_grp_size)])
+        # subdiv_session=[[] for j in range(int(num_attendees/sm_grp_size))]
+        # for i in range(int(num_attendees/sm_grp_size)):
+        #     for j in range(sm_grp_size):
+        #         subdiv_session[i].append(session[j+i*(sm_grp_size)])
+        subdiv_session = []
+        for i in range(0, num_attendees, cfg.group_size):
+            subdiv_session.append(sorted(session[i: i + cfg.group_size]))
 
         #print(session, subdiv_session)
 
