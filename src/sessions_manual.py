@@ -3,6 +3,7 @@ import itertools as it
 from itertools import chain
 import copy
 from src import config as cfg
+from src.sessions_util import SessionsUtils as su
 import logging
 log = logging.getLogger(__name__)
 
@@ -24,6 +25,7 @@ class SessionsManual():
         self.interactions = {}
         self.seed = seed
         random.seed(seed)
+        self.max_loop = 3
         self.sess_setup()
         if autorun:
             self.run()
@@ -59,10 +61,8 @@ class SessionsManual():
         # remove empty rows
         self.comb_dict = {k: v for k, v in self.comb_dict.items() if v}
 
-        print("----comb dict ----")
-        # remove empty rows
-        for k, v in self.comb_dict.items():
-            print(f"  {k}:  {v}")
+
+        su.print_item(self.comb_dict, "comb dict")
 
 
     def create_sessions(self,):
@@ -73,16 +73,16 @@ class SessionsManual():
         for s, grp in self.sessions.items():
             for g in grp:
                 self.update_sess_attendees(s, g)
-        print(self.sessions)
+        log.info("create_sessions:\n",self.sessions)
 
         # fill in session
-        self.max_loop = 3
         for s, g in self.sessions.items():
             # used to break out of while
             self.loop_cnt = 1
             while len(g) < cfg.n_groups and self.loop_cnt < self.max_loop:
                 self.build_missing_groups(s, g)
 
+        su.print_item(self.comb_dict, "comb dict after fill")
         # get missing attendees
         for s, a in self.sess_attendees.items():
             self.append_missed_attendees(s, a)
@@ -118,25 +118,44 @@ class SessionsManual():
                 wk_comb.append(self.comb_dict[1][n])
         for s, g in self.sessions.items():
             g.append(wk_comb[s])
-        if len(self.comb_dict[0]) <= cfg.n_sessions:
-            del self.comb_dict[0]
-            if add_groups > 0:
-                for x in range(add_groups):
-                    del self.comb_dict[1][0]
-        else:
-            for x in range(cfg.n_sessions):
+
+        # delete the allocated groups
+        for x in range(cfg.n_sessions):
+            if 0 in self.comb_dict[0]:
                 del self.comb_dict[0][0]
+        if add_groups > 0:
+            for x in range(add_groups):
+                del self.comb_dict[1][0]
+
+    def get_comb_key(self, sn) -> int:
+        """get the starting key value for the comb dict for a session(sn)"""
+        # get the min sess attendee number, unassigned attendee
+        comb_key = min(self.sess_attendees[sn])
+
+        # comb dict starting with the unassigned attendee must be greater than 0
+        # and min_v must be less than number of sessions
+        while len(self.comb_dict[comb_key]) == 0 and comb_key < cfg.n_sessions:
+            comb_key += 1
+            if comb_key not in self.comb_dict:
+                # key 0 has been deleted
+                comb_key = 0
+                self.loop_cnt += 1
+
+        return comb_key
 
     def build_missing_groups(self, sn, sg):
         """ build the remaining groups for a session"""
-        min_v = min(self.sess_attendees[sn])
-        while len(self.comb_dict[min_v]) == 0 and min_v < cfg.n_sessions:
-            min_v += 1
+        # get the min sess attendee number, unassigned attendee
+        comb_key = self.get_comb_key(sn)
 
+        # loop until all groups for session have be assigned or not satisfied after
+        # max_loop attempts
         while len(sg) < cfg.n_groups and self.loop_cnt < self.max_loop:
             # scan comb list
             used_cg = []
-            for i, cg in enumerate(self.comb_dict[min_v]):
+            # get a group for the comb_dict
+            for i, cg in enumerate(self.comb_dict[comb_key]):
+                # ck member of group is not assigned
                 good_group = True
                 for e in cg:
                     if e not in self.sess_attendees[sn]:
@@ -151,10 +170,12 @@ class SessionsManual():
 
             # remove used comb groups
             for ucgi in used_cg:
-                del self.comb_dict[min_v][ucgi]
-            min_v += 1
-            if min_v not in self.comb_dict:
-                min_v = 1
+                del self.comb_dict[comb_key][ucgi]
+            # set min_V for next loop
+            comb_key += 1
+            if comb_key not in self.comb_dict:
+                # key 0 has been deleted
+                comb_key = 0
                 self.loop_cnt += 1
         print('')
         return
@@ -171,6 +192,7 @@ class SessionsManual():
         # remove attendees
         self.update_sess_attendees(s, copy.copy(a))
 
+    # not used
     def create_a_session(self, sess_num) -> list:
         """ create a single session from the attendees list"""
         # shuffle the list
@@ -195,6 +217,7 @@ class SessionsManual():
 
         return sess
 
+    # not used
     def build_sessions(self,) -> list:
         """build sessions"""
         for i in  self.sessions.keys():
@@ -203,10 +226,12 @@ class SessionsManual():
 
         return self.sessions
 
+
     def run(self,) -> None:
         """create the sessions"""
         log.info(f"beg {__name__}")
         self.sess_setup()
         self.gen_group_combinations()
         self.create_sessions()
+        su.print_item(self.sessions, "sessions")
         log.info(f"end {__name__}")
