@@ -18,19 +18,6 @@ def test_init(config_event_defaults, get_random_seed):
     sc = SessionsManual(autorun=True)
     assert len(sc.sessions) == cfg.n_sessions
 
-def test_build_sessions(config_event_defaults, get_random_seed):
-    """test build_sessions for valid sessions"""
-    sc = SessionsManual(get_random_seed)
-    good_session = [x for x in range(cfg.n_attendees)]
-    sc.build_sessions()
-    # each session must include attendees
-    for k, v in sc.sessions.items():
-        attend_list = [e for i in v for e in i]
-        attend_list.sort()
-        assert attend_list == good_session
-    # build all sessions
-    assert len(sc.sessions) == cfg.n_sessions
-
 def test_sess_setup(config_event_defaults, get_random_seed):
     """ test build sessions"""
     sc = SessionsManual(get_random_seed)

@@ -192,41 +192,6 @@ class SessionsManual():
         # remove attendees
         self.update_sess_attendees(s, copy.copy(a))
 
-    # not used
-    def create_a_session(self, sess_num) -> list:
-        """ create a single session from the attendees list"""
-        # shuffle the list
-        # random.shuffle(self.rand_attendees)
-        sess = []
-        #if sess_num == 0:
-        for i in range(0, cfg.n_attendees, cfg.group_size):
-            sess.append(sorted(self.random_attendees[i: i + cfg.group_size]))
-        # else:
-        #     sess = self.build_sess(sess, sess_num)
-
-        # if last group is not full size group, randomly allocate members to other groups
-        g_used = []
-        if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
-            for x in sess[-1]:
-                # gen number until not used
-                while (g:= random.randrange(cfg.n_groups )) in g_used: pass
-                g_used.append(g)
-                sess[g].append(x)
-            # remove last group
-            sess.pop()
-
-        return sess
-
-    # not used
-    def build_sessions(self,) -> list:
-        """build sessions"""
-        for i in  self.sessions.keys():
-            sess = self.create_a_session(i)
-            self.sessions[i] = sess
-
-        return self.sessions
-
-
     def run(self,) -> None:
         """create the sessions"""
         log.info(f"beg {__name__}")
