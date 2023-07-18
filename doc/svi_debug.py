@@ -5,6 +5,7 @@
 #
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
+import sys
 from itertools import combinations
 import random
 import math
@@ -60,19 +61,51 @@ def shuffle_between_groups(subdiv_session):
         for j in range(n_groups):
             #member number
             for i in range(group_size):
-                print(f'i={i}, j={j}, gb4_j={group_before[j]}')
+                # print(f'i={i}, j={j}, gb4_j={group_before[j]}')
                 suffix = subdiv_session[group_before[j]][i]
-                print(f"gb4[{j}][{i}] = {suffix}")
+                # print(f"gb4[{j}][{i}] = {suffix}")
                 new_group_session[group_after[i]].append(suffix)
 
         return(new_group_session)
 
+def print_parameters():
+    """ print the parameters for at run"""
+    print(f"no attendees: {n_attendees}")
+    print(f"   no groups: {n_groups}")
+    print(f"  group size: {group_size}")
+
+def set_args():
+    """get the command line args"""
+    print(sys.argv, len(sys.argv))
+    num_args = 3
+    if len(sys.argv) == 1:
+        print(f" len = {len(sys.argv)}")
+        pass
+    elif len(sys.argv) == num_args +1:
+        print(f" len = {len(sys.argv)}")
+        for i, a in enumerate(sys.argv):
+           match i:
+                case 1:
+                    n_attendees = int(a)
+                case 2:
+                    n_groups = int(a)
+                case 3:
+                    group_size = int(a)
+    else:
+        print('***')
+        print("cmd args must be none or  include n_attendees, n_groups and group_size ")
+        print('***')
+        sys.exit()
+
+
 if __name__ == '__main__':
     random.seed(4554)
+    set_args()
+    print_parameters()
     setup()
     in_sess = first_session()
     for i in range(1,n_sessions):
-            #print('going in',input)
+            #print('going in',in_sess)
             out_sess = shuffle_between_groups(in_sess)
             sessions[i] = out_sess.copy()
             print(f"group {i}  {out_sess} \n")
