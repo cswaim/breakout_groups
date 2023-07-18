@@ -73,14 +73,17 @@ def print_parameters():
     print(f"no attendees: {n_attendees}")
     print(f"   no groups: {n_groups}")
     print(f"  group size: {group_size}")
+    print(f"  n_sessions: {n_sessions}")
+    print("")
 
 def set_args():
     """get the command line args"""
+    global n_attendees, n_groups, group_size, n_sessions
     print(sys.argv, len(sys.argv))
-    num_args = 3
+    valid_args = [4,5]
     if len(sys.argv) == 1:
         pass
-    elif len(sys.argv) == num_args +1:
+    elif len(sys.argv) in valid_args:
         for i, a in enumerate(sys.argv):
            match i:
                 case 1:
@@ -89,6 +92,8 @@ def set_args():
                     n_groups = int(a)
                 case 3:
                     group_size = int(a)
+                case 4:
+                    n_sessions = int(a)
     else:
         print('***')
         print("cmd args must be none or  include n_attendees, n_groups and group_size ")
