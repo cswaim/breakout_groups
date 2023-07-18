@@ -79,10 +79,8 @@ def set_args():
     print(sys.argv, len(sys.argv))
     num_args = 3
     if len(sys.argv) == 1:
-        print(f" len = {len(sys.argv)}")
         pass
     elif len(sys.argv) == num_args +1:
-        print(f" len = {len(sys.argv)}")
         for i, a in enumerate(sys.argv):
            match i:
                 case 1:
