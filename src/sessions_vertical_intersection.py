@@ -220,11 +220,6 @@ class SessionsVerticalIntersection():
             an interactions attribute
         """
         log.info(f"beg {__name__}")
-        # cfg.group_size = 3
-        # cfg.n_groups = 3
-        # cfg.n_attendees = 9
-        # cfg.n_sessions = 4
-
         self.sessions = self.build_sessions()
         log.info(f"end {__name__}")
 
