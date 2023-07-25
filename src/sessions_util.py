@@ -43,3 +43,20 @@ class SessionsUtils:
             all_card_interactions[c.id] = c.card_interactions
 
         return all_card_interactions
+
+    def print_item(prt_item, heading=''):
+        """print either a list or dictionary"""
+        prt_line = " {:02} - {}"
+
+        print(f"--- {heading} ---")
+
+        # if dict
+        if isinstance(prt_item, dict):
+            for i, val in prt_item.items():
+                print(prt_line.format(i, val))
+        # list or dict
+        elif isinstance(prt_item, list) or isinstance(prt_item, tuple):
+            for i, val in enumerate(prt_item):
+                print(prt_line.format(i, val))
+        else:
+            print("**Error:  item is not a dict, list or tuple")
