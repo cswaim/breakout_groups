@@ -4,6 +4,7 @@ from collections import Counter
 from src import config as cfg
 from src.card import Card
 from src.event import Event
+from src.sessions_vertical_intersection import SessionsVerticalIntersection
 
 """ Central repository for Pytest fixtures for breakout groups."""
 
@@ -140,3 +141,23 @@ def event_cards(config_event_defaults, get_random_seed):
     #                     }
 
     return event.all_cards
+
+@pytest.fixture
+def make_svi():
+    """
+    Makes a session_vertical_integration object with almost any value for instance variable.
+    """
+    # For each input variable that a pytest test may manipulate, establish a default.
+    def make(
+            expected_yield: int = 6,
+            printing=True,
+        **rest
+    ):
+        svi = SessionsVerticalIntersection(
+            expected_yield=expected_yield,
+            printing=printing,
+            **rest
+        )
+        return svi
+    
+    return make
