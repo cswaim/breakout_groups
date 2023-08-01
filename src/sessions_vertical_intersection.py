@@ -16,7 +16,11 @@ log = logging.getLogger(__name__)
 class SessionsVerticalIntersection():
     """ The sessions algorithm which establishes the breakout groups"""
 
-    def __init__(self, seed=None, autorun=False):
+    def __init__(self, 
+                 seed=None,
+                 autorun=False, 
+                 expected_yield=6,
+                 printing=True):
         """init"""
         self.seed = seed
         random.seed(self.seed)
@@ -25,6 +29,8 @@ class SessionsVerticalIntersection():
         self.interactions = {}
         # other instance variables for algorithm
         self.rand_attendees = cfg.attendees_list.copy()
+        self.expected_yield = expected_yield
+        self.printing = printing
 
         # autorun the session
         if autorun:
@@ -144,9 +150,6 @@ class SessionsVerticalIntersection():
         end=time.time()
         start = time.time()
 
-        expected_yield = 6
-
-
         #artifact of network design where there is a 1:1 map between group size and number of groups
         #could carry an extra variable and say "num_attendees=sm_grp_size*num_grps"
 
@@ -158,8 +161,8 @@ class SessionsVerticalIntersection():
         max_pairs = len(non_interactions)
 
 
-        print('small_group_size = number_of_small_groups= ',cfg.group_size)
-        print('number of attendees <= ',cfg.n_attendees)
+        if self.printing: print('small_group_size = number_of_small_groups= ',cfg.group_size)
+        if self.printing: print('number of attendees <= ',cfg.n_attendees)
         in_sess = self.shuffle_session(cfg.n_attendees, cfg.group_size)
 
         non_interactions = self.pop_non_interactions(in_sess, cfg.group_size, non_interactions)
@@ -168,13 +171,14 @@ class SessionsVerticalIntersection():
         whole_retreat.append(in_sess)
         elapsed = end - start
         # print('group',0,input,'% 6.4f sec,' % elapsed)
-        print('group',0,in_sess,' \n')
+        if self.printing: print('group',0,in_sess,' \n')
 
         remaining_meetups = len(non_interactions)
         latest_meetups = 5
 
         i=1
         #while remaining_meetups > 0:
+        if self.printing: print(f'\nExpected Yield: {self.expected_yield}')
         for i in range(cfg.n_sessions):
 
             #print('going in',input)
@@ -185,13 +189,13 @@ class SessionsVerticalIntersection():
 
 
             latest_meetups = (remaining_meetups - len(non_interactions))
-            if latest_meetups > expected_yield or len(non_interactions) == 0:
+            if latest_meetups > self.expected_yield or len(non_interactions) == 0:
                 #print('latest_meetups',latest_meetups)
                 remaining_meetups = len(non_interactions)
                 end = time.time()
                 elapsed = end - start
 
-                print('session',i,out_sess,'% 6.4f sec,' % elapsed,max_pairs-len(non_interactions),'/',max_pairs,'pairs satisfied')
+                if self.printing: print('session',i,out_sess,'% 6.4f sec,' % elapsed,max_pairs-len(non_interactions),'/',max_pairs,'pairs satisfied')
                 #i+=1
                 in_sess = out_sess.copy()
             else:
