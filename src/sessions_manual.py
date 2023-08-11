@@ -10,8 +10,9 @@ log = logging.getLogger(__name__)
 '''
     use variables from cfg
     Build session dictionary 0 thru x
-    Populate session dictionary by randomly shuffling the attendees list
-    the sessions dictionary contains the outbreak sessions
+    Generate possible combinations
+    Populate session dictionary from the combinations
+    the sessions dictionary contains the break out sessions
 
 '''
 
