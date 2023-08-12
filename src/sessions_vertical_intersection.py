@@ -149,6 +149,15 @@ class SessionsVerticalIntersection():
     def build_sessions(self,):
         end=time.time()
         start = time.time()
+        """
+        Data returned:
+        ['session'] List of groups, with attendees for a group
+        ['elapsed'] Time to create session
+        ['n_pairs_satisfied'] Cumulative pairs included in sessions
+        ['n_pairs] Total pairs in the meeting
+        """
+        sessions = {}
+    
 
         #artifact of network design where there is a 1:1 map between group size and number of groups
         #could carry an extra variable and say "num_attendees=sm_grp_size*num_grps"
@@ -196,6 +205,14 @@ class SessionsVerticalIntersection():
                 elapsed = end - start
 
                 if self.printing: print('session',i,out_sess,'% 6.4f sec,' % elapsed,max_pairs-len(non_interactions),'/',max_pairs,'pairs satisfied')
+                
+                sessions[i] = {}
+                sessions[i]['seed'] = self.seed
+                sessions[i]['session'] = out_sess
+                sessions[i]['elapsed'] = '%8.6f' % elapsed
+                sessions[i]['n_pairs_satisfied'] = max_pairs-len(non_interactions)
+                sessions[i]['n_pairs'] = max_pairs
+
                 #i+=1
                 in_sess = out_sess.copy()
             else:
@@ -213,9 +230,9 @@ class SessionsVerticalIntersection():
         #     print(f"group {i}  {output} \n")
         #     #print('group',i,output,'% 6.4f sec,' % elapsed,length,'groups,',max_pairs-len(non_interactions),'/',max_pairs,'pairs satisfied')
         #     input = output.copy()
-        sessions = {}
-        for i, val in enumerate(whole_retreat):
-            sessions[i] = val
+        # sessions = {}
+        # for i, val in enumerate(whole_retreat):
+        #     sessions[i] = val
         return sessions
 
     def run(self, ) -> dict:
@@ -226,7 +243,6 @@ class SessionsVerticalIntersection():
         log.info(f"beg {__name__}")
         self.sessions = self.build_sessions()
         log.info(f"end {__name__}")
-
 
 
 if __name__ == '__main__':
