@@ -17,8 +17,8 @@ log = logging.getLogger(__name__)
 '''
 
 
-class SessionsManual():
-    """ Use random to build sessions"""
+class SessionsComb():
+    """ Use combinations to build sessions"""
 
     def __init__(self, seed=None, autorun=False) -> None:
         """init"""
