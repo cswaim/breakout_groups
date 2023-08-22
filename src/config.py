@@ -270,9 +270,15 @@ class ConfigParms:
 
         return group_labels
 
+    def debug_print(self, heading=None):
+        """deprecated:: use print_cfg_vars()"""
+        self.print_cfg_vars(heading)
 
-    def debug_print(self, ):
+    def print_cfg_vars(self, heading=None):
         print("")
+        if heading is not None:
+            print(f"--- {heading} ---")
+
         print(f"    wkdir: {wkdir}")
         print(f"  inc dir: {srcdir}")
         print(f" data dir: {datadir}")
