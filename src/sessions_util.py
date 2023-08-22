@@ -1,5 +1,6 @@
 from collections import Counter
 from itertools import combinations
+import random
 from src import config as cfg
 from src.card import Card
 import logging
@@ -10,7 +11,24 @@ log = logging.getLogger(__name__)
 
 
 class SessionsUtils:
-    """Create dict of interactions amon attendees"""
+    """ This is a collection of utilities used in creating sessions
+
+        These functions are called statically :: note no self in the function definition
+
+        import the module:
+            from src.sessions_util import SessionsUtils as su
+        then all functions:
+            su.functionname()
+    """
+
+
+    def set_seed(seed=None):
+        random.seed(seed)
+
+    def init_sessions(n_sess: int=cfg.n_sessions) -> dict:
+        """build and initialize the sessions dict"""
+        sessions = {i:[] for i in range(0, cfg.n_sessions)}
+        return sessions
 
     def init_cards(nc=cfg.n_attendees) -> list:
         """ build the all_cards dict"""
@@ -18,6 +36,23 @@ class SessionsUtils:
         for i in range(nc):
             all_cards.append(Card(i))
         return all_cards
+
+    def set_num_groups(sess: list) -> list:
+        """set the number of goups in a session, randomly allocating members to other groups"""
+
+        g_used = []
+        if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
+            for x in sess[-1]:
+                # gen number until not used
+                while (g:= random.randrange(cfg.n_groups )) in g_used:
+                    # reset g_used if attendees still exist but all groups have been used
+                    if len(g_used) >= cfg.n_groups:
+                        g_used = []
+                g_used.append(g)
+                sess[g].append(x)
+            # remove last group
+            sess.pop()
+        return sess
 
     def update_cards(all_cards) -> list:
         """ update individual card iteractions and labels"""
