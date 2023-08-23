@@ -122,3 +122,11 @@ def test_remove_default_comments(config_event_defaults):
     for k in comments.keys():
         assert config.has_option("GROUP_LABELS", k) == False
 
+def test_print_config_vars(config_event_defaults):
+    """test of print routine"""
+    # load the default values
+    config = cfg.cp.set_default_config(cfg.config)
+    cfg.cp.remove_default_comments(cfg.config)
+    cfg.print_config_vars(heading="with comments")
+    cfg.print_config_vars(heading="no comments", comments=False)
+    cfg.cp.debug_print(heading="chk debug print")
