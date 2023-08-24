@@ -104,22 +104,30 @@ class CardsReports():
         https://www.reportlab.com/docs/reportlab-userguide.pdf
 
         """
+        # fonts for pdf
+        hd1_fs = 18
+        hd2_fs = 14
+        hdd_fs = 12
+        sess_lbl_fs = 10
+        sess_text_fs = 14
+        footer_fs = 8
+
+
         # print header
-        cardpdf.setFont("Helvetica", 18)
+        cardpdf.setFont("Helvetica", hd1_fs)
         cardpdf.setFillColor(blue)
-        x_centered = self.card_pdf_center_calc(self.hd1, "Helvetica", 18)
-        cardpdf.drawString(x_centered, 4.7 * inch, self.hd1)
-        last_y = 4.7
+        x_centered = self.card_pdf_center_calc(self.hd1, "Helvetica", hd1_fs)
+        init_y = 4.6
+        cardpdf.drawString(x_centered, init_y * inch, self.hd1)
+        # set start postion from bottom of form
+        last_y = init_y
         if self.hd2 is not None and self.hd2 != "":
             last_y += -.3
-            # set font size
-            hd2_fs = 14
             cardpdf.setFont("Helvetica-Oblique", hd2_fs)
             x_centered = self.card_pdf_center_calc(self.hd2, "Helvetica", hd2_fs)
             cardpdf.drawString(x_centered, last_y * inch, self.hd2)
         if self.hd_date is not None and self.hd_date != "":
             last_y += -.3
-            hdd_fs = 12
             cardpdf.setFont("Helvetica", hdd_fs)
             x_centered = self.card_pdf_center_calc(self.hd_date, "Helvetica", hdd_fs)
             cardpdf.drawString(x_centered, last_y * inch, self.hd_date)
@@ -133,17 +141,17 @@ class CardsReports():
 
         for n, label in enumerate(card.sess_labels):
             line = f"Session {n:3}:"
-            text.setFont("Helvetica", 8)
+            text.setFont("Helvetica", sess_lbl_fs)
             text.setFillColor(colors.black)
             text.textOut(line)
             line = f"   {label}"
-            text.setFont("Helvetica", 12)
+            text.setFont("Helvetica", sess_text_fs)
             text.setFillColor(colors.red)
             text.textOut(line)
             text.textLine(text='')          #new line
         cardpdf.drawText(text)
         # end page
-        cardpdf.setFont("Helvetica", 6)
+        cardpdf.setFont("Helvetica", footer_fs)
         cardpdf.setFillColor(colors.black)
         id_line = f'id: {card.id}'
         cardpdf.drawString(2.5 * inch, .2 * inch, id_line)
