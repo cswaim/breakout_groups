@@ -112,7 +112,6 @@ class CardsReports():
         sess_text_fs = 14
         footer_fs = 8
 
-
         # print header
         cardpdf.setFont("Helvetica", hd1_fs)
         cardpdf.setFillColor(blue)
@@ -140,6 +139,7 @@ class CardsReports():
         text = cardpdf.beginText(.5 * inch, last_y * inch)
 
         for n, label in enumerate(card.sess_labels):
+            n =+ 1   # adj for 0 offset
             line = f"Session {n:3}:"
             text.setFont("Helvetica", sess_lbl_fs)
             text.setFillColor(colors.black)
