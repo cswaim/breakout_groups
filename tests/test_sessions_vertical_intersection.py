@@ -31,7 +31,7 @@ def test_check_sess_attendees(config_event_defaults, get_random_seed):
     good_session = [x for x in range(cfg.n_attendees)]
     sessions = sc.build_sessions()
     for k, v in sessions.items():
-        attend_list = [e for i in v for e in i]
+        attend_list = [e for i in v['session'] for e in i]
         attend_list.sort()
         assert attend_list == good_session
 
@@ -79,6 +79,7 @@ def test_integration_one(get_random_seed):
     svi = SessionsVerticalIntersection(seed=get_random_seed, autorun=False)
     svi_out = svi.build_sessions()
     assert type(svi_out)  == dict
+    
 
 
 def test_make_svi_fixture(make_svi):
