@@ -41,18 +41,24 @@ group_labels = [['group1,group2,group3,group4,group5'],
 sys_cfg_version = '0.3'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
+random_seed = None
 
 # values passed to ConfigParms
-# dict key is the section, value is list of variable names and type
+# dict key is the section, value is a list of variable names and type
 #   types are i-integer, f-float, b-boolean, s-string, l-list
 
 cfg_values = {'EVENT': [
                 ('event_title', 's'), ('event_subtitle', 's'),
                 ('event_date', 's'),
                 ('n_attendees', 'i'), ('group_size', 'i'),
-                ('n_groups', 'i'), ('n_sessions', 'i')],
+                ('n_groups', 'i'), ('n_sessions', 'i'),
+                ],
               'GROUP_LABELS': [],
-              'SYSTEM': [('sys_cfg_version', 's'), ('sys_group_algorithm', 's'), ('sys_group_algorithm_class', 's')],
+              'SYSTEM': [
+                ('sys_cfg_version', 's'), ('sys_group_algorithm', 's'),
+                ('sys_group_algorithm_class', 's'),
+                ('random_seed', 'i'),
+                ],
              }
 cfg_comments = {
     'event_title': ['event title, subtitle and date must be <= 30 characters'],
