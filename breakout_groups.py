@@ -51,6 +51,8 @@ class BreakoutGroups():
         print(f"          sessions: {cfg.n_sessions}")
         print("")
 
+        cfg.print_config_vars(heading="Print All Variables")
+
     def run(self,):
         """create breakout groups for event"""
         log.info("beg event processing")

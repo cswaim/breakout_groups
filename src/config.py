@@ -47,9 +47,10 @@ sys_group_algorithm_class = "SessionsRandom"
 #   types are i-integer, f-float, b-boolean, s-string, l-list
 
 cfg_values = {'EVENT': [
-    ('event_title', 's'), ('event_subtitle', 's'),
-    ('event_date', 's'),
-    ('n_attendees', 'i'), ('group_size', 'i'), ('n_groups', 'i'), ('n_sessions', 'i')],
+                ('event_title', 's'), ('event_subtitle', 's'),
+                ('event_date', 's'),
+                ('n_attendees', 'i'), ('group_size', 'i'),
+                ('n_groups', 'i'), ('n_sessions', 'i')],
               'GROUP_LABELS': [],
               'SYSTEM': [('sys_cfg_version', 's'), ('sys_group_algorithm', 's'), ('sys_group_algorithm_class', 's')],
              }
@@ -58,6 +59,7 @@ cfg_comments = {
     'event_date': ['date is a string and will be printed as entered, examples:', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
+    'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
              }
 
 # config obj
@@ -174,6 +176,16 @@ class ConfigParms:
                 # do not override the module version number
                 if var_name == 'sys_cfg_version':
                     continue
+
+                # random_seed must be int or it is changed to None
+                if var_name == 'random_seed':
+                    seed = config.get(sec, var_name, fallback=globals()[var_name])
+                    try:
+                        globals()[var_name] = int(seed)
+                    except Exception as e:
+                        globals()[var_name] = None
+                    continue
+
                 # set variable from config value
                 match var[1]:
                     case 'b':
