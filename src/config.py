@@ -74,6 +74,7 @@ config = None
 # variables passed to all modules
 attendees_list = []
 sessions = {}
+sessions_info = {}
 all_card_interactions = {}
 all_cards = []
 
