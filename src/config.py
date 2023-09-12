@@ -37,8 +37,12 @@ group_labels = [['group1,group2,group3,group4,group5'],
                 ['Elbert,Massive,Harvard,Blanca,La Plata'],
                ]
 
+# reports
+report_interactions_matrix = True
+report_cards = True
+
 # system variables
-sys_cfg_version = '0.3'
+sys_cfg_version = '0.4'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 random_seed = None
@@ -54,6 +58,10 @@ cfg_values = {'EVENT': [
                 ('n_groups', 'i'), ('n_sessions', 'i'),
                 ],
               'GROUP_LABELS': [],
+              'REPORTS':[
+                  ('report_interactions_matrix', 'b'),
+                  ('report_cards', 'b'),
+              ],
               'SYSTEM': [
                 ('sys_cfg_version', 's'), ('sys_group_algorithm', 's'),
                 ('sys_group_algorithm_class', 's'),
