@@ -31,6 +31,7 @@ n_attendees = 11
 group_size = 3
 n_groups = 3
 n_sessions = 4
+random_seed = None
 group_labels = [['group1,group2,group3,group4,group5'],
                 ['blue,red,green,yellow,pink'],
                 ['Portales,Santa Fe,Taos,Chama,Cuba'],
@@ -45,7 +46,6 @@ report_cards = True
 sys_cfg_version = '0.4'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
-random_seed = None
 
 # values passed to ConfigParms
 # dict key is the section, value is a list of variable names and type
@@ -56,6 +56,7 @@ cfg_values = {'EVENT': [
                 ('event_date', 's'),
                 ('n_attendees', 'i'), ('group_size', 'i'),
                 ('n_groups', 'i'), ('n_sessions', 'i'),
+                ('random_seed', 'i'),
                 ],
               'GROUP_LABELS': [],
               'REPORTS':[
@@ -65,7 +66,6 @@ cfg_values = {'EVENT': [
               'SYSTEM': [
                 ('sys_cfg_version', 's'), ('sys_group_algorithm', 's'),
                 ('sys_group_algorithm_class', 's'),
-                ('random_seed', 'i'),
                 ],
              }
 cfg_comments = {
@@ -360,4 +360,3 @@ and then in the application code, read the parm file:
 """
 cp = ConfigParms(cfg_values, cfg_comments)
 # cp.run()
-

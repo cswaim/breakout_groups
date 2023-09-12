@@ -51,9 +51,8 @@ class BreakoutGroups():
         print(f"groups_per_session: {cfg.n_groups}")
         print(f"          sessions: {cfg.n_sessions}")
         print("")
-        if cfg.random_seed is not None:
-            print(f"       random seed: {cfg.random_seed}")
-            print("")
+        print(f"       random seed: {cfg.random_seed}")
+        print("")
 
         cfg.print_config_vars(heading="Print All Variables")
 
@@ -74,5 +73,3 @@ if __name__ == '__main__':
     bg = BreakoutGroups()
     bg.run()
     log.info("end of breakout-groups")
-
-
