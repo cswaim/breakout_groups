@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 #
 #  test_sessions_random.py
-#  
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
- 
+
 import pytest
 import os
 import logging
@@ -31,9 +31,10 @@ def test_print_variables(config_event_defaults):
 
 def test_run(tmp_path, config_event_defaults, get_random_seed):
     """ test run with default data"""
-    base_dir = tmp_path / "breakout_groups" 
+    base_dir = tmp_path / "breakout_groups"
     base_dir.mkdir()
     cfg.datadir = str(base_dir) + os.sep
-    bg = BreakoutGroups(get_random_seed)
+    cfg.random_seed = get_random_seed
+    bg = BreakoutGroups()
     bg.run()
-    assert len(bg.event.sess.sessions) == cfg.n_sessions 
+    assert len(bg.event.sess.sessions) == cfg.n_sessions

@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 #  reports.py
-#  
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
 from pathlib import Path
@@ -14,18 +14,18 @@ from src.reports_interactions_matrix import InteractionsMatrix
 from src.reports_cards import CardsReports
 
 class Reports():
-    """ Select and produce reports based on settings  """ 
+    """ Select and produce reports based on settings  """
 
     def __init__(self, autorun=False):
         """set up variables, import algorithm and run"""
         log.info(f"beg reporting")
-        self.rim = True  # interactions matrix
-        self.rcd = True  # card report
+        self.rim = cfg.report_interactions_matrix  # interactions matrix
+        self.rcd = cfg.report_cards  # card report
         # run the reports
         if autorun:
             self.run()
         log.info(f"end reporting")
- 
+
     def run(self,):
         """run the algorithm"""
         # run selected reports
