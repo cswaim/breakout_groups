@@ -1,7 +1,7 @@
 import random
 import copy
 from src import config as cfg
-from src.sessions_util import SessionsUtils as su
+from src import sessions_util as su
 import logging
 log = logging.getLogger(__name__)
 
