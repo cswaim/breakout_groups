@@ -55,11 +55,11 @@ def test_create_sessions(config_event_defaults, get_random_seed):
     sc.create_sessions()
     assert sc.sessions[0] == exp_res1
 
-@pytest.mark.skip("later")
 def test_create_sessions_extra_sessions(config_event_defaults, get_random_seed):
     """ test create sessions with large number of sessions"""
     cfg.n_sessions = 7
-    exp_res1 = [[0,3,4], [1,5,6],[2,7,8], [0,9,10]]
+    exp_res1 = [[0, 1, 2, 10], [3, 4, 5], [6, 7, 8, 9]]
+    exp_res6 = [[],[],[]]
     sc = SessionsComb(get_random_seed)
     # sc.sess_setup()
     sc.gen_group_combinations()
@@ -67,7 +67,7 @@ def test_create_sessions_extra_sessions(config_event_defaults, get_random_seed):
     assert sc.sessions[0] == exp_res1
 
 def test_build_first_group(config_event_defaults, get_random_seed):
-    """ test create of all sessions from comb"""
+    """ test build of first group"""
     exp_res0 = [[0,1,2]]
     exp_res2 = [[0,5,6]]
     sc = SessionsComb(get_random_seed)
@@ -77,7 +77,6 @@ def test_build_first_group(config_event_defaults, get_random_seed):
     assert sc.sessions[0] == exp_res0
     assert sc.sessions[2] == exp_res2
 
-@pytest.mark.skip("later")
 def test_build_missing_groups(config_event_defaults, get_random_seed):
     """ test create of all sessions from comb"""
     # test cannot contain 0
