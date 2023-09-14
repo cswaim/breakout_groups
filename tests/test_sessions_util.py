@@ -2,7 +2,7 @@
 """
 import pytest
 from src import config as cfg
-from src.sessions_util import SessionsUtils as su
+from src import sessions_util as su
 
 
 def test_init_cards(config_event_defaults):
