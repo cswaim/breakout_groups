@@ -147,7 +147,8 @@ class SessionsComb():
     def build_missing_groups(self, sn):
         """ build the remaining groups for a session
             sn = session number
-            sg = list of groups for session
+
+            sg = list of groups for session and is updated
         """
         # get the min sess attendee number, unassigned attendee
         comb_key = self.get_comb_key(sn)
