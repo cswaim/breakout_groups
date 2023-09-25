@@ -14,7 +14,7 @@ import seaborn as sns
 import math
 from datetime import datetime
 from src import config as cfg
-from src import report_utils as rptu
+from src import reports_util as rptu
 
 class InteractionsMatrix():
     """ produce the interactions matrix and historgram reports
