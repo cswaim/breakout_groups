@@ -81,7 +81,7 @@ class SessionsComb():
             # used to break out of while
             self.loop_cnt = 1
             while len(g) < cfg.n_groups and self.loop_cnt < self.max_loop:
-                self.build_missing_groups(s, g)
+                self.build_missing_groups(s)
 
         su.print_item(self.comb_dict, "comb dict after fill")
         # get missing attendees
@@ -144,13 +144,15 @@ class SessionsComb():
 
         return comb_key
 
-    def build_missing_groups(self, sn, sg):
+    def build_missing_groups(self, sn):
         """ build the remaining groups for a session
             sn = session number
-            sg = list of groups for session
+
+            sg = list of groups for session and is updated
         """
         # get the min sess attendee number, unassigned attendee
         comb_key = self.get_comb_key(sn)
+        sg = self.sessions[sn]
 
         # loop until all groups for session have be assigned or not satisfied after
         # max_loop attempts

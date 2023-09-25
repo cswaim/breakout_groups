@@ -88,7 +88,7 @@ def test_build_missing_groups(config_event_defaults, get_random_seed):
     sc.build_first_group()
     sc.loop_cnt = 1
     sc.update_sess_attendees(1, [0, 3, 4])
-    sc.build_missing_groups(1, sc.sessions[1])
+    sc.build_missing_groups(1)
     assert sc.sessions[1] == exp_res1
 
 def test_run(config_event_defaults, get_random_seed):
