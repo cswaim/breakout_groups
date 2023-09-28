@@ -14,9 +14,11 @@ class RunStats():
     """ produce the interactions matrix and historgram reports
         and write pdf to data folder """
 
-    def __init__(self,):
+    def __init__(self, all_card_interactions=None):
         """init interactions stats"""
-        self.all_interactions = self.build_interactions()
+        if all_card_interactions is None:
+            all_card_interactions=cfg.all_card_interactions
+        self.all_interactions = self.build_interactions(all_card_interactions)
         # init stat variables
         self.inter_cnt = 0
         self.miss_inter_cnt = 0
@@ -111,13 +113,15 @@ class RunStats():
         self.miss_inter_cnt = self.pui - self.inter_cnt
 
 
-    def build_interactions(self,):
-        """create interactions dic with all counts
+    def build_interactions(self, all_card_interactions=None):
+        """create interactions dic with list of all interactions
            this converts the dict of counters to a dict of lists
         """
+        if all_card_interactions is None:
+            all_card_interactions=cfg.all_card_interactions
 
         interactions = {}
-        for k, v in cfg.all_card_interactions.items():
+        for k, v in all_card_interactions.items():
             ia = []
             for i in range(cfg.n_attendees):
                 ia.append(v[i])

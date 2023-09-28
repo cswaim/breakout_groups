@@ -7,12 +7,25 @@ import pytest
 
 """Unit tests for run statistics"""
 
-# def test_build_all_card_interactions(config_event_defaults):
-#     """test building of all card interactions"""
-#     su_interactions = su.build_all_card_interactions()
-#     rrs = RunStats()
-#     rrs_interactions = rrs.build_interactions()
-#     assert su_interactions == rrs_interactions
+def test_build_all_card_interactions(config_event_defaults):
+    """test building of all card interactions"""
+    rsp = {0: [4, 1, 0, 2, 0, 2, 2, 1, 0, 2, 0],
+           1: [1, 4, 2, 1, 1, 1, 0, 3, 0, 1, 0],
+           2: [0, 2, 4, 0, 3, 1, 1, 1, 2, 0, 1],
+           3: [2, 1, 0, 4, 0, 2, 1, 1, 0, 4, 1],
+           4: [0, 1, 3, 0, 4, 1, 2, 0, 3, 0, 2],
+           5: [2, 1, 1, 2, 1, 4, 1, 0, 0, 2, 1],
+           6: [2, 0, 1, 1, 2, 1, 4, 0, 2, 1 ,1],
+           7: [1, 3, 1, 1, 0, 0, 0, 4, 1, 1 ,1],
+           8: [0, 0, 2, 0, 3, 0, 2, 1, 4, 0, 3],
+           9: [2, 1, 0, 4, 0, 2, 1, 1, 0, 4, 1],
+          10: [0, 0, 1, 1, 2, 1, 1, 1, 3, 1, 4],
+          }
+    # su_interactions = su.build_all_card_interactions()
+    rrs = RunStats()
+    rrs_interactions = rrs.build_interactions()
+    #assert su_interactions == rrs_interactions
+    assert rsp == rrs_interactions
 
 def test_gen_run_stats(config_event_defaults):
     """test generate run stats"""
