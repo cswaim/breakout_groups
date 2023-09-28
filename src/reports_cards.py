@@ -14,7 +14,7 @@ from reportlab.lib import colors
 from reportlab.lib.units import cm, inch
 from reportlab.pdfbase import pdfmetrics
 from src import config as cfg
-from src import report_utils as rptu
+from src import reports_util as rptu
 
 class CardsReports():
     """ print the cards to a txt file and pdf flie """
