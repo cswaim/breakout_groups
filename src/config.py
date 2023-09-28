@@ -40,10 +40,11 @@ group_labels = [['group1,group2,group3,group4,group5'],
 
 # reports
 report_interactions_matrix = True
+report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.4'
+sys_cfg_version = '0.5'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 
@@ -61,6 +62,7 @@ cfg_values = {'EVENT': [
               'GROUP_LABELS': [],
               'REPORTS':[
                   ('report_interactions_matrix', 'b'),
+                  ('report_run_stats', 'b'),
                   ('report_cards', 'b'),
               ],
               'SYSTEM': [

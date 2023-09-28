@@ -14,7 +14,7 @@ class RunStats():
     """ produce the interactions matrix and historgram reports
         and write pdf to data folder """
 
-    def __init__(self, all_card_interactions=None):
+    def __init__(self, all_card_interactions=None, autorun=False):
         """init interactions stats"""
         if all_card_interactions is None:
             all_card_interactions=cfg.all_card_interactions
@@ -35,6 +35,8 @@ class RunStats():
         # possible combinations n! / r!(n-r)!    r is group size
         self.puc = math.comb(cfg.n_attendees, cfg.group_size)
         self.gc = cfg.n_sessions * cfg.n_groups
+        if autorun:
+            self.run()
 
     def gen_run_stats(self,):
 
@@ -127,3 +129,57 @@ class RunStats():
                 ia.append(v[i])
             interactions[k] = ia
         return interactions
+
+    def print_stats(self, fileobj=None):
+        """print the dataframe """
+        hd1 = "Run Statistics"
+        hd2  = None
+        col_hd1 = None
+        col_hd2 = None
+        rptu.print_header(hd1, hd2, col_hd1, col_hd2, fileobj=fileobj)
+
+        print("\n\n", file=fileobj)
+        print(f"                         algorithm: {cfg.sys_group_algorithm}", file=fileobj)
+        print(f"                   algoritim_class: {cfg.sys_group_algorithm_class}", file=fileobj)
+        print("", file=fileobj)
+        print(f"attendees_list: {cfg.attendees_list}", file=fileobj)
+        print("", file=fileobj)
+        print(f"                         attendees: {cfg.n_attendees}", file=fileobj)
+        print(f"                        group_size: {cfg.group_size}", file=fileobj)
+        print(f"                groups_per_session: {cfg.n_groups}", file=fileobj)
+        print(f"                          sessions: {cfg.n_sessions}", file=fileobj)
+        print("", file=fileobj)
+        print(f"                Total Interactions: {self.inter_cnt}", file=fileobj)
+        print(f"               Unique Interactions: {self.unique_inter_cnt}", file=fileobj)
+        print(f"            Duplicate Interactions: {self.dup_inter_cnt}", file=fileobj)
+        print(f"      Possible Unique interactions: {self.pui}", file=fileobj)
+        print(f"         Max Possible interactions: {self.maxpui}", file=fileobj)
+        print(f"       Max Individual interactions: {self.maxidivi}", file=fileobj)
+        print(f"     Tot effective rate (tot/poss): {self.inter_ratio_tot:0.2}", file=fileobj)
+        print(f" Unique effective rate (uniq/poss): {self.inter_ratio_unique:0.2}", file=fileobj)
+        print(f"         Num orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
+        print(f"        Num duplicate interactions: {self.dup_inter_cnt}", file=fileobj)
+        print("", file=fileobj)
+        print(f"                group combinations: {self.gc}", file=fileobj)
+        print(f"       Possible group combinations: {self.puc}", file=fileobj)
+
+        """list the sessions"""
+        print("\n\n", file=fileobj)
+        for i, val in cfg.sessions.items():
+            print(f"Session {i:02} - {val}", file=fileobj)
+
+    def run(self,):
+        with open(f'{cfg.datadir}run_stats.txt', 'w') as itxt:
+            # make file obj available to all methods
+            self.itxt = itxt
+            # calc the stats
+            self.gen_run_stats()
+            self.print_stats()
+            self.print_stats( fileobj=itxt)
+            itxt.write("\n\n\n\n")
+            print("\n\n")
+
+if __name__ == '__main__':
+    # set the config file working directory
+    wkdir = str(Path(__file__).resolve().parent) + os.pathsep
+    cl = RunStats(autorun=True)

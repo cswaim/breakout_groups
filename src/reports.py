@@ -11,6 +11,7 @@ import logging
 log = logging.getLogger(__name__)
 
 from src.reports_interactions_matrix import InteractionsMatrix
+from src.reports_run_stats import RunStats
 from src.reports_cards import CardsReports
 
 class Reports():
@@ -20,7 +21,8 @@ class Reports():
         """set up variables, import algorithm and run"""
         log.info(f"beg reporting")
         self.rim = cfg.report_interactions_matrix  # interactions matrix
-        self.rcd = cfg.report_cards  # card report
+        self.rrs = cfg.report_run_stats            # run stats
+        self.rcd = cfg.report_cards                # card report
         # run the reports
         if autorun:
             self.run()
@@ -31,6 +33,9 @@ class Reports():
         # run selected reports
         if self.rim:
             rim = InteractionsMatrix(autorun=True)
+
+        if self.rrs:
+            rrs = RunStats(autorun=True)
 
         if self.rcd:
             rcd = CardsReports()
