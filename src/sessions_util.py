@@ -67,7 +67,7 @@ def update_cards(all_cards) -> list:
                 all_cards[c].update_sess_labels(glabel)
     return all_cards
 
-def build_all_card_interactions():
+def build_all_card_interactions() -> dict:
     """build a list of all the interactions from all cards """
     all_card_interactions = {}
     for c in cfg.all_cards:
