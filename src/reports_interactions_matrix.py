@@ -115,38 +115,6 @@ class InteractionsMatrix():
 
         print(df, file=fileobj)
 
-        print("\n\n", file=fileobj)
-        print("Run Analysis \n", file=fileobj)
-        print(f"                         algorithm: {cfg.sys_group_algorithm}", file=fileobj)
-        print(f"                   algoritim_class: {cfg.sys_group_algorithm_class}", file=fileobj)
-        print("", file=fileobj)
-        print(f"attendees_list: {cfg.attendees_list}", file=fileobj)
-        print("", file=fileobj)
-        print(f"                         attendees: {cfg.n_attendees}", file=fileobj)
-        print(f"                        group_size: {cfg.group_size}", file=fileobj)
-        print(f"                groups_per_session: {cfg.n_groups}", file=fileobj)
-        print(f"                          sessions: {cfg.n_sessions}", file=fileobj)
-        print("", file=fileobj)
-        print(f"                Total Interactions: {self.inter_cnt}", file=fileobj)
-        print(f"               Unique Interactions: {self.unique_inter_cnt}", file=fileobj)
-        print(f"            Duplicate Interactions: {self.dup_inter_cnt}", file=fileobj)
-        print(f"      Possible Unique interactions: {self.pui}", file=fileobj)
-        print(f"         Max Possible interactions: {self.maxpui}", file=fileobj)
-        print(f"       Max Individual interactions: {self.maxidivi}", file=fileobj)
-        print(f"     Tot effective rate (tot/poss): {self.inter_ratio_tot:0.2}", file=fileobj)
-        print(f" Unique effective rate (uniq/poss): {self.inter_ratio_unique:0.2}", file=fileobj)
-        print(f"         Num orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
-        print(f"        Num duplicate interactions: {self.dup_inter_cnt}", file=fileobj)
-        print("", file=fileobj)
-        print(f"                group combinations: {self.gc}", file=fileobj)
-        print(f"       Possible group combinations: {self.puc}", file=fileobj)
-
-        """list the sessions"""
-        print("\n\n", file=fileobj)
-        for i, val in cfg.sessions.items():
-            print(f"Session {i:02} - {val}", file=fileobj)
-
-
 
     def show_ascii_histogram(self, fileobj=None):
         """Simple horizontal histogram of attendee interactions"""
