@@ -2,12 +2,10 @@ from pathlib import Path
 import os
 import io
 import pandas as pd
-import numpy as np
-import seaborn as sns
 import math
+import csv
 from datetime import datetime
 from src import config as cfg
-from src import sessions_util as su
 from src import reports_util as rptu
 
 class RunStats():
@@ -69,14 +67,11 @@ class RunStats():
                 if c > 1:
                     self.dup_inter_cnt += 1
 
-
-
         self.inter_ratio_tot = self.inter_cnt / self.pui
         self.unique_inter_cnt = self.inter_cnt - self.dup_inter_cnt
         self.inter_ratio_unique = self.unique_inter_cnt / self.pui
         # missed cnt is overstated
         self.miss_inter_cnt = self.pui - self.inter_cnt
-
 
         return df
 
@@ -168,6 +163,27 @@ class RunStats():
         for i, val in cfg.sessions.items():
             print(f"Session {i:02} - {val}", file=fileobj)
 
+    def write_stats_csv(self,):
+        """write stats to csv"""
+        headers="Date/Time, Interactions, Missed_Interactions, Duplicate_Interactions, Interaction_Ratio, Unique_Interactions, Interaction_Ratio_Unique, Missed_Interactions, Event_Possible_Unique_Interactions, Max_Possible_Unique_Interactions, Max_divi, Possible_Group_Combinations, Group_Combinations\n"
+
+        dtl = f'"{datetime.now()}", {self.inter_cnt}, {self.miss_inter_cnt},    {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}\n'
+
+        csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
+
+        # if file does not exist, create it and write header
+        if not csvfl_path.is_file():
+            with open(csvfl_path, 'w') as new_csv:
+                new_csv.write(headers)
+
+        # append to file
+        with open(csvfl_path, 'a', newline='') as csvfile:
+        #    csvwriter = csv.writer(csvfile, delimiter=',',
+        #                     quotechar='"', quoting=csv.QUOTE_MINIMAL)
+        #    csvwriter = csv.writer(csvfile)
+        #    csvwriter.writerow(dtl)
+           csvfile.write(dtl)
+
     def run(self,):
         with open(f'{cfg.datadir}run_stats.txt', 'w') as itxt:
             # make file obj available to all methods
@@ -178,6 +194,7 @@ class RunStats():
             self.print_stats( fileobj=itxt)
             itxt.write("\n\n\n\n")
             print("\n\n")
+        self.write_stats_csv()
 
 if __name__ == '__main__':
     # set the config file working directory
