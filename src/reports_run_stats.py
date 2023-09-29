@@ -167,7 +167,7 @@ class RunStats():
         """write stats to csv"""
         headers="Date/Time, Interactions, Missed_Interactions, Duplicate_Interactions, Interaction_Ratio, Unique_Interactions, Interaction_Ratio_Unique, Missed_Interactions, Event_Possible_Unique_Interactions, Max_Possible_Unique_Interactions, Max_divi, Possible_Group_Combinations, Group_Combinations\n"
 
-        dtl = f'"{datetime.now()}", {self.inter_cnt}, {self.miss_inter_cnt},    {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}\n'
+        dtl = f'"{datetime.now()}", {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}\n'
 
         csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
 
