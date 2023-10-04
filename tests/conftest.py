@@ -4,6 +4,7 @@ from collections import Counter
 from src import config as cfg
 from src.card import Card
 from src.event import Event
+from src.sessions_returned import SessionsReturned
 from src.sessions_vertical_intersection import SessionsVerticalIntersection
 
 """ Central repository for Pytest fixtures for breakout groups."""
@@ -161,3 +162,4 @@ def make_svi():
         return svi
     
     return make
+

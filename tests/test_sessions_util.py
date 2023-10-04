@@ -1,6 +1,7 @@
-"""SHow the distribution of interactions in a Sessio.
+"""Tests for the distribution of interactions in a Session.
 """
 import pytest
+
 from src import config as cfg
 from src.sessions_util import SessionsUtils as su
 
@@ -21,8 +22,26 @@ def test_update_cards(config_event_defaults):
         assert sorted(all_cards[i].card_interactions) ==  sorted(cfg.all_cards[i].card_interactions)
 
 
-
 def test_build_all_card_interactions(config_event_defaults):
     """test building of all card interactions"""
     all_card_interactions = su.build_all_card_interactions()
     assert all_card_interactions == cfg.all_card_interactions
+
+
+"""Test the helper method"""
+def test_make_sessions_returned():
+    # breakpoint()
+    sr = su.make_sessions_returned(n_attendees=12,
+                                group_size=4,
+                                n_sessions=5)
+    assert sr.n_attendees == 12
+    assert sr.group_size == 4
+    assert sr.sessions == [[[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10, 11]],
+            [[11, 0, 1, 2], [3, 4, 5, 6], [7, 8, 9, 10]],
+            [[10, 11, 0, 1], [2, 3, 4, 5], [6, 7, 8, 9]],
+            [[9, 10, 11, 0], [1, 2, 3, 4], [5, 6, 7, 8]]]
+    sr = su.make_sessions_returned(n_attendees=11,
+                                group_size=4,
+                                n_sessions=5)
+    assert sr.n_attendees == 11
+    assert sr.group_size == 4
