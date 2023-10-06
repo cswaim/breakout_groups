@@ -87,6 +87,7 @@ sessions = {}
 sessions_info = {}
 all_card_interactions = {}
 all_cards = []
+algo_runtime = None
 
 class ConfigParms:
     """ read the config file and set cfg values

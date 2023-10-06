@@ -2,18 +2,19 @@
 # -*- coding: utf-8 -*-
 #
 #  sessions.py
-#  
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
 import sys
 import importlib
+from datetime import datetime
 import logging
 import traceback
 from src import config as cfg
 log = logging.getLogger(__name__)
 
 class Sessions():
-    """ this is the driver for the the session generations""" 
+    """ this is the driver for the the session generations"""
 
     def __init__(self, seed=None, autorun=False):
         """set up variables, import algorithm and run"""
@@ -25,14 +26,16 @@ class Sessions():
         self.seed = seed
         self.autorun = autorun
         self.load_algorithm()
+        self.beg_time = None
+        self.end_time = None
         # run the algorithm
         if self.autorun:
             self.run_algorithm()
         log.info(f"end algorithm run")
- 
+
     def load_algorithm(self, ):
         """ load the algorithm module and execute"""
-        # import the src modules 
+        # import the src modules
         try:
             s = __import__("src.{0}".format(self.algorithm))
         except Exception as e:
@@ -56,12 +59,15 @@ class Sessions():
             log.error(traceback.format_exc())
             raise SystemExit()
 
-        # instantiate the algorithm class 
+        # instantiate the algorithm class
         self.ac = self.cls(seed=self.seed)
 
     def run_algorithm(self,):
         """run the algorithm"""
+        self.beg_time = datetime.now()
         self.ac.run()
+        self.end_time = datetime.now()
+        cfg.algo_runtime = self.end_time - self.beg_time
         # get the sessesions and interactions from algorithm
         self.sessions = self.ac.sessions
         if hasattr(self.ac,'interactions'):
