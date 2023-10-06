@@ -2,9 +2,9 @@
 # -*- coding: utf-8 -*-
 #
 #  test_sessions_comb.py
-#  
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
- 
+
 from src import config as cfg
 from src.sessions import Sessions
 import pytest
@@ -18,7 +18,7 @@ def test_init(config_event_defaults):
 
 def test_load_algorithm(config_event_defaults):
     """test check_sess_attendees"""
-    s = Sessions(autorun=False)    
+    s = Sessions(autorun=False)
     assert True == hasattr(s,'ac')
 
 def test_load_algorithm_module_fails(config_event_defaults):
@@ -34,3 +34,9 @@ def test_load_algorithm_class_fails(config_event_defaults):
     with pytest.raises(SystemExit) as e_info:
         s = Sessions(autorun=False)
     assert e_info.type == SystemExit
+
+def test_run(config_event_defaults, get_random_seed):
+    """test sys exit for bad algorithm module"""
+    sc = Sessions(seed=get_random_seed )
+    sc.run_algorithm()
+    assert cfg.algo_runtime != None
