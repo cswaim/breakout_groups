@@ -17,6 +17,17 @@ log = logging.getLogger(__name__)
         su.functionname()
 """
 
+def get_algorithms():
+    """ return a list of session modules, session algorithms"""
+    algo = (
+        ("sessions_random","SessionsRandom"),
+        ("sessions_random_interactions","SessionsRandomInteractions"),
+        ("sessions_comb","SessionsComb"),
+    )
+
+    for a in algo:
+        yield a
+
 
 def set_seed(seed=None):
     random.seed(seed)

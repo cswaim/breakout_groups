@@ -3,13 +3,11 @@
 #
 #  breakout_groups.py
 #
+#  run the breakout groups system for event configured in
+#  data/breakout_groups.cfg
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
-# import os
-# from pathlib import Path
-# import math
-# from itertools import combinations, chain
-# import itertools as it
 
 from src import config as cfg
 from src.event import Event
