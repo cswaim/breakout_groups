@@ -28,7 +28,7 @@ def test_build_all_card_interactions(config_event_defaults):
     assert all_card_interactions == cfg.all_card_interactions
 
 
-"""Test the helper method"""
+"""Happy day test the helper method"""
 def test_make_sessions_returned():
     # breakpoint()
     sr = su.make_sessions_returned(n_attendees=12,
@@ -45,3 +45,46 @@ def test_make_sessions_returned():
                                 n_sessions=5)
     assert sr.n_attendees == 11
     assert sr.group_size == 4
+
+"""Test for one orphan.
+   WHen groups are formed, there is always one attendee left out."""
+def test_for_one_orphan_attendee():
+    n_attendees = 13
+    group_size = 4
+    n_sessions = 5
+    sr = su.make_sessions_returned(n_attendees=n_attendees,
+                            group_size=group_size,
+                            n_sessions=n_sessions)
+
+    for session in sr.sessions:
+            for group in session:
+                assert (len(group) == group_size) or (len(group) == group_size+1)
+
+
+"""Test for two orphans"""
+def test_for_two_orphan_attendees():
+    n_attendees = 22
+    group_size = 5
+    n_sessions = 3
+    sr = su.make_sessions_returned(n_attendees=n_attendees,
+                            group_size=group_size,
+                            n_sessions=n_sessions)
+    # breakpoint()
+    for session in sr.sessions:
+            for group in session:
+                assert (len(group) == group_size) or (len(group) == group_size+1)
+
+
+""" Three orphans make an acceptable group.
+    Expect a group size of 3 somehwere in the session."""
+def test_for_four_orphan_attendees():
+    n_attendees = 19
+    group_size = 5
+    n_sessions = 3
+    sr = su.make_sessions_returned(n_attendees=n_attendees,
+                            group_size=group_size,
+                            n_sessions=n_sessions)
+    # breakpoint()
+    for session in sr.sessions:
+        for group in session:
+            assert (len(group) == group_size) or (len(group) == group_size-1)

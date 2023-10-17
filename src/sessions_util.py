@@ -10,10 +10,8 @@ import logging
 
 log = logging.getLogger(__name__)
 
-"""Utilities for sessions """
-
-
-class SessionsUtils:
+        
+class SessionsUtils():
     """ This is a collection of utilities used in creating sessions
 
         These functions are called statically :: note no self in the function definition
@@ -22,26 +20,58 @@ class SessionsUtils:
             from src.sessions_util import SessionsUtils as su
         then all functions:
             su.functionname()
-    """
+        """
 
 
     def set_seed(seed=None):
+        """Sets the random seed.
+
+        Args:
+            seed: The random seed.
+
+        Returns:
+            None.
+        """
+
         random.seed(seed)
 
     def init_sessions(n_sess: int=cfg.n_sessions) -> dict:
-        """build and initialize the sessions dict"""
+        """Initializes a dictionary of sessions.
+
+        Args:
+            n_sess: The number of sessions.
+
+        Returns:
+            A dictionary of sessions, where each session is a list of groups.
+        """
+
         sessions = {i:[] for i in range(0, cfg.n_sessions)}
         return sessions
 
     def init_cards(nc=cfg.n_attendees) -> list:
-        """ build the all_cards dict"""
+        """Initializes a list of cards.
+
+        Args:
+            nc: The number of cards.
+
+        Returns:
+            A list of cards.
+        """
+
         all_cards = []
         for i in range(nc):
             all_cards.append(Card(i))
         return all_cards
 
     def set_num_groups(sess: list) -> list:
-        """set the number of goups in a session, randomly allocating members to other groups"""
+        """Sets the number of groups in a session.
+
+        Args:
+            sess: A list of groups.
+
+        Returns:
+            A list of groups, where the number of groups has been set.
+        """
 
         g_used = []
         if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
@@ -58,7 +88,15 @@ class SessionsUtils:
         return sess
 
     def update_cards(all_cards) -> list:
-        """ update individual card iteractions and labels"""
+        """Updates the individual card iteractions and labels.
+
+        Args:
+            all_cards: A list of cards.
+
+        Returns:
+            A list of cards, where the individual card iteractions and labels have been updated.
+        """
+
         # k is session num,ber v is group list
         for k, v in cfg.sessions.items():
             # update card with group info, n grp num and g is group list of attendees
@@ -75,15 +113,30 @@ class SessionsUtils:
         return all_cards
 
     def build_all_card_interactions():
-        """build a list of all the interactions from all cards """
+        """Builds a list of all the interactions from all cards.
+
+        Returns:
+            A list of all the interactions from all cards.
+        """
+
         all_card_interactions = {}
         for c in cfg.all_cards:
             all_card_interactions[c.id] = c.card_interactions
 
         return all_card_interactions
 
+    
     def print_item(prt_item, heading=''):
-        """print either a list or dictionary"""
+        """Prints either a list or dictionary.
+
+        Args:
+            prt_item: The item to print.
+            heading: The heading for the printed item.
+
+        Returns:
+            None.
+        """
+
         prt_line = " {:02} - {}"
 
         print(f"--- {heading} ---")
@@ -99,47 +152,49 @@ class SessionsUtils:
         else:
             print("**Error:  item is not a dict, list or tuple")
 
-        """For many reasons, this is easier as a hlper method than as a fixture."""
     def make_sessions_returned(n_attendees=None,
-                            group_size=None,
-                            n_sessions=None):
-        """Based on values in the parameters, create all sessions for an event.
-            At the retreats, it seems the group size is a limiting factor.
-            On the other hand, the number of groups grows and shrinks based 
-            on the number of attendees.
-            If a test wants to stipulate the number of groups, then calculate the
-            group_size based on the desired number of groups prior to calling this method.
+                                group_size=None,
+                                n_sessions=None):
+        """Creates all sessions for an event, based on the values in the parameters.
+
+        At the retreats, it seems the group size is a limiting factor.
+        On the other hand, the number of groups grows and shrinks based on the number 
+        of attendees.
+        If a test wants to stipulate the number of groups, then calculate the
+        group_size based on the desired number of groups prior to calling this method.
+
+        Args:
+            n_attendees: The number of attendees.
+            group_size: The number of attendees in each group.
+            n_sessions: The number of sessions.
+
+        Returns:
+            A SessionsReturned object containing all of the sessions.
         """
 
-    # Attendees are simply the list of attendees, starting at zero
         if not n_attendees:
             n_attendees = cfg.n_attendees
-        attendees = list(range(0,n_attendees))
+        attendees = list(range(0, n_attendees))
 
-        # Group_size is the number of attendees in each group.  It is a maximimum 
-        # for each group.
-
-        # THe number of groups is calculated (using Python split) 
-        # so that as many groups as possible are formed
-        #  without creating any groups with more attendees than than the group_size.
         if not group_size:
             group_size = cfg.group_size
 
-        # For some variety in the test cases, rotate the members by one to the next group.
-        # For example, 
-        # [[0, 1, 2] , [3, 4, 5]]   becomes   [[5, 0, 1], [2, 3, 4]]
-        # etc.
         if not n_sessions:
             n_sessions = cfg.n_sessions
+
         base = attendees
         sessions = []
 
-        for new_attendee_order in range(1,n_sessions):
+        # For some variety in the test cases, rotate the members by one to the next group.
+        # For example,
+        # [[0, 1, 2] , [3, 4, 5]]   becomes   [[5, 0, 1], [2, 3, 4]]
+        # etc.
+        for new_attendee_order in range(1, n_sessions):
             new_attendee_order_d = deque(base)
             new_attendee_order_d.rotate(1)
             new_attendee_order = list(new_attendee_order_d)
-            session = [base[group:group+group_size]   
-            for group in range(0,len(attendees), group_size)]
+            session = [base[group:group+group_size]
+                        for group in range(0, len(attendees), group_size)]
             sessions.append(session)
             base = new_attendee_order
 
@@ -147,14 +202,17 @@ class SessionsUtils:
         # one or two attendees.  Need at least three.  A group with
         # less than three attendees is disbanded and the attendees added
         # to other groups.
-        
-        # for session in range(0, n_sessions):
-        #     for group in session:
-        #         # do we need to disband this group?
-        #         if len(group) < 3:
-        #             next_available_home = 0
-                    
 
+        for session in sessions:
+            for group in session:
+                # Due to orphans, do we need to disband this group?
+                if len(group) < 3:
+                    # Find a new group for this orphan attendee
+                    for index_orphan, orphan in enumerate(group):
+                        session[index_orphan].append(orphan)
+                        # group.remove(orphan)
+                    # Cleanup by removing the group since no orphans remain
+                    session.remove(group)
 
         sr = SessionsReturned()
         sr.group_size = group_size
@@ -162,3 +220,11 @@ class SessionsUtils:
         sr.sessions = sessions
 
         return sr
+
+    def groups_of_attendees_to_list(session=None):
+        """Compress groups of attendees into a single list of attendees."""
+        all_attendees = []
+        for group in session:
+            for attendee in group:
+                all_attendees.append(attendee)
+        return all_attendees
