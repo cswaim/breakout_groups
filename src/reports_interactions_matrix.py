@@ -71,18 +71,9 @@ class InteractionsMatrix():
                     self.dup_inter_cnt += 1
 
         # possible unique interactions possible n(n-1)/2
-        self.pui = math.comb(cfg.n_attendees, 2)
-        self.maxpui = int(((cfg.group_size -1) * cfg.n_sessions * cfg.n_attendees) / 2)
-        self.maxidivi = (cfg.group_size -1) * cfg.n_sessions
-        self.inter_ratio_tot = self.inter_cnt / self.pui
-        self.unique_inter_cnt = self.inter_cnt - self.dup_inter_cnt
-        self.inter_ratio_unique = self.unique_inter_cnt / self.pui
+        pui = math.comb(cfg.n_attendees, 2)
         # missed cnt is overstated
-        self.miss_inter_cnt = self.pui - self.inter_cnt
-
-        # possible combinations n! / r!(n-r)!    r is group size
-        self.puc = math.comb(cfg.n_attendees, cfg.group_size)
-        self.gc = cfg.n_sessions * cfg.n_groups
+        self.miss_inter_cnt = pui - self.inter_cnt
 
         df=df.replace(0,"")
 
