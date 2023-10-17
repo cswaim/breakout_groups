@@ -171,7 +171,7 @@ class RunStats():
         headers="Date/Time,Algorithm,Algorithm_Runtime,Interactions,Missed_Interactions, Duplicate_Interactions,Interaction_Ratio,Unique_Interactions, Interaction_Ratio_Unique,Missed_Interactions,Event_Possible_Unique_Interactions, Max_Possible_Unique_Interactions,Max_divi,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Num_Groups,Num_Sessions\n"
 
         dt_filter = '%Y-%m-%d %H:%M:%S'
-        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}\n'
+        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}\n'
 
         csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
 
