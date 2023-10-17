@@ -17,6 +17,7 @@ import logging
 from src import config as cfg
 from breakout_groups import BreakoutGroups
 from src import sessions_util as su
+from src.plot_algo_compare import PlotAlgoCompare
 
 loop_cnt = 20
 
@@ -62,3 +63,6 @@ if __name__ == '__main__':
         for x in range(loop_cnt):
             bg = BreakoutGroups()
             bg.run()
+
+    # plot results of csv file
+    pac = PlotAlgoCompare(autorun=True)

@@ -89,7 +89,7 @@ class PlotAlgoCompare():
         for pdf_obj in self.pdf_obj_list:
             pdf_obj.close()
 
-
+# to run plots standalone
 if __name__ == '__main__':
     # set the config file working directory
     wkdir = str(Path(__file__).resolve().parent) + os.pathsep
