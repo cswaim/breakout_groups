@@ -29,6 +29,7 @@ class RunStats():
         # possible unique interactions possible n(n-1)/2
         self.pui = math.comb(cfg.n_attendees, 2)
         self.maxpui = int(((cfg.group_size -1) * cfg.n_sessions * cfg.n_attendees) / 2)
+        # max num of interactions an individual can have
         self.maxidivi = (cfg.group_size -1) * cfg.n_sessions
         # possible combinations n! / r!(n-r)!    r is group size
         self.puc = math.comb(cfg.n_attendees, cfg.group_size)
@@ -166,9 +167,11 @@ class RunStats():
 
     def write_stats_csv(self,):
         """write stats to csv"""
-        headers="Date/Time, Algorithm, Algorithm Runtime, Interactions, Missed_Interactions, Duplicate_Interactions, Interaction_Ratio, Unique_Interactions, Interaction_Ratio_Unique, Missed_Interactions, Event_Possible_Unique_Interactions, Max_Possible_Unique_Interactions, Max_divi, Possible_Group_Combinations, Group_Combinations, Num_Attendees, Group_Size, Num_Groups, Num_Sessions \n"
+        # no space between headings to support pandas load
+        headers="Date/Time,Algorithm,Algorithm_Runtime,Interactions,Missed_Interactions, Duplicate_Interactions,Interaction_Ratio,Unique_Interactions, Interaction_Ratio_Unique,Missed_Interactions,Event_Possible_Unique_Interactions, Max_Possible_Unique_Interactions,Max_divi,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Num_Groups,Num_Sessions\n"
 
-        dtl = f'"{datetime.now()}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}\n'
+        dt_filter = '%Y-%m-%d %H:%M:%S'
+        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}\n'
 
         csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
 

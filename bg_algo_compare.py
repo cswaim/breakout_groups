@@ -37,10 +37,10 @@ def run_event():
         bg.run()
 
 def set_algorithm(algo=su.get_algorithms()):
-    """ from the list of algorithms return the next avaliable algorithm"""
+    """ this is a generator and will set the cfg algorithm options with each next call"""
     for a in algo:
-        cfg.sys_group_algorithm_class = a[1]
         cfg.sys_group_algorithm = a[0]
+        cfg.sys_group_algorithm_class = a[1]
         yield a
 
 if __name__ == '__main__':
@@ -49,7 +49,10 @@ if __name__ == '__main__':
     cfg.cp.run()
     set_config()
 
+    # setup generator
     algo_gen = set_algorithm()
+
+    # use loop to get each generator output
     while True:
         try:
             next(algo_gen)
