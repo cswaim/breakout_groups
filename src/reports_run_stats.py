@@ -179,10 +179,6 @@ class RunStats():
 
         # append to file
         with open(csvfl_path, 'a', newline='') as csvfile:
-        #    csvwriter = csv.writer(csvfile, delimiter=',',
-        #                     quotechar='"', quoting=csv.QUOTE_MINIMAL)
-        #    csvwriter = csv.writer(csvfile)
-        #    csvwriter.writerow(dtl)
            csvfile.write(dtl)
 
     def run(self,):
