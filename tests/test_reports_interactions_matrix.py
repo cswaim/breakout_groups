@@ -20,9 +20,8 @@ def test_gen_matrix(config_event_defaults, create_folders):
     # df is a class
     assert True == isinstance(df, pd.DataFrame)
     assert rim.inter_cnt == 38
-    assert rim.pui == 55
-    assert rim.gc == 12
-    assert rim.puc == 165
+    assert rim.miss_inter_cnt == 17
+    assert rim.dup_inter_cnt == 16
 
 def test_print_matrix(config_event_defaults, create_folders):
     """test the print"""

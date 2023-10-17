@@ -70,6 +70,11 @@ class InteractionsMatrix():
                 if c > 1:
                     self.dup_inter_cnt += 1
 
+        # possible unique interactions possible n(n-1)/2
+        pui = math.comb(cfg.n_attendees, 2)
+        # missed cnt is overstated
+        self.miss_inter_cnt = pui - self.inter_cnt
+
         df=df.replace(0,"")
 
         return df
