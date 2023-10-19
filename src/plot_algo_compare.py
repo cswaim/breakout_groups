@@ -1,11 +1,14 @@
 from pathlib import Path
 import os
 import io
+import seaborn as sns
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 
 from src import config as cfg
+
+sns.set(style="darkgrid")
 
 class PlotAlgoCompare():
     """ plot the results of the RunStats csv file"""
@@ -60,6 +63,17 @@ class PlotAlgoCompare():
         # plot it
         self.pp.savefig(miplot)
 
+    def plot_ui_to_maxpui(self, ):
+        """ plot the interaction effectiveness (ui/maxpui) for each run"""
+        ieplot = plt.figure("ie")
+        ieplot.suptitle("Interactions (Unique / Max Possible)")
+        # group by alogrithm
+        self.df.groupby('Algorithm')['Interaction_Ratio'].plot(legend=True)
+
+        # plot it
+        self.pp.savefig(ieplot)
+
+    # sample of plotting to a separate file
     def plot_runtime(self, ):
         """ plot the run time for each algorithm"""
         plotpdf = self.create_pdf_obj(plot_id="rt")
@@ -78,11 +92,12 @@ class PlotAlgoCompare():
         # build the full path to csv file
         csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
         self.df = pd.read_csv(csvfl_path)
-        print(self.df)
+        # print(self.df)
         self.pp = self.create_pdf_obj()
 
         self.plot_unique_interactions()
         self.plot_missed_interactions()
+        self.plot_ui_to_maxpui()
         self.plot_runtime()
 
         # close open pdf files

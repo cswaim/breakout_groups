@@ -12,6 +12,7 @@
 
 
 import os
+import sys
 import logging
 
 from src import config as cfg
@@ -23,10 +24,6 @@ loop_cnt = 20
 
 def set_config():
     """set variables for system run"""
-    cfg.num_attendees = 14
-    cfg.n_groups = 3
-    cfg.n_sessions = 5
-    cfg.group_size = 4
     cfg.report_cards = False
     cfg.report_interactions_matrix = False
     return
@@ -44,7 +41,7 @@ def set_algorithm(algo=su.get_algorithms()):
         cfg.sys_group_algorithm_class = a[1]
         yield a
 
-if __name__ == '__main__':
+def main(args):
     """ create breakout goups for an event"""
     # get the cfg parameters
     cfg.cp.run()
@@ -66,3 +63,6 @@ if __name__ == '__main__':
 
     # plot results of csv file
     pac = PlotAlgoCompare(autorun=True)
+
+if __name__ == '__main__':
+    sys.exit(main(sys.argv))
