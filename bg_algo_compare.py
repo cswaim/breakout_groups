@@ -12,6 +12,7 @@
 
 
 import os
+import sys
 import logging
 
 from src import config as cfg
@@ -23,10 +24,6 @@ loop_cnt = 20
 
 def set_config():
     """set variables for system run"""
-    cfg.num_attendees = 14
-    cfg.n_groups = 3
-    cfg.n_sessions = 5
-    cfg.group_size = 4
     cfg.report_cards = False
     cfg.report_interactions_matrix = False
     return
@@ -44,9 +41,15 @@ def set_algorithm(algo=su.get_algorithms()):
         cfg.sys_group_algorithm_class = a[1]
         yield a
 
-if __name__ == '__main__':
+def main(args):
     """ create breakout goups for an event"""
     # get the cfg parameters
+    print("")
+    print(f"  Running {loop_cnt} loops for each algorithm ")
+    for a in su.get_algorithms():
+        print(f"     module: {a[0]}, class: {a[1]}"  )
+    print("")
+
     cfg.cp.run()
     set_config()
 
@@ -66,3 +69,46 @@ if __name__ == '__main__':
 
     # plot results of csv file
     pac = PlotAlgoCompare(autorun=True)
+
+help_text = """
+ This module compares the various algorithms by running each algorithm
+ 20 times, recording the metrics of the run in a csv and then ploting
+ the results.
+
+ ex:
+    python bg_algo_compare.py          (runs 20 loops - the default)
+    python bg_algo_compare.py 35       (run 35 loops)
+    python bg_algo_compare.py --help    (or -h  displays this text)
+
+ If an arg of --help or -h is passed with the command, this message is
+     printed
+
+ The only other accepted arg is an integer to set the loop-cnt. The default
+ is 20.
+"""
+
+arg_err_txt = f"""
+ The arg must be --help, -h, or an integer
+   received arg:  {sys.argv[1]}
+"""
+
+if __name__ == '__main__':
+    """check the args """
+    help_arg = ["--help", "-h"]
+
+    # if no args, run with default
+    if len(sys.argv) > 1:
+        # check for help
+        if sys.argv[1] in help_arg:
+            print(help_text)
+            exit()
+        else:
+            # set the loop_cnt
+            try:
+                loop_cnt = int(sys.argv[1])
+            except:
+                print(sys.argv, type(sys.argv[1]))
+                print(arg_err_txt)
+                exit()
+
+    sys.exit(main(sys.argv))
