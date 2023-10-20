@@ -70,6 +70,17 @@ def main(args):
     # plot results of csv file
     pac = PlotAlgoCompare(autorun=True)
 
+def get_arg_err_txt():
+    """build and return the arg error msg
+        only run when arg > 1
+    """
+
+    arg_err_txt = f"""
+ The arg must be --help, -h, or an integer
+   received arg:  {sys.argv[1]}
+"""
+    return arg_err_txt
+
 help_text = """
  This module compares the various algorithms by running each algorithm
  20 times, recording the metrics of the run in a csv and then ploting
@@ -87,10 +98,6 @@ help_text = """
  is 20.
 """
 
-arg_err_txt = f"""
- The arg must be --help, -h, or an integer
-   received arg:  {sys.argv[1]}
-"""
 
 if __name__ == '__main__':
     """check the args """
@@ -108,7 +115,7 @@ if __name__ == '__main__':
                 loop_cnt = int(sys.argv[1])
             except:
                 print(sys.argv, type(sys.argv[1]))
-                print(arg_err_txt)
+                print(get_arg_err_txt())
                 exit()
 
     sys.exit(main(sys.argv))
