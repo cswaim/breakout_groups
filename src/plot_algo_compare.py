@@ -44,7 +44,6 @@ class PlotAlgoCompare():
 
     def plot_unique_interactions(self, ):
         """ plot the unique interactions for each run"""
-        #plot_path = self.build_plot_file_name(plot_id="ui")
         uiplot = plt.figure("ui")
         uiplot.suptitle("Unique Interactions")
 
@@ -95,7 +94,7 @@ class PlotAlgoCompare():
         csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
         self.df = pd.read_csv(csvfl_path)
         self.set_df_index()
-        print(self.df)
+        # print(self.df)
         self.pp = self.create_pdf_obj()
 
         self.plot_unique_interactions()
