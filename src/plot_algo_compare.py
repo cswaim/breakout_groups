@@ -37,10 +37,41 @@ class PlotAlgoCompare():
         plot_pdf_path = Path(f'{cfg.datadir}plot_rs{plot_id}.pdf')
         return plot_pdf_path
 
+    def get_run_num(self, algo_name):
+        """ a generator to calc the value of the run_cnt field"""
+        if algo_name == self.algo_name:
+            self.r_cnt += 1
+        else:
+            self.algo_name = algo_name
+            self.r_cnt = 0
+        return self.r_cnt
+
+    def add_run_cnt(self,):
+        """ insert a run count colum to begin of data frame"""
+        # get_run_num = self.run_cnt_gen(self.df['Algorithm'][0])
+        self.algo_name = ''
+        self.r_cnt = 0
+        self.df['Run_Num'] = self.df['Algorithm'].apply(self.get_run_num)
+        # build values list
+#         lc_val =[x for x in range(self.loop_cnt)]
+#         rc_val = [x for y in range(self.algo_cnt) for x in lc_val]
+#         try:
+#             self.df.insert(0,'Run_Num',rc_val)
+#         except:
+#             e_msg = f"""*********
+#     length of of values ({len(rc_val)}) not equal to length of df ({len(self.df)})
+#     Data frame run num colum not added
+# *********
+# """
+#             print(e_msg)
+
     def set_df_index(self,):
         """ set the dataframe x index to date-time column"""
         # define the index column (x axis)
-        self.df.set_index('Date/Time',inplace=True)
+        try:
+            self.df.set_index('Run_Num',inplace=True)
+        except:
+            self.df.set_index('Date/Time',inplace=True)
 
     def plot_unique_interactions(self, ):
         """ plot the unique interactions for each run"""
@@ -91,10 +122,12 @@ class PlotAlgoCompare():
 
     def run(self,):
         # build the full path to csv file
-        csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
+        cfg.sys_run_stats_csv = "run_stats_compare.csv"
+        csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
         self.df = pd.read_csv(csvfl_path)
+        self.add_run_cnt()
         self.set_df_index()
-        # print(self.df)
+        print(self.df)
         self.pp = self.create_pdf_obj()
 
         self.plot_unique_interactions()
@@ -110,4 +143,4 @@ class PlotAlgoCompare():
 if __name__ == '__main__':
     # set the config file working directory
     wkdir = str(Path(__file__).resolve().parent) + os.pathsep
-    pac = PlotAlgoCompare(autorun=True)
+    pac = PlotAlgoCompare(20,3,autorun=True)

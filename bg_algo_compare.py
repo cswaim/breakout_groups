@@ -26,6 +26,8 @@ def set_config():
     """set variables for system run"""
     cfg.report_cards = False
     cfg.report_interactions_matrix = False
+    cfg.sys_run_stats_csv = 'run_stats_compare.csv'
+    cfg.sys_run_stats_txt = 'run_stats_compare.txt'
     return
 
 def run_event():
@@ -68,7 +70,8 @@ def main(args):
             bg.run()
 
     # plot results of csv file
-    pac = PlotAlgoCompare(autorun=True)
+    algo_cnt = len(su.get_algorithms())
+    pac = PlotAlgoCompare(autorun=True,)
 
 def get_arg_err_txt():
     """build and return the arg error msg
