@@ -18,6 +18,8 @@ class PlotAlgoCompare():
         self.df = None
         self.pp = None   # generic pdf pages plot
         self.pdf_obj_list = []
+        # run cnt dict
+        self.rc_dict = {}
 
         if autorun:
             self.run()
@@ -38,32 +40,17 @@ class PlotAlgoCompare():
         return plot_pdf_path
 
     def get_run_num(self, algo_name):
-        """ a generator to calc the value of the run_cnt field"""
-        if algo_name == self.algo_name:
-            self.r_cnt += 1
+        """ calc the value of the run_cnt field"""
+        if algo_name in self.rc_dict:
+            self.rc_dict[algo_name] += 1
         else:
-            self.algo_name = algo_name
-            self.r_cnt = 0
-        return self.r_cnt
+            self.rc_dict[algo_name] = 0
+
+        return self.rc_dict[algo_name]
 
     def add_run_cnt(self,):
         """ insert a run count colum to begin of data frame"""
-        # get_run_num = self.run_cnt_gen(self.df['Algorithm'][0])
-        self.algo_name = ''
-        self.r_cnt = 0
         self.df['Run_Num'] = self.df['Algorithm'].apply(self.get_run_num)
-        # build values list
-#         lc_val =[x for x in range(self.loop_cnt)]
-#         rc_val = [x for y in range(self.algo_cnt) for x in lc_val]
-#         try:
-#             self.df.insert(0,'Run_Num',rc_val)
-#         except:
-#             e_msg = f"""*********
-#     length of of values ({len(rc_val)}) not equal to length of df ({len(self.df)})
-#     Data frame run num colum not added
-# *********
-# """
-#             print(e_msg)
 
     def set_df_index(self,):
         """ set the dataframe x index to date-time column"""
@@ -143,4 +130,4 @@ class PlotAlgoCompare():
 if __name__ == '__main__':
     # set the config file working directory
     wkdir = str(Path(__file__).resolve().parent) + os.pathsep
-    pac = PlotAlgoCompare(20,3,autorun=True)
+    pac = PlotAlgoCompare(autorun=True)
