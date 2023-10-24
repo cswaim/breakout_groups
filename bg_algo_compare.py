@@ -45,6 +45,9 @@ def set_algorithm(algo=su.get_algorithms()):
 
 def main(args):
     """ create breakout goups for an event"""
+    # get runtime sys args
+    get_args()
+
     # get the cfg parameters
     print("")
     print(f"  Running {loop_cnt} loops for each algorithm ")
@@ -124,6 +127,4 @@ help_text = """
 
 if __name__ == '__main__':
     """get and check the args and run compare """
-    get_args()
-
     sys.exit(main(sys.argv))
