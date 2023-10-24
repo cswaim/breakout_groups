@@ -73,6 +73,26 @@ def main(args):
     algo_cnt = len(su.get_algorithms())
     pac = PlotAlgoCompare(autorun=True,)
 
+def get_args():
+    """get the args and edit"""
+    global loop_cnt
+    help_arg = ["--help", "-h"]
+
+    # if no args, run with default
+    if len(sys.argv) > 1:
+        # check for help
+        if sys.argv[1] in help_arg:
+            print(help_text)
+            exit()
+        else:
+            # set the loop_cnt
+            try:
+                loop_cnt = int(sys.argv[1])
+            except:
+                print(sys.argv, type(sys.argv[1]))
+                print(get_arg_err_txt())
+                exit()
+
 def get_arg_err_txt():
     """build and return the arg error msg
         only run when arg > 1
@@ -103,22 +123,7 @@ help_text = """
 
 
 if __name__ == '__main__':
-    """check the args """
-    help_arg = ["--help", "-h"]
-
-    # if no args, run with default
-    if len(sys.argv) > 1:
-        # check for help
-        if sys.argv[1] in help_arg:
-            print(help_text)
-            exit()
-        else:
-            # set the loop_cnt
-            try:
-                loop_cnt = int(sys.argv[1])
-            except:
-                print(sys.argv, type(sys.argv[1]))
-                print(get_arg_err_txt())
-                exit()
+    """get and check the args and run compare """
+    get_args()
 
     sys.exit(main(sys.argv))
