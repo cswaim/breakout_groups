@@ -18,6 +18,8 @@ class PlotAlgoCompare():
         self.df = None
         self.pp = None   # generic pdf pages plot
         self.pdf_obj_list = []
+        # run cnt dict
+        self.rc_dict = {}
 
         if autorun:
             self.run()
@@ -37,10 +39,26 @@ class PlotAlgoCompare():
         plot_pdf_path = Path(f'{cfg.datadir}plot_rs{plot_id}.pdf')
         return plot_pdf_path
 
+    def get_run_num(self, algo_name):
+        """ calc the value of the run_cnt field"""
+        if algo_name in self.rc_dict:
+            self.rc_dict[algo_name] += 1
+        else:
+            self.rc_dict[algo_name] = 0
+
+        return self.rc_dict[algo_name]
+
+    def add_run_cnt(self,):
+        """ insert a run count colum to begin of data frame"""
+        self.df['Run_Num'] = self.df['Algorithm'].apply(self.get_run_num)
+
     def set_df_index(self,):
         """ set the dataframe x index to date-time column"""
         # define the index column (x axis)
-        self.df.set_index('Date/Time',inplace=True)
+        try:
+            self.df.set_index('Run_Num',inplace=True)
+        except:
+            self.df.set_index('Date/Time',inplace=True)
 
     def plot_unique_interactions(self, ):
         """ plot the unique interactions for each run"""
@@ -91,10 +109,12 @@ class PlotAlgoCompare():
 
     def run(self,):
         # build the full path to csv file
-        csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
+        cfg.sys_run_stats_csv = "run_stats_compare.csv"
+        csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
         self.df = pd.read_csv(csvfl_path)
+        self.add_run_cnt()
         self.set_df_index()
-        # print(self.df)
+        print(self.df)
         self.pp = self.create_pdf_obj()
 
         self.plot_unique_interactions()

@@ -44,9 +44,15 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.5'
+sys_cfg_version = '0.6'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
+# output file names
+sys_run_stats_csv = "run_stats.csv"
+sys_run_stats_txt = "run_stats.txt"
+sys_cards_pdf = "cards.pdf"
+sys_cards_txt = "cards.txt"
+sys_interactions_reports_txt = "interactions_reports.txt"
 
 # values passed to ConfigParms
 # dict key is the section, value is a list of variable names and type
@@ -68,6 +74,11 @@ cfg_values = {'EVENT': [
               'SYSTEM': [
                 ('sys_cfg_version', 's'), ('sys_group_algorithm', 's'),
                 ('sys_group_algorithm_class', 's'),
+                ('sys_run_stats_csv', 's'),
+                ('sys_run_stats_txt', 's'),
+                ('sys_cards_pdf', 's'),
+                ('sys_cards_txt', 's'),
+                ('sys_interactions_reports_txt', 's'),
                 ],
              }
 cfg_comments = {
@@ -76,6 +87,7 @@ cfg_comments = {
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
     'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
+    'sys_run_stats_csv': ['output files names'],
              }
 
 # config obj

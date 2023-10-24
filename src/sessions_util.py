@@ -25,8 +25,7 @@ def get_algorithms():
         ("sessions_comb","SessionsComb"),
     )
 
-    for a in algo:
-        yield a
+    return algo
 
 
 def set_seed(seed=None):

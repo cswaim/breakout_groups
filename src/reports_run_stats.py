@@ -149,13 +149,12 @@ class RunStats():
         print(f"                Total Interactions: {self.inter_cnt}", file=fileobj)
         print(f"               Unique Interactions: {self.unique_inter_cnt}", file=fileobj)
         print(f"            Duplicate Interactions: {self.dup_inter_cnt}", file=fileobj)
+        print(f"  Num missed/orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
         print(f"      Possible Unique interactions: {self.pui}", file=fileobj)
         print(f"         Max Possible interactions: {self.maxpui}", file=fileobj)
         print(f"       Max Individual interactions: {self.maxidivi}", file=fileobj)
         print(f"     Tot effective rate (tot/poss): {self.inter_ratio_tot:0.2}", file=fileobj)
         print(f" Unique effective rate (uniq/poss): {self.inter_ratio_unique:0.2}", file=fileobj)
-        print(f"         Num orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
-        print(f"        Num duplicate interactions: {self.dup_inter_cnt}", file=fileobj)
         print("", file=fileobj)
         print(f"                group combinations: {self.gc}", file=fileobj)
         print(f"       Possible group combinations: {self.puc}", file=fileobj)
@@ -168,12 +167,12 @@ class RunStats():
     def write_stats_csv(self,):
         """write stats to csv"""
         # no space between headings to support pandas load
-        headers="Date/Time,Algorithm,Algorithm_Runtime,Interactions,Missed_Interactions, Duplicate_Interactions,Interaction_Ratio,Unique_Interactions, Interaction_Ratio_Unique,Missed_Interactions,Event_Possible_Unique_Interactions, Max_Possible_Unique_Interactions,Max_divi,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Num_Groups,Num_Sessions\n"
+        headers="Date/Time,Algorithm,Algorithm_Runtime,Interactions,Missed_Interactions,Duplicate_Interactions,Interaction_Ratio,Unique_Interactions,Interaction_Ratio_Unique,Event_Possible_Unique_Interactions,Max_Possible_Unique_Interactions,Max_divi,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Num_Groups,Num_Sessions\n"
 
         dt_filter = '%Y-%m-%d %H:%M:%S'
-        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.miss_inter_cnt}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}\n'
+        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}\n'
 
-        csvfl_path = Path(f'{cfg.datadir}run_stats.csv')
+        csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
 
         # if file does not exist, create it and write header
         if not csvfl_path.is_file():
@@ -185,7 +184,7 @@ class RunStats():
            csvfile.write(dtl)
 
     def run(self,):
-        with open(f'{cfg.datadir}run_stats.txt', 'w') as itxt:
+        with open(f'{cfg.datadir}{cfg.sys_run_stats_txt}', 'w') as itxt:
             # make file obj available to all methods
             self.itxt = itxt
             # calc the stats

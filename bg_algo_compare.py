@@ -26,6 +26,8 @@ def set_config():
     """set variables for system run"""
     cfg.report_cards = False
     cfg.report_interactions_matrix = False
+    cfg.sys_run_stats_csv = 'run_stats_compare.csv'
+    cfg.sys_run_stats_txt = 'run_stats_compare.txt'
     return
 
 def run_event():
@@ -43,6 +45,9 @@ def set_algorithm(algo=su.get_algorithms()):
 
 def main(args):
     """ create breakout goups for an event"""
+    # get runtime sys args
+    get_args()
+
     # get the cfg parameters
     print("")
     print(f"  Running {loop_cnt} loops for each algorithm ")
@@ -68,7 +73,28 @@ def main(args):
             bg.run()
 
     # plot results of csv file
-    pac = PlotAlgoCompare(autorun=True)
+    algo_cnt = len(su.get_algorithms())
+    pac = PlotAlgoCompare(autorun=True,)
+
+def get_args():
+    """get the args and edit"""
+    global loop_cnt
+    help_arg = ["--help", "-h"]
+
+    # if no args, run with default
+    if len(sys.argv) > 1:
+        # check for help
+        if sys.argv[1] in help_arg:
+            print(help_text)
+            exit()
+        else:
+            # set the loop_cnt
+            try:
+                loop_cnt = int(sys.argv[1])
+            except:
+                print(sys.argv, type(sys.argv[1]))
+                print(get_arg_err_txt())
+                exit()
 
 def get_arg_err_txt():
     """build and return the arg error msg
@@ -100,22 +126,5 @@ help_text = """
 
 
 if __name__ == '__main__':
-    """check the args """
-    help_arg = ["--help", "-h"]
-
-    # if no args, run with default
-    if len(sys.argv) > 1:
-        # check for help
-        if sys.argv[1] in help_arg:
-            print(help_text)
-            exit()
-        else:
-            # set the loop_cnt
-            try:
-                loop_cnt = int(sys.argv[1])
-            except:
-                print(sys.argv, type(sys.argv[1]))
-                print(get_arg_err_txt())
-                exit()
-
+    """get and check the args and run compare """
     sys.exit(main(sys.argv))
