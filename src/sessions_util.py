@@ -22,15 +22,15 @@ class SessionsUtils():
             su.functionname()
         """
 
-def get_algorithms():
-    """ return a list of session modules, session algorithms"""
-    algo = (
-        ("sessions_random","SessionsRandom"),
-        ("sessions_random_interactions","SessionsRandomInteractions"),
-        ("sessions_comb","SessionsComb"),
-    )
+    def get_algorithms():
+        """ return a list of session modules, session algorithms"""
+        algo = (
+            ("sessions_random","SessionsRandom"),
+            ("sessions_random_interactions","SessionsRandomInteractions"),
+            ("sessions_comb","SessionsComb"),
+        )
 
-    return algo
+        return algo
 
 
     def set_seed(seed=None):
@@ -83,19 +83,19 @@ def get_algorithms():
             A list of groups, where the number of groups has been set.
         """
 
-    g_used = []
-    if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
-        for x in sess[-1]:
-            # gen number until not used
-            while (g:= random.randrange(cfg.n_groups )) in g_used:
-                # reset g_used if attendees still exist but all groups have been used
-                if len(g_used) >= cfg.n_groups:
-                    g_used = []
-            g_used.append(g)
-            sess[g].append(x)
-        # remove last group
-        sess.pop()
-    return sess
+        g_used = []
+        if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
+            for x in sess[-1]:
+                # gen number until not used
+                while (g:= random.randrange(cfg.n_groups )) in g_used:
+                    # reset g_used if attendees still exist but all groups have been used
+                    if len(g_used) >= cfg.n_groups:
+                        g_used = []
+                g_used.append(g)
+                sess[g].append(x)
+            # remove last group
+            sess.pop()
+        return sess
 
     def update_cards(all_cards) -> list:
         """Updates the individual card iteractions and labels.
@@ -149,7 +149,7 @@ def get_algorithms():
 
         prt_line = " {:02} - {}"
 
-    print(f"--- {heading} ---")
+        print(f"--- {heading} ---")
 
         # if dict
         if isinstance(prt_item, dict):
