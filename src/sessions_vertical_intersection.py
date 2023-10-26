@@ -6,6 +6,7 @@ import numpy as np
 import time
 import copy
 from src import config as cfg
+from src import sessions_returned as sr
 import logging
 log = logging.getLogger(__name__)
 
@@ -206,13 +207,13 @@ class SessionsVerticalIntersection():
 
                 if self.printing: print('session',i,out_sess,'% 6.4f sec,' % elapsed,max_pairs-len(non_interactions),'/',max_pairs,'pairs satisfied')
                 
-                sessions[i] = {}
-                sessions[i]['seed'] = self.seed
-                sessions[i]['session'] = out_sess
-                sessions[i]['elapsed'] = '%8.6f' % elapsed
-                sessions[i]['n_pairs_satisfied'] = max_pairs-len(non_interactions)
-                sessions[i]['n_pairs'] = max_pairs
-
+                sessions_info = sr.SessionsReturned()
+                sessions_info.seed = self.seed
+                sessions_info.sessions = out_sess
+                sessions_info.elapsed = '%8.6f' % elapsed
+                sessions_info.n_pairs_satisfied = max_pairs-len(non_interactions)
+                sessions_info.n_pairs = max_pairs
+                sessions[i] = copy.deepcopy(sessions_info)
                 #i+=1
                 in_sess = out_sess.copy()
             else:

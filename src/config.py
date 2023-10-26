@@ -31,33 +31,63 @@ n_attendees = 11
 group_size = 3
 n_groups = 3
 n_sessions = 4
+random_seed = None
 group_labels = [['group1,group2,group3,group4,group5'],
                 ['blue,red,green,yellow,pink'],
                 ['Portales,Santa Fe,Taos,Chama,Cuba'],
                 ['Elbert,Massive,Harvard,Blanca,La Plata'],
                ]
 
+# reports
+report_interactions_matrix = True
+report_run_stats = True
+report_cards = True
+
 # system variables
-sys_cfg_version = '0.3'
+sys_cfg_version = '0.6'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
+# output file names
+sys_run_stats_csv = "run_stats.csv"
+sys_run_stats_txt = "run_stats.txt"
+sys_cards_pdf = "cards.pdf"
+sys_cards_txt = "cards.txt"
+sys_interactions_reports_txt = "interactions_reports.txt"
 
 # values passed to ConfigParms
-# dict key is the section, value is list of variable names and type
+# dict key is the section, value is a list of variable names and type
 #   types are i-integer, f-float, b-boolean, s-string, l-list
 
 cfg_values = {'EVENT': [
-    ('event_title', 's'), ('event_subtitle', 's'),
-    ('event_date', 's'),
-    ('n_attendees', 'i'), ('group_size', 'i'), ('n_groups', 'i'), ('n_sessions', 'i')],
+                ('event_title', 's'), ('event_subtitle', 's'),
+                ('event_date', 's'),
+                ('n_attendees', 'i'), ('group_size', 'i'),
+                ('n_groups', 'i'), ('n_sessions', 'i'),
+                ('random_seed', 'i'),
+                ],
               'GROUP_LABELS': [],
-              'SYSTEM': [('sys_cfg_version', 's'), ('sys_group_algorithm', 's'), ('sys_group_algorithm_class', 's')],
+              'REPORTS':[
+                  ('report_interactions_matrix', 'b'),
+                  ('report_run_stats', 'b'),
+                  ('report_cards', 'b'),
+              ],
+              'SYSTEM': [
+                ('sys_cfg_version', 's'), ('sys_group_algorithm', 's'),
+                ('sys_group_algorithm_class', 's'),
+                ('sys_run_stats_csv', 's'),
+                ('sys_run_stats_txt', 's'),
+                ('sys_cards_pdf', 's'),
+                ('sys_cards_txt', 's'),
+                ('sys_interactions_reports_txt', 's'),
+                ],
              }
 cfg_comments = {
     'event_title': ['event title, subtitle and date must be <= 30 characters'],
     'event_date': ['date is a string and will be printed as entered, examples:', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
+    'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
+    'sys_run_stats_csv': ['output files names'],
              }
 
 # config obj
@@ -66,8 +96,10 @@ config = None
 # variables passed to all modules
 attendees_list = []
 sessions = {}
+sessions_info = {}
 all_card_interactions = {}
 all_cards = []
+algo_runtime = None
 
 class ConfigParms:
     """ read the config file and set cfg values
@@ -174,6 +206,16 @@ class ConfigParms:
                 # do not override the module version number
                 if var_name == 'sys_cfg_version':
                     continue
+
+                # random_seed must be int or it is changed to None
+                if var_name == 'random_seed':
+                    seed = config.get(sec, var_name, fallback=globals()[var_name])
+                    try:
+                        globals()[var_name] = int(seed)
+                    except Exception as e:
+                        globals()[var_name] = None
+                    continue
+
                 # set variable from config value
                 match var[1]:
                     case 'b':
@@ -333,4 +375,3 @@ and then in the application code, read the parm file:
 """
 cp = ConfigParms(cfg_values, cfg_comments)
 # cp.run()
-

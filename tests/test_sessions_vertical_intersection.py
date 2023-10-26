@@ -31,7 +31,7 @@ def test_check_sess_attendees(config_event_defaults, get_random_seed):
     good_session = [x for x in range(cfg.n_attendees)]
     sessions = sc.build_sessions()
     for k, v in sessions.items():
-        attend_list = [e for i in v['session'] for e in i]
+        attend_list = [e for i in v.sessions for e in i]
         attend_list.sort()
         assert attend_list == good_session
 

@@ -3,7 +3,7 @@ import itertools as it
 from itertools import chain
 import copy
 from src import config as cfg
-from src.sessions_util import SessionsUtils as su
+from src import sessions_util as su
 import logging
 log = logging.getLogger(__name__)
 
@@ -81,7 +81,7 @@ class SessionsComb():
             # used to break out of while
             self.loop_cnt = 1
             while len(g) < cfg.n_groups and self.loop_cnt < self.max_loop:
-                self.build_missing_groups(s, g)
+                self.build_missing_groups(s)
 
         su.print_item(self.comb_dict, "comb dict after fill")
         # get missing attendees
@@ -144,10 +144,15 @@ class SessionsComb():
 
         return comb_key
 
-    def build_missing_groups(self, sn, sg):
-        """ build the remaining groups for a session"""
+    def build_missing_groups(self, sn):
+        """ build the remaining groups for a session
+            sn = session number
+
+            sg = list of groups for session and is updated
+        """
         # get the min sess attendee number, unassigned attendee
         comb_key = self.get_comb_key(sn)
+        sg = self.sessions[sn]
 
         # loop until all groups for session have be assigned or not satisfied after
         # max_loop attempts

@@ -1,7 +1,7 @@
 from collections import Counter
 
 import datetime
-from src import report_utils as rptu
+from src import reports_util as rptu
 import pytest
 
 """Unit tests for report utilities"""

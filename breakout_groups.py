@@ -3,13 +3,11 @@
 #
 #  breakout_groups.py
 #
+#  run the breakout groups system for event configured in
+#  data/breakout_groups.cfg
+#
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
-# import os
-# from pathlib import Path
-# import math
-# from itertools import combinations, chain
-# import itertools as it
 
 from src import config as cfg
 from src.event import Event
@@ -27,7 +25,7 @@ class BreakoutGroups():
     n_groups = 0
     n_sessions = 0
 
-    def __init__(self, seed=None) -> None:
+    def __init__(self, ) -> None:
         """setup"""
         self.n_attendees = cfg.n_attendees
         self.group_size = cfg.group_size
@@ -35,12 +33,13 @@ class BreakoutGroups():
         self.n_sessions = cfg.n_sessions
         self.attendees_list = cfg.attendees_list
         self.event = None
-        self.seed = seed
+        self.seed = cfg.random_seed
         logger_setup.run()
         log.info("beg breakout-groups")
 
     def print_variables(self,):
         """print config variables"""
+        print("")
         print(f"         algorithm: {cfg.sys_group_algorithm}")
         print(f"   algoritim_class: {cfg.sys_group_algorithm_class}")
         print("")
@@ -50,6 +49,10 @@ class BreakoutGroups():
         print(f"groups_per_session: {cfg.n_groups}")
         print(f"          sessions: {cfg.n_sessions}")
         print("")
+        print(f"       random seed: {cfg.random_seed}")
+        print("")
+
+        cfg.print_config_vars(heading="Print All Variables")
 
     def run(self,):
         """create breakout groups for event"""
@@ -58,7 +61,7 @@ class BreakoutGroups():
         self.event = Event(self.seed)
         self.event.run()
         self.event.show_sessions()
-
+        log.info("end event processing")
 
 if __name__ == '__main__':
     """ create breakout goups for an event"""
@@ -68,5 +71,3 @@ if __name__ == '__main__':
     bg = BreakoutGroups()
     bg.run()
     log.info("end of breakout-groups")
-
-
