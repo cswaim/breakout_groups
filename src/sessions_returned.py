@@ -20,3 +20,9 @@ class SessionsReturned():
         # Where appropriate, max_pairs
         self.max_pairs = None
         
+        # The following information may be out of sync with the latest 
+        # cfg file, so is included here.  Helpful for testing.
+        self.n_attendees = None
+        self.group_size = None
+        self.n_groups = None
+        self.n_sessions = None
