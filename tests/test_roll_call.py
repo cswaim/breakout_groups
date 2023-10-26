@@ -1,5 +1,5 @@
-from src import roll_call as rc
-import src.sessions_util as su
+import src.roll_call as rc
+from src import sessions_util as su
 from src import config as cfg
 
 import pytest
@@ -11,7 +11,7 @@ def test_check_all_present():
     # Populate groups based on the attendee_list and number of groups.
 
     n_attendees=12
-    event = su.SessionsUtils.make_sessions_returned(n_attendees=n_attendees,
+    event = su.make_sessions_returned(n_attendees=n_attendees,
                                 group_size=4,n_sessions=4)
 
     session = event.sessions[0]
@@ -24,7 +24,7 @@ def test_check_all_present():
 # No attendee appears more than once in a group.  Happy Day
 def test_only_once():
     rc_checker = rc.RollCall()
-    event = su.SessionsUtils.make_sessions_returned(n_attendees=12,
+    event = su.make_sessions_returned(n_attendees=12,
                                 group_size=4,n_sessions=4)
     for session in event.sessions:
         assert rc_checker.check_attendee_only_once(session=session)
@@ -35,7 +35,7 @@ def test_is_element_in_list_of_lists_more_than_once_fail():
     rc_checker = rc.RollCall()
     n_attendees = 30
     group_size = 5
-    event = su.SessionsUtils.make_sessions_returned(n_attendees=n_attendees,
+    event = su.make_sessions_returned(n_attendees=n_attendees,
                             group_size=group_size,n_sessions=4)
     # To the first session, first group, duplicate the second  attendee
     event.sessions[0][0][0] = event.sessions[0][0][1]
@@ -49,7 +49,7 @@ def test_check_n_groups():
     n_attendees = 65
     group_size = 5
     computed_n_groups = n_attendees / group_size
-    event = su.SessionsUtils.make_sessions_returned(n_attendees=n_attendees,
+    event = su.make_sessions_returned(n_attendees=n_attendees,
                             group_size=group_size,n_sessions=4)
     for session in event.sessions:
         assert rc_checker.check_n_groups(expected_n_groups=computed_n_groups,
