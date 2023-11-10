@@ -73,13 +73,22 @@ def init_cards(nc=cfg.n_attendees) -> list:
     return all_cards
 
 def set_num_groups(sess: list) -> list:
-    """Sets the number of groups in a session.
+    """Using a set number of groups in a session, allocate 'extra' attendees
+        to the groups defined by n_groups variables
+        assume n_goups = 3
+               n_attendee = 11
+               n_size = 3
+
+        [ [1,2,3], [4,5,6], [7,8,9], [10,11]]
+
+        returns:
+        [ [1,2,3,10], [4,5,6], [7,8,9,11]]
 
     Args:
         sess: A list of groups.
 
     Returns:
-        A list of groups, where the number of groups has been set.
+        A list of groups, where the number of groups has been set to n_groups.
     """
 
     g_used = []
@@ -167,7 +176,7 @@ def make_sessions_returned(n_attendees=None,
     """Creates all sessions for an event, based on the values in the parameters.
 
     At the retreats, it seems the group size is a limiting factor.
-    On the other hand, the number of groups grows and shrinks based on the number 
+    On the other hand, the number of groups grows and shrinks based on the number
     of attendees.
     If a test wants to stipulate the number of groups, then calculate the
     group_size based on the desired number of groups prior to calling this method.
