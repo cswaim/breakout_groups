@@ -23,10 +23,10 @@ log = logging.getLogger(__name__)
 
 def get_algorithms():
     """ return a list of session modules, session algorithms
-        chg 11/13 to use cfg for list of algorithms
+        changed to use cfg for list of algorithms, instead of hard coded
     """
-    values = cfg.sys_algorithm_compare.split(",")
-    algo = [[values[i], values[i+1]] for i in range(0, len(values), 2)]
+    algo_vals = cfg.sys_algorithm_compare
+    algo = [[algo_vals[i], algo_vals[i+1]] for i in range(0, len(algo_vals), 2)]
 
     return algo
 

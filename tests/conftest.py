@@ -60,7 +60,7 @@ def config_event_defaults():
     cfg.group_labels.append(["Elbert","Massive","Harvard","Blanca","La Plata"])
     cfg.sys_group_algorithm = 'sessions_random'
     cfg.sys_group_algorithm_class = 'SessionsRandom'
-    cfg.sys_algorithm_compare = "sessions_random,SessionsRandom,sessions_random_interactions,SessionsRandomInteractions"
+    cfg.sys_algorithm_compare = ['sessions_random','SessionsRandom','sessions_random_interactions','SessionsRandomInteractions']
 
     """
 
