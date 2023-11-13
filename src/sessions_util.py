@@ -25,7 +25,8 @@ def get_algorithms():
     """ return a list of session modules, session algorithms
         chg 11/13 to use cfg for list of algorithms
     """
-    algo = cfg.sys_algorithm_compare
+    values = cfg.sys_algorithm_compare.split(",")
+    algo = [[values[i], values[i+1]] for i in range(0, len(values), 2)]
 
     return algo
 
