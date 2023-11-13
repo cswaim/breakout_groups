@@ -27,6 +27,14 @@ def test_build_all_card_interactions(config_event_defaults):
     all_card_interactions = su.build_all_card_interactions()
     assert all_card_interactions == cfg.all_card_interactions
 
+def test_get_algorithms(config_event_defaults):
+    """test get algorithms which converts the string of algorithms
+        to a list of lists [[module,class], [module,class]]
+    """
+    rsp = [["sessions_random","SessionsRandom"], ["sessions_random_interactions","SessionsRandomInteractions"]]
+    algos = su.get_algorithms()
+    assert algos == rsp
+
 
 """Happy day test the helper method"""
 def test_make_sessions_returned():

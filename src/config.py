@@ -44,9 +44,12 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.6'
+sys_cfg_version = '0.7'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
+sys_algorithm_compare = ["sessions_random","SessionsRandom",
+        "sessions_random_interactions","SessionsRandomInteractions",
+        ]
 # output file names
 sys_run_stats_csv = "run_stats.csv"
 sys_run_stats_txt = "run_stats.txt"
@@ -74,6 +77,7 @@ cfg_values = {'EVENT': [
               'SYSTEM': [
                 ('sys_cfg_version', 's'), ('sys_group_algorithm', 's'),
                 ('sys_group_algorithm_class', 's'),
+                ('sys_algorithm_compare', 'l'),
                 ('sys_run_stats_csv', 's'),
                 ('sys_run_stats_txt', 's'),
                 ('sys_cards_pdf', 's'),
@@ -88,6 +92,7 @@ cfg_comments = {
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
     'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
     'sys_run_stats_csv': ['output files names'],
+    'sys_algorithm_compare': ['format of this is module_name, class_name, module_name, class_name', ' The list is parsed into a list of lists (module,class), (module, class)']
              }
 
 # config obj

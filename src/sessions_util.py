@@ -22,12 +22,11 @@ log = logging.getLogger(__name__)
 
 
 def get_algorithms():
-    """ return a list of session modules, session algorithms"""
-    algo = (
-        ("sessions_random","SessionsRandom"),
-        ("sessions_random_interactions","SessionsRandomInteractions"),
-        ("sessions_comb","SessionsComb"),
-    )
+    """ return a list of session modules, session algorithms
+        changed to use cfg for list of algorithms, instead of hard coded
+    """
+    algo_vals = cfg.sys_algorithm_compare
+    algo = [[algo_vals[i], algo_vals[i+1]] for i in range(0, len(algo_vals), 2)]
 
     return algo
 
