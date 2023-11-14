@@ -1,5 +1,4 @@
 import src.sessions_brute_force_1 as bf1
-from src import sessions_util as su
 from src import config as cfg
 
 import pytest
@@ -8,9 +7,16 @@ import pytest
 
 # Crude end-to-end systems test
 def test_run_end_to_end():
+    cfg.n_attendees = 16
+    cfg.n_groups = 4
+    cfg.group_size = 4
+    cfg.n_sessions = 4
     bf = bf1.SessionsBruteForce1()
     sessions_returned = bf.build_sessions()
     assert sessions_returned.n_sessions == cfg.n_sessions
+    assert sessions_returned.n_attendees == cfg.n_attendees
+    print(f"\n")
+    [print(session) for session in sessions_returned.sessions]
 
 
 def test_eligible_if_not_already_populated():
