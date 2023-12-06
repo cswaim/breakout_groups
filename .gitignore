@@ -119,6 +119,7 @@ venv.bak/
 
 # vscode
 *.code-workspace
+.vscode
 
 # mkdocs documentation
 /site
