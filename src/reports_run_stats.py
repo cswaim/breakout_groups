@@ -26,11 +26,27 @@ class RunStats():
         self.inter_ratio_unique = 0
         self.miss_inter_cnt = 0
 
+        # calc max group size
+        q, r = divmod(cfg.n_attendees, cfg.n_groups)
+        if r > 1:
+            self.maxgroup_size = q + 1
+        else:
+            self.maxgroup_size = q
+
+        self.maxgroup_size_occurence = r
+
+        # max num of interactions an individual can have
+        self.maxidivi = (self.maxgroup_size - 1) * cfg.n_sessions
+
         # possible unique interactions possible n(n-1)/2
         self.pui = math.comb(cfg.n_attendees, 2)
-        self.maxpui = int(((cfg.group_size -1) * cfg.n_sessions * cfg.n_attendees) / 2)
-        # max num of interactions an individual can have
-        self.maxidivi = (cfg.group_size -1) * cfg.n_sessions
+
+        # max possible unique interactions is constrained by number of sessions
+        #self.maxpui = int(((cfg.group_size - 1) * cfg.n_sessions * cfg.n_attendees) / 2)
+        bui = (cfg.group_size - 1) * cfg.n_groups * cfg.n_sessions
+        eui = (self.maxgroup_size_occurence * cfg.n_sessions)
+        self.maxpui = ((cfg.group_size - 1) * cfg.n_groups * cfg.n_sessions) + (self.maxgroup_size_occurence * cfg.n_sessions)
+
         # possible combinations n! / r!(n-r)!    r is group size
         self.puc = math.comb(cfg.n_attendees, cfg.group_size)
         self.gc = cfg.n_sessions * cfg.n_groups
