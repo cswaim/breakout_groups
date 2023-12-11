@@ -106,6 +106,7 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
     (this creates the breakout_groups.cfg in the data folder)
 * configure the configuration file (see [Configuration](#Configuration) below)
 ### Run the Application
+Help is available by passing the -h or --help parameter on the python cmd line 
 * run the application:  
    ***python breakout_groups.py***
 * to compare algorithms:  
