@@ -6,9 +6,15 @@ The breakout groups application is designed to assign attendees of an event into
 
 The output is a 'card' for each attendee which identifies by session which group the attendee is assigned to.
 
-Several reports are provided to analyze the effectiveness of the grouping alogrithm - is it achieving the interactions desired.  These reports also allow for comparision of different algorithms.
+Several reports are provided to analyze the effectiveness of the grouping algorithm - is it achieving the interactions desired.  These reports also allow for comparison of different algorithms.
 
-## System diagram
+## Table of Contents
+1. [System Diagram](#system-diagram)
+1. [Sessions Class](#sessions-class)
+1. [Algorithm Implementation](#algorithm-implementation)
+1. [Getting Started](#getting-started)
+
+## System Diagram
 
 ```mermaid
   graph TD;
@@ -64,7 +70,7 @@ The Sessions Class will:
 
 ### Algorithm Implementation
 
-The sessions generation algorithm is implemented by having the sessions class load the grouping alogrithm module and run a predefined function (run) in the algorithm module.
+The sessions generation algorithm is implemented by having the sessions class load the grouping algorithm module and run a predefined function (run) in the algorithm module.
 
 ```mermaid
   classDiagram
@@ -114,14 +120,3 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
 * from the root folder run:  
   ***pytest -vs***
 
-
-### Contribution guidelines ###
-
-* Writing tests
-* Code review
-* Other guidelines
-
-### Who do I talk to? ###
-
-* Repo owner or admin
-* Other community or team contact
