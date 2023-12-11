@@ -25,19 +25,19 @@ Several reports are provided to analyze the effectiveness of the grouping alogri
 
 *`import src.config as cfg`*
 
-This module should be imported as the first application module.  The first import reads the config file (`data/breakout_groups.ini`) and loads the runtime values.  If the ini file does not exist, it is created with the default values.
+This module should be imported as the first application module.  The first import reads the config file (`data/breakout_groups.cfg`) and loads the runtime values.  If the cfg file does not exist, it is created with the default values.
 
-The config creates a namespace so variables can be referenced as cfg.var.  The variable is defined with its default in the namespace.  A config file, *`breakout_groups.ini`* is created on the first run if it does not exist.
+The config creates a namespace so variables can be referenced as cfg.var.  The variable is defined with its default in the namespace.  A config file, *`breakout_groups.cfg`* is created on the first run if it does not exist.
 
-Any changes to the ini file in the data folder are local and override the defaults.
+Any changes to the cfg file in the data folder are local and override the defaults.
 
-If a new variable is added or if the variable name changes, then the version number should be updated.  This will rewrite the local ini file with the new variable.
+If a new variable is added or if the variable name changes, then the version number should be updated.  This will rewrite the local cfg file with the new variable.
 
 ## Sessions Class
 
 ### The Sessions
 
-Two variables will be added to the config file:
+Two variables in the config file control which grouping algorithm is utilized:
 ```
 [SYSTEM]
 sys_group_algorithm = mmmmmm
@@ -64,7 +64,7 @@ The Sessions Class will:
 
 ### Algorithm Implementation
 
-The sessions generation algorithm i implemented by having the sessions class load the grouping alogrithm module and run a predefined function (run) in the algorithm module.
+The sessions generation algorithm is implemented by having the sessions class load the grouping alogrithm module and run a predefined function (run) in the algorithm module.
 
 ```mermaid
   classDiagram
@@ -90,22 +90,29 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
 
 **TODO**: Pass exceptions or constraints to the grouping algorithm to modify the grouping interactions.  To be defined.
 
-### What is this repository for? ###
-
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
 
 ## Getting Started ##
 
 ### Summary of set up
 * run git clone
-* from the root directory of the project run: python breakout_groups.py (this creates the breakout_groups.cfg in the data folder)
+* from the root directory of the project run:
+    ***python breakout_groups.py init***
+    (this creates the breakout_groups.cfg in the data folder)
+* configure the configuration file (see [Configuration](#Configuration) below)
+### Run the Application
+* run the application:
+   ***python breakout_groups.py***
+* to compare algorithms:
+   ***python bg_algo_compare.py***
+   (the algorithms compared are defined in the cfg file)
+
 ### Configuration
-* in the data folder change the configurate file breakout_groups.py
+* in the data folder change the configuration file breakout_groups.cfg
 * set title, sub-title, date and breakout session names
 * set the number of attendees, number of groups, group_size
 ### How to run tests
-* from the root folder run:  pytest -vs
+* from the root folder run:
+  ***pytest -vs***
 
 
 ### Contribution guidelines ###
