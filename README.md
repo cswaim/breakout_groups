@@ -95,15 +95,15 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
 
 ### Summary of set up
 * run git clone
-* from the root directory of the project run:
-    ***python breakout_groups.py init***
+* from the root directory of the project run:  
+    ***python breakout_groups.py init***  
     (this creates the breakout_groups.cfg in the data folder)
 * configure the configuration file (see [Configuration](#Configuration) below)
 ### Run the Application
-* run the application:
+* run the application:  
    ***python breakout_groups.py***
-* to compare algorithms:
-   ***python bg_algo_compare.py***
+* to compare algorithms:  
+   ***python bg_algo_compare.py***  
    (the algorithms compared are defined in the cfg file)
 
 ### Configuration
@@ -111,7 +111,7 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
 * set title, sub-title, date and breakout session names
 * set the number of attendees, number of groups, group_size
 ### How to run tests
-* from the root folder run:
+* from the root folder run:  
   ***pytest -vs***
 
 
