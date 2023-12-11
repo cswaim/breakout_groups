@@ -8,7 +8,8 @@
 #
 #  Copyright 2023 cswaim <cswaim@tpginc.net>
 
-
+import sys
+import os
 from src import config as cfg
 from src.event import Event
 from src import logger_setup
@@ -63,11 +64,58 @@ class BreakoutGroups():
         self.event.show_sessions()
         log.info("end event processing")
 
-if __name__ == '__main__':
+
+def main(args):
     """ create breakout goups for an event"""
     # get the cfg parameters
     cfg.cp.run()
 
+    # get runtime sys args
+    get_args()
+
+
     bg = BreakoutGroups()
     bg.run()
     log.info("end of breakout-groups")
+
+def get_args():
+    """get the args and edit"""
+    help_arg = ["--help", "-h"]
+    init_arg = ["--init", "-init", "init"]
+    init_text = f"The config file has been created in {cfg.datadir}{cfg.cfg_flnm} "
+    help_text = f"""
+ This module runs the breakout group application, creating interaction reports
+ and cards in the data folder {cfg.datadir}
+
+ On the first run, the default config file is created in the data directory.  If
+ the init parameter is passed, then the run exits and the config file can be
+ modified.  Otherwise the run continues with the defaults.
+
+ To rebuild the config file from the default cfg settings, delete the existing
+ cfg file.  A rebuild can also be forced by changing the sys_cfg_version to 0
+
+ The config file can be modified and the job rerun as needed.
+
+ ex:
+    python breakout_groups.py          (runs the app - the default)
+    python breakout_groups init        (run one time for setup)
+    python breakout_groups --help      (or -h  displays this text)
+
+ If an arg of --help or -h is passed with the command, this message is
+     printed
+"""
+
+    # if no args, run with default
+    if len(sys.argv) > 1:
+        # check for help
+        if sys.argv[1] in help_arg:
+            print(help_text)
+            exit()
+        # check for init
+        if sys.argv[1] in init_arg:
+            print(init_text)
+            exit()
+
+if __name__ == '__main__':
+    """get and check the args and run compare """
+    sys.exit(main(sys.argv))
