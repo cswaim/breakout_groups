@@ -38,7 +38,7 @@ class SessionsBruteForce1(SessionsModel):
         rng.seed(random_seed)
 
         sessions_so_far = []
-        made_sessions = 1
+        made_sessions = 0
         while made_sessions < cfg.n_sessions:
             made_sessions +=1
             session = []
@@ -92,7 +92,9 @@ class SessionsBruteForce1(SessionsModel):
         Returns:
             A list of all elements in the list of lists.
         """
-
+        if list_of_lists == []:
+            return []
+        
         all_elements = []
         for sublist in list_of_lists:
             all_elements.extend(sublist)
@@ -142,6 +144,7 @@ class SessionsBruteForce1(SessionsModel):
             Returns:
                 The filled-in group as a list.
             """
+
         # Eliminate everyone already in the current session 
         candidates = self.eligible_if_not_already_populated(
                         attendees=attendees,
@@ -149,21 +152,22 @@ class SessionsBruteForce1(SessionsModel):
         
         # Special case to populate the last group in the session.
         # The last group must consist of everyone who is left over.
-        if len(candidates) == group_size:
-            return candidates
+        # if len(candidates) == group_size:
+        #     return candidates
         
         new_group = self.your_algorithm_goes_here(
                         candidates=candidates,
                         group_size=group_size,
-                        groups_so_far=all_sessions)
+                        session=session,
+                        sessions_so_far=all_sessions)
         
         return new_group
     
     def your_algorithm_goes_here(self,
                         candidates=None,
                         group_size=None, 
-                        sessions=None,
-                        groups_so_far=None) -> list:
+                        session=None,
+                        sessions_so_far=None) -> list:
  
         """Uses an algorithm to populate the attendees into a group.
             Override this method with a call to a specifc algorithm.
