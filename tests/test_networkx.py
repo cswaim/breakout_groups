@@ -12,6 +12,7 @@ def test_run_end_to_end():
     cfg.group_size = 4
     cfg.n_groups = 4
     cfg.n_sessions = 5
+    reference= list(range(0, cfg.n_attendees))
 
     snx = SessionsNetworkx()
     sessions_returned = snx.build_sessions()
@@ -22,6 +23,12 @@ def test_run_end_to_end():
 
     for node in snx.network.nodes:
         print(f"Node {node} has degree {snx.network.degree(node)}  and neighbors {list(snx.network.neighbors(node))}")
+
+    rc = RollCall()
+    for a_session in sessions_returned.sessions:
+        assert rc.all_checks(expected_attendees=reference,
+                    expected_n_groups=cfg.n_groups,
+                    session=a_session)
 
 
 @pytest.mark.skip(reason="if not run manually, will freeze until plot window closed.")
@@ -42,6 +49,7 @@ def test_show_neighbors():
     cfg.group_size = 4
     cfg.n_groups = 4
     cfg.n_sessions = 2
+    reference= list(range(0, cfg.n_attendees))
 
     snx = SessionsNetworkx()
     sessions_returned = snx.build_sessions()
@@ -49,6 +57,12 @@ def test_show_neighbors():
 
     for node in snx.network.nodes:
         print(f"Node {node} has degree {snx.network.degree(node)}  and neighbors {list(snx.network.neighbors(node))}")
+
+    rc = RollCall()
+    for a_session in sessions_returned.sessions:
+        assert rc.all_checks(expected_attendees=reference,
+                    expected_n_groups=cfg.n_groups,
+                    session=a_session)
 
 
 # @pytest.mark.skip(reason="empty eligibility list.  Need to debug.")
@@ -68,3 +82,11 @@ def  test_simulate_retreat():
     
 
     [print(session) for session in sessions_returned.sessions]
+
+    reference= list(range(0, cfg.n_attendees))
+    rc = RollCall()
+    for a_session in sessions_returned.sessions:
+        assert rc.all_checks(expected_attendees=reference,
+                    expected_n_groups=cfg.n_groups,
+                    session=a_session)
+
