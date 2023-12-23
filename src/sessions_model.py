@@ -53,7 +53,7 @@ class SessionsModel():
         """verify the number of groups in a session do not exceed cfg.n_groups
            and randomly distribute members to other groups"""
         for k, v in sessions.items():
-            sessions[k] = su.set_num_groups(v)
+            sessions[k] = su.assign_extra_attendees(v)
         return sessions
 
     def run(self,) -> dict:

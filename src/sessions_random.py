@@ -36,17 +36,7 @@ class SessionsRandom():
         for i in range(0, cfg.n_attendees, cfg.group_size):
             sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
 
-        sess = su.set_num_groups(sess)
-        # # if last group is not full size group, randomly allocate members to other groups
-        # g_used = []
-        # if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
-        #     for x in sess[-1]:
-        #         # gen number until not used
-        #         while (g:= random.randrange(cfg.n_groups )) in g_used: pass
-        #         g_used.append(g)
-        #         sess[g].append(x)
-        #     # remove last group
-        #     sess.pop()
+        sess = su.assign_extra_attendees(sess)
 
         return sess
 
