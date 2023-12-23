@@ -6,13 +6,14 @@ import logging
 log = logging.getLogger(__name__)
 
 from src.card import Card
+from src import sessions_util as su
 
 '''
     use variables from cfg
     Build session dictionary 0 thru x
     Populate session dictionary by randomly shuffling the attendees list
         and gouping by least interactions
-    the sessions dictionary contains the outbreak sessions
+    the sessions dictionary contains the breakout sessions
 
 '''
 
@@ -47,16 +48,56 @@ class SessionsRandomInteractions():
             sess = self.interactions_weighted_random(sess)
 
         # if last group is not full size group, randomly allocate members to other groups
-        g_used = []
-        if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
-            for x in sess[-1]:
-                # gen number until not used
-                while (g:= random.randrange(cfg.n_groups )) in g_used: pass
-                g_used.append(g)
-                sess[g].append(x)
-            # remove last group
-            sess.pop()
+        sess = su.assign_extra_attendees(sess)
+
         return sess
+
+    # def interactions_weighted_random(self, sess: list) -> list:
+    #     """ build random session with interactions """
+    #     group = []
+    #     alist = cfg.attendees_list.copy()
+
+    #     while len(alist) > 0:
+    #         # create a group as long as attendees exist in list
+
+    #         if len(alist) == 0:
+    #             break
+    #         # get a random attendee from alist
+    #         # and remove the attendee from the list
+    #         a = random.choice(alist)
+    #         alist.remove(a)
+
+    #         # add a to group
+    #         group.append(a)
+    #         # get interactions for a
+    #         ia_list = self.all_cards[a].card_interactions.most_common()
+
+    #         while len(group) < cfg.group_size:
+    #             # get next avaible attendee
+    #             z = -1
+    #             while ia_list[z][0] not in alist:
+    #                 z += -1
+    #                 continue
+    #             min_int = ia_list[z][0]
+    #             # fill group with attendees that have min_interactions with a
+    #             group.append(min_int)
+    #             alist.remove(min_int)
+
+
+    #         # add group to sess and reset group
+    #         sess, group = self.add_group_to_sess(sess, group)
+
+    #     # handle last group
+    #     sess, group = self.add_group_to_sess(sess, group)
+
+    #     return sess
+
+    # def add_group_to_sess(self, sess, group):
+    #     """ add group to sess and reset """
+    #     sess.append(copy.copy(group))
+    #     group.clear()
+
+    #     return sess, group
 
     def get_unused_attendee(self, i):
         """get attend id"""
@@ -84,7 +125,7 @@ class SessionsRandomInteractions():
             if len(group) < cfg.group_size:
                 group.append(c)
                 self.used_attendee.append(c)
-            if len(group) < cfg.group_size:
+            # if len(group) < cfg.group_size:
                 if min_int in self.used_attendee or min_int == c:
                     pass
                 else:

@@ -71,7 +71,7 @@ def init_cards(nc=cfg.n_attendees) -> list:
         all_cards.append(Card(i))
     return all_cards
 
-def set_num_groups(sess: list) -> list:
+def assign_extra_attendees(sess: list) -> list:
     """Using a set number of groups in a session, allocate 'extra' attendees
         to the groups defined by n_groups variables
         assume n_goups = 3

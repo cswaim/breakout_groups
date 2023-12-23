@@ -6,6 +6,7 @@
 
 import random
 from collections import Counter
+import src.config as cfg
 
 class Card():
     """the card object"""
@@ -16,6 +17,9 @@ class Card():
         self.name = None
         # self.breakout_groups = []
         self.card_interactions = Counter()
+        # initialize counter
+        for a in range(cfg.n_attendees):
+            self.card_interactions[a] = 0
 
     def convert_grp_to_dict(self, group):
         """convert the group to a dict for the counter update
