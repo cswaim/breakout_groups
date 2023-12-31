@@ -56,7 +56,7 @@ handlers:
 loggers:
   info_logger:
     level: INFO
-    handlers: [console, file_rotate]
+    handlers: [file_rotate]
     propagate: no
   debug_logger:
     level: DEBUG
