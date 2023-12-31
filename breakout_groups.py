@@ -10,6 +10,7 @@
 
 import sys
 import os
+import random
 from src import config as cfg
 from src.event import Event
 from src import logger_setup
@@ -34,9 +35,19 @@ class BreakoutGroups():
         self.n_sessions = cfg.n_sessions
         self.attendees_list = cfg.attendees_list
         self.event = None
-        self.seed = cfg.random_seed
+        self.seed = self.gen_seed()
         logger_setup.run()
         log.info("beg breakout-groups")
+
+    def gen_seed(self):
+        """set the cfg.random_seed"""
+        if cfg.random_seed is None:
+            seed = random.randrange(10000000)
+            cfg.random_seed = seed
+        else:
+            seed = cfg.random_seed
+
+        return seed
 
     def print_variables(self,):
         """print config variables"""
@@ -53,7 +64,7 @@ class BreakoutGroups():
         print(f"       random seed: {cfg.random_seed}")
         print("")
 
-        cfg.print_config_vars(heading="Print All Variables")
+        # cfg.print_config_vars(heading="Print All Variables")
 
     def run(self,):
         """create breakout groups for event"""
@@ -61,7 +72,6 @@ class BreakoutGroups():
         self.print_variables()
         self.event = Event(self.seed)
         self.event.run()
-        self.event.show_sessions()
         log.info("end event processing")
 
 

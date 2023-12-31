@@ -135,13 +135,13 @@ class InteractionsMatrix():
             # make file obj available to all methods
             self.itxt = itxt
             df = self.gen_matrix()
-            self.print_matrix(df)
+            # self.print_matrix(df)
             self.print_matrix(df, fileobj=itxt)
             itxt.write("\n\n\n\n")
-            print("\n\n")
-            self.show_ascii_histogram()
+            # print("\n\n")
+            # self.show_ascii_histogram()
             self.show_ascii_histogram(fileobj=itxt)
-            print("")
+            # print("")
 
 
 if __name__ == '__main__':
