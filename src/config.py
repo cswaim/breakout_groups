@@ -37,6 +37,7 @@ group_labels = [['group1,group2,group3,group4,group5'],
                 ['Portales,Santa Fe,Taos,Chama,Cuba'],
                 ['Elbert,Massive,Harvard,Blanca,La Plata'],
                ]
+session_labels = []
 
 # reports
 report_interactions_matrix = True
@@ -44,7 +45,7 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.7'
+sys_cfg_version = '0.8'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 sys_algorithm_compare = ["sessions_random","SessionsRandom",
@@ -66,7 +67,7 @@ cfg_values = {'EVENT': [
                 ('event_date', 's'),
                 ('n_attendees', 'i'), ('group_size', 'i'),
                 ('n_groups', 'i'), ('n_sessions', 'i'),
-                ('random_seed', 'i'),
+                ('random_seed', 'i'),('session_labels', 'l'),
                 ],
               'GROUP_LABELS': [],
               'REPORTS':[
@@ -300,6 +301,14 @@ class ConfigParms:
                     else:
                         config.set(sec, var_name, str(globals()[var_name]))
 
+        # set defaults in config obj, not file
+        if len(globals()['session_labels']) == 0:
+            # set labels in cfg module
+            globals()['session_labels'] = self.gen_session_labels(globals()['n_sessions'])
+            # set labels in config object
+            #list_str =
+            config.set('EVENT', 'session_labels',  ",".join(x for x in globals()['session_labels']))
+
     def gen_attendees_list(self,) -> list:
         """generate the list for attendees"""
         attendees_list = [x for x in range(n_attendees)]
@@ -317,9 +326,16 @@ class ConfigParms:
 
         return group_labels
 
-    def debug_print(self, heading=None):
-        """deprecated:: use print_cfg_vars()"""
-        print_config_vars(heading)
+    def gen_session_labels(self, nsess) -> list:
+        """test the session_labels and if empty, gen standard labels
+           Session 01, Session 02
+        """
+        slabels = []
+        for x in range(nsess):
+            slabels.append(f"Session {x:3}")
+
+        return slabels
+
 
 def print_config_vars(heading=None, comments=True, fileobj=None ):
     """print the variables in the config module"""

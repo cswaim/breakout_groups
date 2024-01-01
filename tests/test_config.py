@@ -129,4 +129,3 @@ def test_print_config_vars(config_event_defaults):
     cfg.cp.remove_default_comments(cfg.config)
     cfg.print_config_vars(heading="with comments")
     cfg.print_config_vars(heading="no comments", comments=False)
-    cfg.cp.debug_print(heading="chk debug print")
