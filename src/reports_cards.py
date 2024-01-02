@@ -142,7 +142,7 @@ class CardsReports():
         for n, label in enumerate(card.group_labels):
             #n += 1   # adj for 0 offset
             line = f"{cfg.session_labels[n]}:"
-            text.setFont("Helvetica", sess_lbl_fs)
+            text.setFont("Courier-Oblique", sess_lbl_fs)
             text.setFillColor(colors.black)
             text.textOut(line)
             line = f"   {label}"

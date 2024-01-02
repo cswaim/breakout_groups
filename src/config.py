@@ -92,6 +92,7 @@ cfg_comments = {
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
     'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
+    'session_labels': ['a common separated list of labels = Fri 9:00,Sat 10:00,Sat 1:00pm ', 'if empty Session xx will be generated for each session', 'if number of labels provided is less than number of sessions, ','then Session xx will be generated for missing sessions'],
     'sys_run_stats_csv': ['output files names'],
     'sys_algorithm_compare': ['format of this is module_name, class_name, module_name, class_name', ' The list is parsed into a list of lists (module,class), (module, class)']
              }
@@ -143,7 +144,7 @@ class ConfigParms:
         config = self.read_config_file(config)
 
         self.set_config_variables(config)
-        self.set_default_values(config)
+        self.set_session_label_values(config)
 
         return
 
@@ -302,12 +303,12 @@ class ConfigParms:
                     else:
                         config.set(sec, var_name, str(globals()[var_name]))
 
-    def set_default_values(self, config):
-        """set default values of items if not set in config file
+    def set_session_label_values(self, config):
+        """set default values of session labels if not set in config file
             for some items, a default value needs to be set, but not retained
             in the config file, this sets it in the module and config obj
         """
-        # set defaults in config obj, not file
+        # set defaults in config obj, not config file
         # build all session labels
         if len(globals()['session_labels']) == 0 or len(globals()['session_labels'][0]) == 0:
             # set labels in cfg module
@@ -323,6 +324,12 @@ class ConfigParms:
                 globals()['session_labels'].append(es)
             # set labels in config object
             config.set('EVENT', 'session_labels',  ",".join(x for x in globals()['session_labels']))
+
+        # make each label the same length, pad space to front
+        max_len = max(len(s) for s in globals()['session_labels'])
+        globals()['session_labels'] = [s.rjust(max_len) for s in globals()['session_labels']]
+
+        config.set('EVENT', 'session_labels',  ",".join(x for x in globals()['session_labels']))
 
     def gen_attendees_list(self,) -> list:
         """generate the list for attendees"""
