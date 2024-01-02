@@ -119,7 +119,7 @@ def config_event_defaults():
     for i in range(cfg.n_attendees):
         card = Card(i)
         card.card_interactions = cfg.all_card_interactions[i]
-        card.sess_labels = sess_lables[i]
+        card.group_labels = sess_lables[i]
         cfg.all_cards.append(card)
 
     return cfg

@@ -180,15 +180,15 @@ class RunStats():
         """list the sessions"""
         print("\n\n", file=fileobj)
         for i, val in cfg.sessions.items():
-            print(f"Session {i:02} - {val}", file=fileobj)
+            print(f"{cfg.session_labels[i]} - {val}", file=fileobj)
 
     def write_stats_csv(self,):
         """write stats to csv"""
         # no space between headings to support pandas load
-        headers="Date/Time,Algorithm,Algorithm_Runtime,Interactions,Missed_Interactions,Duplicate_Interactions,Interaction_Ratio,Unique_Interactions,Interaction_Ratio_Unique,Event_Possible_Unique_Interactions,Max_Possible_Unique_Interactions,Max_divi,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Num_Groups,Num_Sessions\n"
+        headers="Date/Time,Algorithm,Algorithm_Runtime,Interactions,Missed_Interactions,Duplicate_Interactions,Interaction_Ratio,Unique_Interactions,Interaction_Ratio_Unique,Event_Possible_Unique_Interactions,Max_Possible_Unique_Interactions,Max_divi,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Num_Groups,Num_Sessions,Random_Seed\n"
 
         dt_filter = '%Y-%m-%d %H:%M:%S'
-        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}\n'
+        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.inter_ratio_tot}, {self.unique_inter_cnt}, {self.inter_ratio_unique}, {self.pui}, {self.maxpui}, {self.maxidivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {cfg.n_groups}, {cfg.n_sessions}, {cfg.random_seed}\n'
 
         csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
 

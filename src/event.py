@@ -1,4 +1,4 @@
-from collections import Counter 
+from collections import Counter
 from itertools import chain
 import src.config as cfg
 from src.card import Card
@@ -40,12 +40,12 @@ class Event():
                         glabel = cfg.group_labels[k][n]
                     except:
                         glabel = f"group{n}"
-                    self.all_cards[c].update_sess_labels(glabel)
+                    self.all_cards[c].update_group_labels(glabel)
 
     def build_all_card_interactions(self,):
         """build a list of all the interactions from all cards """
         for c in self.all_cards:
-            self.all_card_interactions[c.id] = c.card_interactions   
+            self.all_card_interactions[c.id] = c.card_interactions
 
     def show_cards(self,all_cards=None):
         # ToDo convert input to a pandas dataframe and
@@ -64,10 +64,10 @@ class Event():
             interact = []
             for i in range(cfg.n_attendees):
                 interact.append(f"{i}:{v[i]}")
-            print(f"{k}:  {interact}") 
+            print(f"{k}:  {interact}")
 
         self.show_sessions()
-    
+
     def show_sessions(self,):
         """list the sessions"""
         for i, val in self.sessions.items():

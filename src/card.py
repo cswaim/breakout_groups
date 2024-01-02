@@ -13,7 +13,7 @@ class Card():
 
     def __init__(self, id) -> None:
         self.id = id
-        self.sess_labels = []
+        self.group_labels = []
         self.name = None
         # self.breakout_groups = []
         self.card_interactions = Counter()
@@ -38,9 +38,9 @@ class Card():
             upd_dict = self.convert_grp_to_dict(upd_dict)
         self.card_interactions.update(upd_dict)
 
-    def update_sess_labels(self, label) -> None:
+    def update_group_labels(self, label) -> None:
         """append the label to the sess label list"""
-        self.sess_labels.append(label)
+        self.group_labels.append(label)
 
     def print_the_cards_by_person(self, all_cards=None) -> int:
         " print the cards by card id"
@@ -48,6 +48,6 @@ class Card():
         for card in all_cards:
             card_cnt += 1
             print(card.id)
-            for n, label in enumerate(card.sess_labels):
-                    print(f"   Session {n}: {label}")
+            for n, label in enumerate(card.group_labels):
+                    print(f"   {cfg.session_labels[n-1]}: {label}")
         return card_cnt

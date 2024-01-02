@@ -57,9 +57,8 @@ class CardsReports():
         self.print_card_header(self.hd1, self.hd2, self.hd_date)
         print(self.c_template.format("--------------------"))
         print("{:>33}".format(f"id: {card.id}\n"))
-        for s, label in enumerate(card.sess_labels):
-            s += 1
-            print(f"    Session {s:3}:   {label}")
+        for s, label in enumerate(card.group_labels):
+            print(f"    {cfg.session_labels[s]}:   {label}")
 
     def card_txt_header(self, ctxt, hd1, hd2, date_line):
         """write the card headers to txt file"""
@@ -82,9 +81,9 @@ class CardsReports():
         """ write the cards to a txt file """
         self.card_txt_header(ctxt, self.hd1, self.hd2, self.hd_date)
         ctxt.write("{:>33}\n\n".format(f"id: {card.id}"))
-        for s, label in enumerate(card.sess_labels):
-            s += 1
-            ctxt.write(f"    Session {s:3}:   {label}\n")
+        for s, label in enumerate(card.group_labels):
+            #s += 1
+            ctxt.write(f"    {cfg.session_labels[s]}:   {label}\n")
 
     def card_pdf_center_calc(self, txt, font, size):
         """calc the x axis value to center test"""
@@ -140,9 +139,9 @@ class CardsReports():
         last_y += -.3
         text = cardpdf.beginText(.5 * inch, last_y * inch)
 
-        for n, label in enumerate(card.sess_labels):
-            n += 1   # adj for 0 offset
-            line = f"Session {n:3}:"
+        for n, label in enumerate(card.group_labels):
+            #n += 1   # adj for 0 offset
+            line = f"{cfg.session_labels[n]}:"
             text.setFont("Helvetica", sess_lbl_fs)
             text.setFillColor(colors.black)
             text.textOut(line)

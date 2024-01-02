@@ -126,7 +126,7 @@ def update_cards(all_cards) -> list:
                     glabel = cfg.group_labels[k][n]
                 except:
                     glabel = f"group{n}"
-                all_cards[c].update_sess_labels(glabel)
+                all_cards[c].update_group_labels(glabel)
     return all_cards
 
 def build_all_card_interactions():
