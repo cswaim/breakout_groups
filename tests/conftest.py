@@ -58,6 +58,7 @@ def config_event_defaults():
     cfg.group_labels.append(["blue","red","green","yellow","pink"])
     cfg.group_labels.append(["Portales","Santa Fe","Taos","Chama","Cuba"])
     cfg.group_labels.append(["Elbert","Massive","Harvard","Blanca","La Plata"])
+    cfg.session_labels = ['Fri 9:00pm', 'Sat 9:00', 'Sat 11:00am', 'Session 04']
     cfg.sys_group_algorithm = 'sessions_random'
     cfg.sys_group_algorithm_class = 'SessionsRandom'
     cfg.sys_algorithm_compare = ['sessions_random','SessionsRandom','sessions_random_interactions','SessionsRandomInteractions']
