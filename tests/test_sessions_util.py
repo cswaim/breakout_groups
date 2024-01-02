@@ -18,7 +18,7 @@ def test_update_cards(config_event_defaults):
     all_cards = su.update_cards(all_cards)
     # counters do not guarantee order by key, need to sort to compare
     for i in range(len(all_cards)):
-        assert all_cards[i].sess_labels == cfg.all_cards[i].sess_labels
+        assert all_cards[i].group_labels == cfg.all_cards[i].group_labels
         assert sorted(all_cards[i].card_interactions) ==  sorted(cfg.all_cards[i].card_interactions)
 
 

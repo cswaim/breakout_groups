@@ -37,6 +37,7 @@ group_labels = [['group1,group2,group3,group4,group5'],
                 ['Portales,Santa Fe,Taos,Chama,Cuba'],
                 ['Elbert,Massive,Harvard,Blanca,La Plata'],
                ]
+session_labels = []
 
 # reports
 report_interactions_matrix = True
@@ -44,7 +45,7 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.7'
+sys_cfg_version = '0.8'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 sys_algorithm_compare = ["sessions_random","SessionsRandom",
@@ -66,7 +67,7 @@ cfg_values = {'EVENT': [
                 ('event_date', 's'),
                 ('n_attendees', 'i'), ('group_size', 'i'),
                 ('n_groups', 'i'), ('n_sessions', 'i'),
-                ('random_seed', 'i'),
+                ('random_seed', 'i'),('session_labels', 'l'),
                 ],
               'GROUP_LABELS': [],
               'REPORTS':[
@@ -91,6 +92,7 @@ cfg_comments = {
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
                 'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
     'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
+    'session_labels': ['a common separated list of labels = Fri 9:00,Sat 10:00,Sat 1:00pm ', 'if empty Session xx will be generated for each session', 'if number of labels provided is less than number of sessions, ','then Session xx will be generated for missing sessions'],
     'sys_run_stats_csv': ['output files names'],
     'sys_algorithm_compare': ['format of this is module_name, class_name, module_name, class_name', ' The list is parsed into a list of lists (module,class), (module, class)']
              }
@@ -142,6 +144,7 @@ class ConfigParms:
         config = self.read_config_file(config)
 
         self.set_config_variables(config)
+        self.set_session_label_values(config)
 
         return
 
@@ -300,6 +303,34 @@ class ConfigParms:
                     else:
                         config.set(sec, var_name, str(globals()[var_name]))
 
+    def set_session_label_values(self, config):
+        """set default values of session labels if not set in config file
+            for some items, a default value needs to be set, but not retained
+            in the config file, this sets it in the module and config obj
+        """
+        # set defaults in config obj, not config file
+        # build all session labels
+        if len(globals()['session_labels']) == 0 or len(globals()['session_labels'][0]) == 0:
+            # set labels in cfg module
+            globals()['session_labels'] = self.gen_session_labels(globals()['n_sessions'])
+            # set labels in config object
+            #list_str =
+            config.set('EVENT', 'session_labels',  ",".join(x for x in globals()['session_labels']))
+
+        # build sessions for any missing label
+        if len(globals()['session_labels']) < globals()['n_sessions']:
+            extra_sess = self.gen_session_labels(globals()['n_sessions'], len(globals()['session_labels']))
+            for es in extra_sess:
+                globals()['session_labels'].append(es)
+            # set labels in config object
+            config.set('EVENT', 'session_labels',  ",".join(x for x in globals()['session_labels']))
+
+        # make each label the same length, pad space to front
+        max_len = max(len(s) for s in globals()['session_labels'])
+        globals()['session_labels'] = [s.rjust(max_len) for s in globals()['session_labels']]
+
+        config.set('EVENT', 'session_labels',  ",".join(x for x in globals()['session_labels']))
+
     def gen_attendees_list(self,) -> list:
         """generate the list for attendees"""
         attendees_list = [x for x in range(n_attendees)]
@@ -317,9 +348,17 @@ class ConfigParms:
 
         return group_labels
 
-    def debug_print(self, heading=None):
-        """deprecated:: use print_cfg_vars()"""
-        print_config_vars(heading)
+    def gen_session_labels(self, nsess, bsess=0) -> list:
+        """test the session_labels and if empty, gen standard labels
+           Session 01, Session 02
+        """
+        slabels = []
+        for x in range(bsess, nsess):
+            sn = x +1
+            slabels.append(f"Session {sn:02}")
+
+        return slabels
+
 
 def print_config_vars(heading=None, comments=True, fileobj=None ):
     """print the variables in the config module"""

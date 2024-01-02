@@ -122,6 +122,16 @@ def test_remove_default_comments(config_event_defaults):
     for k in comments.keys():
         assert config.has_option("GROUP_LABELS", k) == False
 
+def test_set_session_label_values(config_event_defaults):
+    """test setting of sesion lables"""
+    # load the default values
+    cfg.session_labels.pop()
+    config = cfg.cp.set_default_config(cfg.config)
+    cfg.cp.set_session_label_values(config)
+    assert cfg.session_labels[0] == ' Fri 9:00pm'
+    assert cfg.session_labels[1] == '   Sat 9:00'
+    assert cfg.session_labels[3] == ' Session 04'
+
 def test_print_config_vars(config_event_defaults):
     """test of print routine"""
     # load the default values
@@ -129,4 +139,3 @@ def test_print_config_vars(config_event_defaults):
     cfg.cp.remove_default_comments(cfg.config)
     cfg.print_config_vars(heading="with comments")
     cfg.print_config_vars(heading="no comments", comments=False)
-    cfg.cp.debug_print(heading="chk debug print")
