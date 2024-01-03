@@ -30,13 +30,6 @@ def set_config():
     cfg.sys_run_stats_txt = 'run_stats_compare.txt'
     return
 
-def run_event():
-    """ run for a single event"""
-    for x in range(loop_cnt):
-        cfg.random_seed = None
-        bg = BreakoutGroups()
-        bg.run()
-
 def set_algorithm(algo=su.get_algorithms()):
     """ this is a generator and will set the cfg algorithm options with each next call"""
     for a in algo:
