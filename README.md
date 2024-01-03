@@ -101,6 +101,8 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
 
 ### Summary of set up
 * run git clone
+* make sure all modules in requirements.txt are installed in python  
+    recommend using virtualenv and install with pip install -r requirements.txt
 * from the root directory of the project run:  
     ***python breakout_groups.py init***  
     (this creates the breakout_groups.cfg in the data folder)
