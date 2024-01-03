@@ -33,6 +33,7 @@ def set_config():
 def run_event():
     """ run for a single event"""
     for x in range(loop_cnt):
+        cfg.random_seed = None
         bg = BreakoutGroups()
         bg.run()
 
@@ -69,6 +70,7 @@ def main(args):
             break
         print(cfg.sys_group_algorithm_class)
         for x in range(loop_cnt):
+            cfg.random_seed = None
             bg = BreakoutGroups()
             bg.run()
 
