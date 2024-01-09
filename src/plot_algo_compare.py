@@ -114,7 +114,7 @@ class PlotAlgoCompare():
         self.df = pd.read_csv(csvfl_path)
         self.add_run_cnt()
         self.set_df_index()
-        print(self.df)
+         # print(self.df)
         self.pp = self.create_pdf_obj()
 
         self.plot_unique_interactions()

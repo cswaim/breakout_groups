@@ -60,3 +60,12 @@ def print_header(hd1, hd2=None, col_hd1=None, col_hd2=None, fmt="std", fileobj=N
 def print_dtl(line, fileobj=None):
     """print detail report line"""
     print(line, file=fileobj)
+
+def print_event_parms_limited(fileobj=None):
+    """ print the event parameters"""
+    print_dtl("", fileobj)
+    print_dtl(f"         attendees: {cfg.n_attendees}", fileobj)
+    print_dtl(f"        group_size: {cfg.group_size}", fileobj)
+    print_dtl(f"groups_per_session: {cfg.n_groups}", fileobj)
+    print_dtl(f"          sessions: {cfg.n_sessions}", fileobj)
+    print_dtl("", fileobj)

@@ -14,11 +14,13 @@
 import os
 import sys
 import logging
+from contextlib import redirect_stdout
 
 from src import config as cfg
 from breakout_groups import BreakoutGroups
 from src import sessions_util as su
 from src.plot_algo_compare import PlotAlgoCompare
+from src import reports_util as ru
 
 loop_cnt = 20
 
@@ -43,17 +45,28 @@ def main(args):
     get_args()
 
     # get the cfg parameters
-    print("")
+    cfg.cp.run()
+    set_config()
+
+    # print config
+    ru.print_header(hd1='Running with the following event config')
+    ru.print_event_parms_limited()
     print(f"  Running {loop_cnt} loops for each algorithm ")
     for a in su.get_algorithms():
         print(f"     module: {a[0]}, class: {a[1]}"  )
     print("")
 
-    cfg.cp.run()
-    set_config()
-
     # setup generator
     algo_gen = set_algorithm()
+
+    # set out file name
+    cdir = os.getcwd()
+    flname = cfg.sys_run_stats_txt.split(".txt")
+    flname = flname[0] + "_all.txt"
+    ofl = f'{cfg.datadir}{flname}'
+    # initialize the file
+    with open(ofl, 'w') as f:
+        f.write("")
 
     # use loop to get each generator output
     while True:
@@ -61,11 +74,15 @@ def main(args):
             next(algo_gen)
         except StopIteration:
             break
-        print(cfg.sys_group_algorithm_class)
-        for x in range(loop_cnt):
-            cfg.random_seed = None
-            bg = BreakoutGroups()
-            bg.run()
+        # print(cfg.sys_group_algorithm_class)
+
+        # redirect to file
+        with open(ofl, 'a') as f:
+            with redirect_stdout(f):
+                for x in range(loop_cnt):
+                    cfg.random_seed = None
+                    bg = BreakoutGroups()
+                    bg.run()
 
     # plot results of csv file
     algo_cnt = len(su.get_algorithms())
