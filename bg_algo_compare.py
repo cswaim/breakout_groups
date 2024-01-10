@@ -15,6 +15,7 @@ import os
 import sys
 import logging
 from contextlib import redirect_stdout
+from pathlib import Path
 
 from src import config as cfg
 from breakout_groups import BreakoutGroups
@@ -64,9 +65,16 @@ def main(args):
     flname = cfg.sys_run_stats_txt.split(".txt")
     flname = flname[0] + "_all.txt"
     ofl = f'{cfg.datadir}{flname}'
-    # initialize the file
+    # delete the file
     with open(ofl, 'w') as f:
         f.write("")
+
+    # init csv file
+    # csvfl = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
+    # Path.unlink(missing_ok=True)
+    Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}').unlink(missing_ok=True)
+    # with open(csvfl, 'w') as cf:
+    #     cf.write("")
 
     # use loop to get each generator output
     while True:
