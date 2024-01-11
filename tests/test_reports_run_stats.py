@@ -2,6 +2,7 @@ from collections import Counter
 
 import datetime
 from src.reports_run_stats import RunStats
+from src import config as cfg
 #from src import sessions_util as su
 import pytest
 
@@ -40,7 +41,7 @@ def test_gen_run_stats(config_event_defaults):
     assert 16 == rrs.dup_inter_cnt
     assert 22 == rrs.unique_inter_cnt
     assert 55 == rrs.pui
-    assert 32 == rrs.max_pui
+    assert 60 == rrs.max_pui
     assert 12 == rrs.max_idivi
     assert mcnt == rrs.miss_inter_cnt
 

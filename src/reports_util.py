@@ -76,10 +76,11 @@ def calc_event_stats() -> dict:
     event_stats = {}
     # calc max group size
     q, r = divmod(cfg.n_attendees, cfg.n_groups)
-    if r > 1:
+    if r > 0:
         max_group_size = q + 1
     else:
         max_group_size = q
+        cfg.group_size = q
     event_stats["max_group_size"] = max_group_size
 
     # the number of times the max group will occur in a session
@@ -95,7 +96,19 @@ def calc_event_stats() -> dict:
     event_stats["pui"] = pui
 
     # max possible unique interactions is constrained by number of sessions
-    max_pui = ((cfg.group_size - 1) * cfg.n_groups * cfg.n_sessions) + (max_group_size_occurence * cfg.n_sessions)
+    def calc_group_int(n):
+        """calc number of group interactions based on group size"""
+        return int(((n-1)*n)/2)
+    # calc the interations in session, accounting for diff group sizes
+    sess_int = 0
+    # calc interactions in oversize groups
+    for x in range(max_group_size_occurence):
+        sess_int += calc_group_int(max_group_size)
+    # calc interactions in reg groups
+    for x in range(cfg.n_groups - max_group_size_occurence):
+        sess_int += calc_group_int(cfg.group_size)
+    # now mult session int by number of sessions
+    max_pui = sess_int * cfg.n_sessions
     event_stats["max_pui"] = max_pui
 
     # possible combinations n! / r!(n-r)!    r is group size

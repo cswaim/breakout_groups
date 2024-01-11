@@ -171,4 +171,5 @@ class RunStats():
 if __name__ == '__main__':
     # set the config file working directory
     wkdir = str(Path(__file__).resolve().parent) + os.pathsep
+    cfg.cp.run()
     cl = RunStats(autorun=True)
