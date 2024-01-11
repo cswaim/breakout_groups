@@ -40,7 +40,7 @@ class RunStats():
         self.max_group_size_occurence = estats["max_group_size_occurence"]
         self.max_idivi = estats["max_idivi"]
         self.pui = estats["pui"]
-        self.max_pui = estats["max_pui"]
+        self.max_i = estats["max_i"]
         self.puc = estats["puc"]
         self.gc = estats["gc"]
 
@@ -123,7 +123,7 @@ class RunStats():
         print(f"            Duplicate Interactions: {self.dup_inter_cnt}", file=fileobj)
         print(f"  Num missed/orphaned interactions: {self.miss_inter_cnt}", file=fileobj)
         print(f"      Possible Unique interactions: {self.pui}", file=fileobj)
-        print(f"         Max Possible interactions: {self.max_pui}", file=fileobj)
+        print(f"                  Max interactions: {self.max_i}", file=fileobj)
         print(f"       Max Individual interactions: {self.max_idivi}", file=fileobj)
         print(f"     Tot effective rate (tot/poss): {self.ratio_tot_inter:0.2}", file=fileobj)
         print(f" Unique effective rate (uniq/poss): {self.ratio_unique_inter:0.2}", file=fileobj)
@@ -139,11 +139,11 @@ class RunStats():
     def write_stats_csv(self,):
         """write stats to csv"""
         # no space between headings to support pandas load
-        headers = "Date/Time,Algorithm,Algorithm_RunDur,Total_Interactions,Missed_Interactions,Duplicate_Interactions,Ratio_Interactions,Unique_Interactions,Ratio_Unique_Interactions,Event_Possible_Unique_Interactions,Max_Possible_Unique_Interactions,Max_IndivInt,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Max_Group_Size,Num_Groups,Num_Sessions,Random_Seed\n"
-        # headers="Date/Time,algorithm,algo_rt,tot_i,mis_i,dup_i,rti,uniq_i,rui,pui,max_pui,max_indi,puc,tot_comb,n_attendees,group_size,n_groups,n_sessions,r_seed\n"
+        headers = "Date/Time,Algorithm,Algorithm_RunDur,Total_Interactions,Missed_Interactions,Duplicate_Interactions,Ratio_Interactions,Unique_Interactions,Ratio_Unique_Interactions,Event_Possible_Unique_Interactions,Max_Interactions,Max_IndivInt,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Max_Group_Size,Num_Groups,Num_Sessions,Random_Seed\n"
+        # headers="Date/Time,algorithm,algo_rt,tot_i,mis_i,dup_i,rti,uniq_i,rui,pui,max_i,max_indi,puc,tot_comb,n_attendees,group_size,n_groups,n_sessions,r_seed\n"
 
         dt_filter = '%Y-%m-%d %H:%M:%S'
-        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.ratio_tot_inter}, {self.unique_inter_cnt}, {self.ratio_unique_inter}, {self.pui}, {self.max_pui}, {self.max_idivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {self.max_group_size}, {cfg.n_groups}, {cfg.n_sessions}, {cfg.random_seed}\n'
+        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.inter_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.ratio_tot_inter}, {self.unique_inter_cnt}, {self.ratio_unique_inter}, {self.pui}, {self.max_i}, {self.max_idivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {self.max_group_size}, {cfg.n_groups}, {cfg.n_sessions}, {cfg.random_seed}\n'
 
         csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
 
