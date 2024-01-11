@@ -12,6 +12,7 @@
 """
 
 from datetime import datetime
+import math
 from src import config as cfg
 
 dt = None
@@ -69,3 +70,38 @@ def print_event_parms_limited(fileobj=None):
     print_dtl(f"groups_per_session: {cfg.n_groups}", fileobj)
     print_dtl(f"          sessions: {cfg.n_sessions}", fileobj)
     print_dtl("", fileobj)
+
+def calc_event_stats() -> dict:
+    """calc the static event stats based on values in config file"""
+    event_stats = {}
+    # calc max group size
+    q, r = divmod(cfg.n_attendees, cfg.n_groups)
+    if r > 1:
+        max_group_size = q + 1
+    else:
+        max_group_size = q
+    event_stats["max_group_size"] = max_group_size
+
+    # the number of times the max group will occur in a session
+    max_group_size_occurence = r
+    event_stats["max_group_size_occurence"] = max_group_size_occurence
+
+    # max num of interactions an individual can have
+    max_idivi = (max_group_size - 1) * cfg.n_sessions
+    event_stats["max_idivi"] = max_idivi
+
+    # possible unique interactions possible n(n-1)/2
+    pui = math.comb(cfg.n_attendees, 2)
+    event_stats["pui"] = pui
+
+    # max possible unique interactions is constrained by number of sessions
+    max_pui = ((cfg.group_size - 1) * cfg.n_groups * cfg.n_sessions) + (max_group_size_occurence * cfg.n_sessions)
+    event_stats["max_pui"] = max_pui
+
+    # possible combinations n! / r!(n-r)!    r is group size
+    puc = math.comb(cfg.n_attendees, cfg.group_size)
+    event_stats["puc"] = puc
+    gc = cfg.n_sessions * cfg.n_groups
+    event_stats["gc"] = gc
+
+    return event_stats

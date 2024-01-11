@@ -40,7 +40,7 @@ def test_gen_run_stats(config_event_defaults):
     assert 16 == rrs.dup_inter_cnt
     assert 22 == rrs.unique_inter_cnt
     assert 55 == rrs.pui
-    assert 32 == rrs.maxpui
+    assert 32 == rrs.max_pui
     assert 12 == rrs.maxidivi
     assert mcnt == rrs.miss_inter_cnt
 
@@ -58,6 +58,6 @@ def test_gen_run_stats_orig(config_event_defaults):
     assert 16 == rrs.dup_inter_cnt
     assert 22 == rrs.unique_inter_cnt
     assert 55 == rrs.pui
-    assert 32 == rrs.maxpui
+    assert 32 == rrs.max_pui
     assert 12 == rrs.maxidivi
     assert mcnt == rrs.miss_inter_cnt

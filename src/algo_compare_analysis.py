@@ -4,6 +4,7 @@ import io
 import pandas as pd
 
 from src import config as cfg
+from src import reports_util as rptu
 
 class AlgoCompareAnalysis():
     """ Analyze the results of the bg_algo_compare run
@@ -22,8 +23,10 @@ class AlgoCompareAnalysis():
 
     def build_dataframe(self,):
         """build the panadas dataframe from the run stats csv"""
+        custom_hd = ["Date/Time","algorithm","algo_rt","tot_i","mis_i","dup_i","rti","uniq_i","rui","pui","max_pui","max_indi","puc","tot_comb","n_attendees","group_size","mgroup_size","n_groups","n_sessions","rand_seed"]
         csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
-        self.df = pd.read_csv(csvfl_path)
+        # self.df = pd.read_csv(csvfl_path)
+        self.df = pd.read_csv(csvfl_path, header=None, names=custom_hd, skiprows=1)
 
     def find_best_ratio(self,):
         """ sort the df by unique interactions ratio
@@ -31,17 +34,28 @@ class AlgoCompareAnalysis():
             return answer set df
         """
         # Date/Time,Algorithm,Algorithm_Runtime,Interactions,Missed_Interactions,Duplicate_Interactions,Interaction_Ratio,Unique_Interactions,Interaction_Ratio_Unique,Event_Possible_Unique_Interactions,Max_Possible_Unique_Interactions,Max_idivi,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Num_Groups,Num_Sessions,Random_Seed
-        df_res = self.df.sort_values(by=['Algorithm', 'Interaction_Ratio_Unique'], ascending=[True, False]).groupby('Algorithm').head(3)
+
+        #headers="Date/Time,algorithm,algo_rt,tot_i,mis_i,dup_i,rti,uniq_i,rui,pui,max_pui,max_indi,puc,tot_comb,n_attendees,group_size,mgroup_size,n_groups,n_sessions,r_seed\n"
+
+        # get the top 3 for each algorithm
+        df_res = self.df.sort_values(by=['algorithm', 'rui'],
+        ascending=[True, False]).groupby('algorithm').head(3)
+        # sort by ratio
+        df_res.sort_values(by=['rui'],ascending=[False], inplace=True)
         self.df_res = df_res
 
     def print_results(self):
         """print the results from the df"""
-        #
-        max_ratio = self.df_res.iloc[0]['Max_idivi'] / self.df_res.iloc[0]['Max_Possible_Unique_Interactions']
-        print(f"max individual uniq inter: {self.df_res.iloc[0]['Max_idivi']}")
-        print(f"The maxium unique interactions for this event is {self.df_res.iloc[0]['Max_Possible_Unique_Interactions']}")
-        print(f"With the constraints of the number of sessions, the best possible ration is {max_ratio:0.2}")
-        print(self.df_res[['Algorithm', 'Interaction_Ratio_Unique', 'Unique_Interactions',  'Interactions',]]) # 'Random_Seed']])
+        # get event statastics
+        estats = rptu.calc_event_stats()
+
+        print(f"                    Max Group Size (overflow): {estats['max_group_size']}")
+        print(f"         Max Group Size Occurence per Session: {estats['max_group_size_occurence']}")
+        print(f"           Event Possible Unique Interactions: {estats['pui']}")
+        print("rui is Actual Unique Interactions/ Possible Unique Interactions")
+        print("")
+
+        print(self.df_res[['algorithm', 'uniq_i', 'rui', 'rand_seed']])
 
     def run(self,):
         """ run the analysis"""

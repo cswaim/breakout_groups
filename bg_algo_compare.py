@@ -21,9 +21,10 @@ from src import config as cfg
 from breakout_groups import BreakoutGroups
 from src import sessions_util as su
 from src.plot_algo_compare import PlotAlgoCompare
-from src import reports_util as ru
+from src import reports_util as rptu
+from src.algo_compare_analysis import AlgoCompareAnalysis
 
-loop_cnt = 20
+loop_cnt = 50
 
 def set_config():
     """set variables for system run"""
@@ -50,8 +51,8 @@ def main(args):
     set_config()
 
     # print config
-    ru.print_header(hd1='Running with the following event config')
-    ru.print_event_parms_limited()
+    rptu.print_header(hd1='Running with the following event config')
+    rptu.print_event_parms_limited()
     print(f"  Running {loop_cnt} loops for each algorithm ")
     for a in su.get_algorithms():
         print(f"     module: {a[0]}, class: {a[1]}"  )
@@ -69,12 +70,8 @@ def main(args):
     with open(ofl, 'w') as f:
         f.write("")
 
-    # init csv file
-    # csvfl = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
-    # Path.unlink(missing_ok=True)
+    # del compare csv file
     Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}').unlink(missing_ok=True)
-    # with open(csvfl, 'w') as cf:
-    #     cf.write("")
 
     # use loop to get each generator output
     while True:
@@ -95,6 +92,7 @@ def main(args):
     # plot results of csv file
     algo_cnt = len(su.get_algorithms())
     pac = PlotAlgoCompare(autorun=True,)
+    aca = AlgoCompareAnalysis(autorun=True)
 
 def get_args():
     """get the args and edit"""
@@ -133,7 +131,7 @@ help_text = """
  the results.
 
  ex:
-    python bg_algo_compare.py          (runs 20 loops - the default)
+    python bg_algo_compare.py          (runs 50 loops - the default)
     python bg_algo_compare.py 35       (run 35 loops)
     python bg_algo_compare.py --help    (or -h  displays this text)
 

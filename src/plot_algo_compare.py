@@ -88,7 +88,7 @@ class PlotAlgoCompare():
         ieplot = plt.figure("ie")
         ieplot.suptitle("Interactions (Unique / Max Possible)")
         # group by alogrithm
-        self.df.groupby('Algorithm')['Interaction_Ratio'].plot(legend=True)
+        self.df.groupby('Algorithm')['Ratio_Interactions'].plot(legend=True)
 
         # plot it
         self.pp.savefig(ieplot)
@@ -98,10 +98,10 @@ class PlotAlgoCompare():
         """ plot the run time for each algorithm"""
         plotpdf = self.create_pdf_obj(plot_id="rt")
         rtplot = plt.figure("rt")
-        rtplot.suptitle("Algorithm Run Time")
+        rtplot.suptitle("Algorithm Run Duration")
 
         # group by alogrithm
-        self.df.groupby('Algorithm')['Algorithm_Runtime'].plot(legend=True)
+        self.df.groupby('Algorithm')['Algorithm_RunDur'].plot(legend=True)
 
         # plot it
         plotpdf.savefig(rtplot)
