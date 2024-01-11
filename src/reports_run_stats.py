@@ -80,41 +80,6 @@ class RunStats():
 
         return df
 
-    def gen_run_stats_orig(self,):
-
-        df = pd.DataFrame.from_dict(self.all_interactions)
-
-        # set the lower half of df to 0
-        for i, row in df.iterrows():
-            # set diagonal to zero
-            df.iloc[i, i] = 0
-            # set lower half to zero
-            for c in range(0, i):
-                df.iloc[i, c] = 0
-
-        # event run performance calculations
-
-        # reset counters
-        self.inter_cnt = 0
-        self.miss_inter_cnt = 0
-        self.dup_inter_cnt = 0
-
-        for i, row in df.iterrows():
-            for c in row:
-                if c > 0:
-                    self.inter_cnt += 1
-                if c == 0:
-                    self.miss_inter_cnt += 1
-                if c > 1:
-                    self.dup_inter_cnt += 1
-
-        self.ratio_tot_inter = self.inter_cnt / self.pui
-        self.unique_inter_cnt = self.inter_cnt - self.dup_inter_cnt
-        self.ratio_unique_inter = self.unique_inter_cnt / self.pui
-        # missed cnt is overstated
-        self.miss_inter_cnt = self.pui - self.inter_cnt
-
-
     def build_interactions(self, all_card_interactions=None):
         """create interactions dic with list of all interactions
            this converts the dict of counters to a dict of lists

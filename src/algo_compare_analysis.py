@@ -53,9 +53,10 @@ class AlgoCompareAnalysis():
         print(f"         Max Group Size Occurence per Session: {estats['max_group_size_occurence']}")
         print(f"           Event Possible Unique Interactions: {estats['pui']}")
         print("rui is Actual Unique Interactions/ Possible Unique Interactions")
+        print("rti is Actual  Interactions/ Possible Unique Interactions")
         print("")
 
-        print(self.df_res[['algorithm', 'uniq_i', 'rui', 'rand_seed']])
+        print(self.df_res[['algorithm', 'uniq_i', 'mis_i', 'rti', 'rui', 'rand_seed']])
 
     def run(self,):
         """ run the analysis"""

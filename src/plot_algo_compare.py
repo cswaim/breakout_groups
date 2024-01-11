@@ -88,7 +88,7 @@ class PlotAlgoCompare():
         ieplot = plt.figure("ie")
         ieplot.suptitle("Interactions (Unique / Max Possible)")
         # group by alogrithm
-        self.df.groupby('Algorithm')['Ratio_Interactions'].plot(legend=True)
+        self.df.groupby('Algorithm')['Ratio_Unique_Interactions'].plot(legend=True)
 
         # plot it
         self.pp.savefig(ieplot)
