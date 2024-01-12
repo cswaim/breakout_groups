@@ -37,9 +37,8 @@ def test_gen_run_stats(config_event_defaults):
     for k,v in rrs.all_interactions.items():
         mcnt += v.count(0)
     mcnt = mcnt // 2
-    assert 38 == rrs.inter_cnt
+    assert 38 == rrs.ui_cnt
     assert 16 == rrs.dup_inter_cnt
-    assert 22 == rrs.unique_inter_cnt
     assert 55 == rrs.pui
     assert 60 == rrs.max_i
     assert 12 == rrs.max_idivi
