@@ -112,7 +112,7 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
 To determine which algorithm performs best for an event, 
 * Set up the config file for your event
 * Run the algorithm compare job  
-    ***python bg_algo_compare.py 1000 ***  
+    ***python bg_algo_compare.py 1000***  
     this will run each algorithm 1000 times with the settings in the config file
 * At the end of the run the top three runs for each algorithm is printed and the seed is shown
 * Select the run with the best interactions and set the seed in the config file
