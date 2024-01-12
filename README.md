@@ -121,7 +121,7 @@ To determine which algorithm performs best for an event,
 ### Run the Application
 Help is available by passing the -h or --help parameter on the python cmd line 
 * run the application:  
-   ***python breakout_groups.py***  
+   ***python breakout_groups.py***   
    This will produce a set of reports and a pdf of the cards
 * Print the cards on 3x5 cards to be given to attendees to direct them to the appropriate breakout group
 
