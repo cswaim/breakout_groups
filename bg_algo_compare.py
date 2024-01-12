@@ -14,13 +14,17 @@
 import os
 import sys
 import logging
+from contextlib import redirect_stdout
+from pathlib import Path
 
 from src import config as cfg
 from breakout_groups import BreakoutGroups
 from src import sessions_util as su
 from src.plot_algo_compare import PlotAlgoCompare
+from src import reports_util as rptu
+from src.algo_compare_analysis import AlgoCompareAnalysis
 
-loop_cnt = 20
+loop_cnt = 50
 
 def set_config():
     """set variables for system run"""
@@ -43,17 +47,31 @@ def main(args):
     get_args()
 
     # get the cfg parameters
-    print("")
+    cfg.cp.run()
+    set_config()
+
+    # print config
+    rptu.print_header(hd1='Running with the following event config')
+    rptu.print_event_parms_limited()
     print(f"  Running {loop_cnt} loops for each algorithm ")
     for a in su.get_algorithms():
         print(f"     module: {a[0]}, class: {a[1]}"  )
     print("")
 
-    cfg.cp.run()
-    set_config()
-
     # setup generator
     algo_gen = set_algorithm()
+
+    # set out file name
+    cdir = os.getcwd()
+    flname = cfg.sys_run_stats_txt.split(".txt")
+    flname = flname[0] + "_all.txt"
+    ofl = f'{cfg.datadir}{flname}'
+    # delete the file
+    with open(ofl, 'w') as f:
+        f.write("")
+
+    # del compare csv file
+    Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}').unlink(missing_ok=True)
 
     # use loop to get each generator output
     while True:
@@ -61,15 +79,20 @@ def main(args):
             next(algo_gen)
         except StopIteration:
             break
-        print(cfg.sys_group_algorithm_class)
-        for x in range(loop_cnt):
-            cfg.random_seed = None
-            bg = BreakoutGroups()
-            bg.run()
+        # print(cfg.sys_group_algorithm_class)
+
+        # redirect to file
+        with open(ofl, 'a') as f:
+            with redirect_stdout(f):
+                for x in range(loop_cnt):
+                    cfg.random_seed = None
+                    bg = BreakoutGroups()
+                    bg.run()
 
     # plot results of csv file
     algo_cnt = len(su.get_algorithms())
     pac = PlotAlgoCompare(autorun=True,)
+    aca = AlgoCompareAnalysis(autorun=True)
 
 def get_args():
     """get the args and edit"""
@@ -108,7 +131,7 @@ help_text = """
  the results.
 
  ex:
-    python bg_algo_compare.py          (runs 20 loops - the default)
+    python bg_algo_compare.py          (runs 50 loops - the default)
     python bg_algo_compare.py 35       (run 35 loops)
     python bg_algo_compare.py --help    (or -h  displays this text)
 

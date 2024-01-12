@@ -83,12 +83,22 @@ class PlotAlgoCompare():
         # plot it
         self.pp.savefig(miplot)
 
-    def plot_ui_to_maxpui(self, ):
-        """ plot the interaction effectiveness (ui/maxpui) for each run"""
+    def plot_ui_to_pui(self, ):
+        """ plot the interaction effectiveness (ui/pui) for each run"""
         ieplot = plt.figure("ie")
-        ieplot.suptitle("Interactions (Unique / Max Possible)")
+        ieplot.suptitle("Interactions (Unique / Possible Unique)")
         # group by alogrithm
-        self.df.groupby('Algorithm')['Interaction_Ratio'].plot(legend=True)
+        self.df.groupby('Algorithm')['Ratio_Unique_Interactions'].plot(legend=True)
+
+        # plot it
+        self.pp.savefig(ieplot)
+
+    def plot_ui_to_max_i(self, ):
+        """ plot the interaction effectiveness (ui/max_i) for each run"""
+        ieplot = plt.figure("ie")
+        ieplot.suptitle("Interactions (Unique / Event Interactions)")
+        # group by alogrithm
+        self.df.groupby('Algorithm')['Ratio_Interactions'].plot(legend=True)
 
         # plot it
         self.pp.savefig(ieplot)
@@ -98,10 +108,10 @@ class PlotAlgoCompare():
         """ plot the run time for each algorithm"""
         plotpdf = self.create_pdf_obj(plot_id="rt")
         rtplot = plt.figure("rt")
-        rtplot.suptitle("Algorithm Run Time")
+        rtplot.suptitle("Algorithm Run Duration")
 
         # group by alogrithm
-        self.df.groupby('Algorithm')['Algorithm_Runtime'].plot(legend=True)
+        self.df.groupby('Algorithm')['Algorithm_RunDur'].plot(legend=True)
 
         # plot it
         plotpdf.savefig(rtplot)
@@ -114,12 +124,13 @@ class PlotAlgoCompare():
         self.df = pd.read_csv(csvfl_path)
         self.add_run_cnt()
         self.set_df_index()
-        print(self.df)
+         # print(self.df)
         self.pp = self.create_pdf_obj()
 
         self.plot_unique_interactions()
         self.plot_missed_interactions()
-        self.plot_ui_to_maxpui()
+        self.plot_ui_to_pui()
+        self.plot_ui_to_max_i()
         self.plot_runtime()
 
         # close open pdf files
