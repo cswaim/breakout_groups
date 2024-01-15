@@ -10,3 +10,4 @@ pyyaml>=6.0
 reportlab>=4.0.4
 seaborn>=0.12.2
 six>=1.16.0
+coverage>=7.4.0
