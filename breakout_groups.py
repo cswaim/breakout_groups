@@ -60,6 +60,7 @@ class BreakoutGroups():
         print(f"        group_size: {cfg.group_size}")
         print(f"groups_per_session: {cfg.n_groups}")
         print(f"          sessions: {cfg.n_sessions}")
+        print(f"num of extra cards: {cfg.n_extra_cards}")
         print("")
         print(f"       random seed: {cfg.random_seed}")
         print("")

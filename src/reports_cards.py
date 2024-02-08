@@ -13,8 +13,10 @@ from reportlab.lib.colors import blue
 from reportlab.lib import colors
 from reportlab.lib.units import cm, inch
 from reportlab.pdfbase import pdfmetrics
+
 from src import config as cfg
 from src import reports_util as rptu
+from src.reports_cards_extra import ReportsCardsExtra
 
 class CardsReports():
     """ print the cards to a txt file and pdf flie """
@@ -160,10 +162,14 @@ class CardsReports():
 
     def run(self,):
         #open pdf file object
+        rce = ReportsCardsExtra(autorun=True)
         cpdf = self.card_pdf_canvas()
         with open(f'{cfg.datadir}cards.txt', 'w') as ctxt:
             for c in cfg.all_cards:
                 # self.card_print(c)
+                self.card_pdf(cpdf, c)
+                self.card_txt(ctxt, c)
+            for c in rce.extra_cards:
                 self.card_pdf(cpdf, c)
                 self.card_txt(ctxt, c)
         # close the pdf file
