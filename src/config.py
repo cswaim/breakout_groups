@@ -31,6 +31,7 @@ n_attendees = 11
 group_size = 3
 n_groups = 3
 n_sessions = 4
+n_extra_cards = 2
 random_seed = None
 group_labels = [['group1,group2,group3,group4,group5'],
                 ['blue,red,green,yellow,pink'],
@@ -45,7 +46,7 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.8'
+sys_cfg_version = '0.9'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 sys_algorithm_compare = ["sessions_random","SessionsRandom",
@@ -67,6 +68,7 @@ cfg_values = {'EVENT': [
                 ('event_date', 's'),
                 ('n_attendees', 'i'), ('group_size', 'i'),
                 ('n_groups', 'i'), ('n_sessions', 'i'),
+                ('n_extra_cards', 'i'),
                 ('random_seed', 'i'),('session_labels', 'l'),
                 ],
               'GROUP_LABELS': [],

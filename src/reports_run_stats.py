@@ -114,6 +114,7 @@ class RunStats():
         print(f"     max group_size (add'l attendees): {self.max_group_size}", file=fileobj)
         print(f"                   groups_per_session: {cfg.n_groups}", file=fileobj)
         print(f"                             sessions: {cfg.n_sessions}", file=fileobj)
+        print(f"                      num extra cards: {cfg.n_extra_cards}", file=fileobj)
         print("", file=fileobj)
         print(f"                                 seed: {cfg.random_seed}", file=fileobj)
         print("", file=fileobj)
@@ -137,10 +138,10 @@ class RunStats():
     def write_stats_csv(self,):
         """write stats to csv"""
         # no space between headings to support pandas load
-        headers = "Date/Time,Algorithm,Algorithm_RunDur,Unique_Interactions,Missed_Interactions,Duplicate_Interactions,Ratio_Interactions,Ratio_Unique_Interactions,Event_Possible_Unique_Interactions,Max_Interactions,Max_IndivInt,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Max_Group_Size,Num_Groups,Num_Sessions,Random_Seed\n"
+        headers = "Date/Time,Algorithm,Algorithm_RunDur,Unique_Interactions,Missed_Interactions,Duplicate_Interactions,Ratio_Interactions,Ratio_Unique_Interactions,Event_Possible_Unique_Interactions,Max_Interactions,Max_IndivInt,Possible_Group_Combinations,Group_Combinations,Num_Attendees,Group_Size,Max_Group_Size,Num_Groups,Num_Sessions,Num_Extra_Cards,Random_Seed\n"
 
         dt_filter = '%Y-%m-%d %H:%M:%S'
-        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.ui_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.ratio_tot_inter}, {self.ratio_unique_inter}, {self.pui}, {self.max_i}, {self.max_idivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {self.max_group_size}, {cfg.n_groups}, {cfg.n_sessions}, {cfg.random_seed}\n'
+        dtl = f'"{datetime.now().strftime(dt_filter)}", {cfg.sys_group_algorithm_class}, {cfg.algo_runtime.total_seconds()}, {self.ui_cnt}, {self.miss_inter_cnt}, {self.dup_inter_cnt}, {self.ratio_tot_inter}, {self.ratio_unique_inter}, {self.pui}, {self.max_i}, {self.max_idivi}, {self.puc}, {self.gc}, {cfg.n_attendees}, {cfg.group_size}, {self.max_group_size}, {cfg.n_groups}, {cfg.n_sessions}, {cfg.n_extra_cards}, {cfg.random_seed}\n'
 
         csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
 
