@@ -50,3 +50,24 @@ def test_add_extra_cards_to_group(config_event_defaults, create_folders):
     assert rce.extra_sess[1][0] == [11, 12]
     assert rce.extra_sess[2][1] == [11]
     assert rce.extra_sess[3][1] == [11]
+
+def test_add_extra_cards_to_group_5(config_event_defaults, create_folders):
+    """test add card to group"""
+    cfg.n_extra_cards = 5
+    rce = ReportsCardsExtra()
+    rce.add_extra_cards_to_group()
+    print(rce.sessions)
+    print(rce.extra_sess)
+
+    assert rce.sessions[0][1] == [0, 5, 6, 11, 13]
+    assert rce.sessions[1][0] == [7, 8, 10, 11, 12, 15]
+    assert rce.sessions[1][1] == [3, 6, 9, 0, 13]
+    assert rce.sessions[1][2] == [1, 4, 5, 2, 14]
+    assert rce.sessions[2][0] == [3, 5, 9, 0, 12, 15]
+    assert rce.sessions[2][1] == [1, 2, 7, 11, 13]
+    assert rce.sessions[3][1] == [0, 1, 7, 11, 13]
+    assert rce.sessions[3][2] == [3, 5, 9, 10, 14]
+    assert rce.extra_sess[0][1] == [11, 13]
+    assert rce.extra_sess[1][0] == [11, 12, 15]
+    assert rce.extra_sess[2][1] == [11, 13]
+    assert rce.extra_sess[3][2] == [14]

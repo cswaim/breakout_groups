@@ -68,6 +68,8 @@ class ReportsCardsExtra():
                 else:
                     # all groups are same, append to first group
                     self.update_sess_group(x, k, 0)
+                    # incr max group size when all are equal to spread assignment
+                    max_group_size += 1
 
     def update_sess_group(self, x, k, n):
         """add the extra card to the sessions and exta_sess
