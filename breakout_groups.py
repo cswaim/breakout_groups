@@ -11,6 +11,7 @@
 import sys
 import os
 import random
+from math import floor
 from src import config as cfg
 from src.event import Event
 from src import logger_setup
@@ -36,6 +37,10 @@ class BreakoutGroups():
         self.attendees_list = cfg.attendees_list
         self.event = None
         self.seed = self.gen_seed()
+
+        # set group size
+        cfg.group_size = floor(cfg.n_attendees / cfg.n_groups)
+
         logger_setup.run()
         log.info("beg breakout-groups")
 
