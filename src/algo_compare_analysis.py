@@ -23,7 +23,7 @@ class AlgoCompareAnalysis():
 
     def build_dataframe(self,):
         """build the panadas dataframe from the run stats csv"""
-        custom_hd = ["Date/Time","algorithm","algo_rt","uniq_i","mis_i","dup_i","rti","rui","pui","max_pi","max_indi","puc","tot_comb","n_attendees","group_size","mgroup_size","n_groups","n_sessions","rand_seed"]
+        custom_hd = ["Date/Time","algorithm","algo_rt","uniq_i","mis_i","dup_i","rti","rui","pui","max_pi","max_indi","puc","tot_comb","n_attendees","group_size","mgroup_size","n_groups","n_sessions","n_extra_cards","rand_seed"]
         csvfl_path = Path(f'{cfg.datadir}{cfg.sys_run_stats_csv}')
         # self.df = pd.read_csv(csvfl_path)
         self.df = pd.read_csv(csvfl_path, header=None, names=custom_hd, skiprows=1)
