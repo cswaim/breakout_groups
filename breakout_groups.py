@@ -31,7 +31,6 @@ class BreakoutGroups():
     def __init__(self, ) -> None:
         """setup"""
         self.n_attendees = cfg.n_attendees
-        self.group_size = cfg.group_size
         self.n_groups = cfg.n_groups
         self.n_sessions = cfg.n_sessions
         self.attendees_list = cfg.attendees_list
