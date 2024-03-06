@@ -138,7 +138,8 @@ class CardsReports():
 
         # creating a multiline text using
         # textline and for loop
-        last_y += -.3
+        # move down the page - init y - x.x inches from bottom
+        last_y += -.45
         text = cardpdf.beginText(.5 * inch, last_y * inch)
 
         for n, label in enumerate(card.group_labels):
