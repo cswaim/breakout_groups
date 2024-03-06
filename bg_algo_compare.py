@@ -19,6 +19,7 @@ from pathlib import Path
 
 from src import config as cfg
 from breakout_groups import BreakoutGroups
+from src import bg_parser
 from src import sessions_util as su
 from src.plot_algo_compare import PlotAlgoCompare
 from src import reports_util as rptu
@@ -43,8 +44,13 @@ def set_algorithm(algo=su.get_algorithms()):
 
 def main(args):
     """ create breakout goups for an event"""
-    # get runtime sys args
-    get_args()
+    # # get runtime sys args
+    # get_args()
+    # get the command line parameters
+    parser = bg_parser.get_parser()
+    parms = parser.parse_args()
+    bg_parser.set_cfg_values(parms, cfg)
+    loop_cnt = parms.loop_cnt
 
     # get the cfg parameters
     cfg.cp.run()
