@@ -349,6 +349,14 @@ class ConfigParms:
             if k not in config['EVENT']:
                 group_labels.append(v.split(','))
 
+        # group_labels is a list of list, check for '' and remove
+        ngl = []
+        for s in group_labels:
+            new_s = [gl for gl in s if gl != '']
+            ngl.append(new_s)
+
+        group_labels = ngl
+
         return group_labels
 
     def gen_session_labels(self, nsess, bsess=0) -> list:
