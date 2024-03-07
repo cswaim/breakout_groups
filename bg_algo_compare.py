@@ -25,7 +25,7 @@ from src.plot_algo_compare import PlotAlgoCompare
 from src import reports_util as rptu
 from src.algo_compare_analysis import AlgoCompareAnalysis
 
-loop_cnt = 50
+#loop_cnt = 50
 
 def set_config():
     """set variables for system run"""
@@ -44,8 +44,7 @@ def set_algorithm(algo=su.get_algorithms()):
 
 def main(args):
     """ create breakout goups for an event"""
-    # # get runtime sys args
-    # get_args()
+
     # get the command line parameters
     parser = bg_parser.get_parser()
     parms = parser.parse_args()
@@ -99,54 +98,6 @@ def main(args):
     algo_cnt = len(su.get_algorithms())
     pac = PlotAlgoCompare(autorun=True,)
     aca = AlgoCompareAnalysis(autorun=True)
-
-def get_args():
-    """get the args and edit"""
-    global loop_cnt
-    help_arg = ["--help", "-h"]
-
-    # if no args, run with default
-    if len(sys.argv) > 1:
-        # check for help
-        if sys.argv[1] in help_arg:
-            print(help_text)
-            exit()
-        else:
-            # set the loop_cnt
-            try:
-                loop_cnt = int(sys.argv[1])
-            except:
-                print(sys.argv, type(sys.argv[1]))
-                print(get_arg_err_txt())
-                exit()
-
-def get_arg_err_txt():
-    """build and return the arg error msg
-        only run when arg > 1
-    """
-
-    arg_err_txt = f"""
- The arg must be --help, -h, or an integer
-   received arg:  {sys.argv[1]}
-"""
-    return arg_err_txt
-
-help_text = """
- This module compares the various algorithms by running each algorithm
- 20 times, recording the metrics of the run in a csv and then ploting
- the results.
-
- ex:
-    python bg_algo_compare.py          (runs 50 loops - the default)
-    python bg_algo_compare.py 35       (run 35 loops)
-    python bg_algo_compare.py --help    (or -h  displays this text)
-
- If an arg of --help or -h is passed with the command, this message is
-     printed
-
- The only other accepted arg is an integer to set the loop-cnt. The default
- is 20.
-"""
 
 
 if __name__ == '__main__':

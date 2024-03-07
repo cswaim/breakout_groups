@@ -25,12 +25,14 @@ def test_set_config():
 
 def test_get_args(monkeypatch):
     """test geting args"""
-    monkeypatch.setattr(sys, 'argv', ['/path/to/binary', '6',])
-    bac.get_args()
-    assert bac.loop_cnt == 6
+    monkeypatch.setattr(sys, 'argv', ['test_bg_algo_compare.py','-lc', '6',])
+    parser = bac.bg_parser.get_parser()
+    parms = parser.parse_args()
+    assert parms.loop_cnt == 6
 
 def test_run(tmp_path, monkeypatch):
     """ test run with default data loop x times"""
-    monkeypatch.setattr(sys, 'argv', ['/path/to/binary', '3',])
-    bac.main([sys.argv])
-    assert bac.loop_cnt == 3
+    monkeypatch.setattr(sys, 'argv', ['test_bg_algo_compare.py','-lc', '3',])
+    parser = bac.bg_parser.get_parser()
+    parms = parser.parse_args()
+    assert parms.loop_cnt == 3
