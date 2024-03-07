@@ -134,14 +134,15 @@ class InteractionsMatrix():
         with open(f'{cfg.datadir}interactions_reports.txt', 'w') as itxt:
             # make file obj available to all methods
             self.itxt = itxt
-            df = self.gen_matrix()
-            # self.print_matrix(df)
-            self.print_matrix(df, fileobj=itxt)
-            itxt.write("\n\n\n\n")
-            # print("\n\n")
+
             # self.show_ascii_histogram()
             self.show_ascii_histogram(fileobj=itxt)
-            # print("")
+
+            itxt.write("\n\n\n\n")
+            # self.print_matrix(df)
+            df = self.gen_matrix()
+            self.print_matrix(df, fileobj=itxt)
+
 
 
 if __name__ == '__main__':

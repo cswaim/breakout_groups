@@ -103,6 +103,7 @@ class RunStats():
         rptu.print_header(hd1, hd2, col_hd1, col_hd2, fileobj=fileobj)
 
         print("\n\n", file=fileobj)
+        print(f"                          config file: {cfg.cfg_flnm}", file=fileobj)
         print(f"                            algorithm: {cfg.sys_group_algorithm}", file=fileobj)
         print(f"                      algoritim_class: {cfg.sys_group_algorithm_class}", file=fileobj)
         print(f"                    algoritim_runtime: {cfg.algo_runtime}", file=fileobj)

@@ -138,7 +138,8 @@ class CardsReports():
 
         # creating a multiline text using
         # textline and for loop
-        last_y += -.3
+        # move down the page - init y - x.x inches from bottom
+        last_y += -.45
         text = cardpdf.beginText(.5 * inch, last_y * inch)
 
         for n, label in enumerate(card.group_labels):
@@ -162,16 +163,18 @@ class CardsReports():
 
     def run(self,):
         #open pdf file object
-        rce = ReportsCardsExtra(autorun=True)
+
         cpdf = self.card_pdf_canvas()
         with open(f'{cfg.datadir}cards.txt', 'w') as ctxt:
             for c in cfg.all_cards:
                 # self.card_print(c)
                 self.card_pdf(cpdf, c)
                 self.card_txt(ctxt, c)
-            for c in rce.extra_cards:
-                self.card_pdf(cpdf, c)
-                self.card_txt(ctxt, c)
+            if cfg.n_extra_cards > 0:
+                rce = ReportsCardsExtra(autorun=True)
+                for c in rce.extra_cards:
+                    self.card_pdf(cpdf, c)
+                    self.card_txt(ctxt, c)
         # close the pdf file
         cpdf.save()
 

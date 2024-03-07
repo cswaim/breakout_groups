@@ -13,6 +13,7 @@ import os
 import random
 from math import floor
 from src import config as cfg
+from src import bg_parser
 from src.event import Event
 from src import logger_setup
 import logging
@@ -50,7 +51,7 @@ class BreakoutGroups():
     def gen_seed(self):
         """set the cfg.random_seed"""
         if cfg.random_seed is None:
-            seed = random.randrange(10000000)
+            seed = random.randrange(100000000)
             cfg.random_seed = seed
         else:
             seed = cfg.random_seed
@@ -60,6 +61,7 @@ class BreakoutGroups():
     def print_variables(self,):
         """print config variables"""
         print("")
+        print(f"       config file: {cfg.cfg_flnm}")
         print(f"         algorithm: {cfg.sys_group_algorithm}")
         print(f"   algoritim_class: {cfg.sys_group_algorithm_class}")
         print("")
@@ -86,54 +88,18 @@ class BreakoutGroups():
 
 def main(args):
     """ create breakout goups for an event"""
+
     # get the cfg parameters
     cfg.cp.run()
 
-    # get runtime sys args
-    get_args()
-
+    # get the command line parameters
+    parser = bg_parser.get_parser()
+    parms = parser.parse_args()
+    bg_parser.set_cfg_values(parms, cfg)
 
     bg = BreakoutGroups()
     bg.run()
     log.info("end of breakout-groups")
-
-def get_args():
-    """get the args and edit"""
-    help_arg = ["--help", "-h"]
-    init_arg = ["--init", "-init", "init"]
-    init_text = f"The config file has been created in {cfg.datadir}{cfg.cfg_flnm} "
-    help_text = f"""
- This module runs the breakout group application, creating interaction reports
- and cards in the data folder {cfg.datadir}
-
- On the first run, the default config file is created in the data directory.  If
- the init parameter is passed, then the run exits and the config file can be
- modified.  Otherwise the run continues with the defaults.
-
- To rebuild the config file from the default cfg settings, delete the existing
- cfg file.  A rebuild can also be forced by changing the sys_cfg_version to 0
-
- The config file can be modified and the job rerun as needed.
-
- ex:
-    python breakout_groups.py          (runs the app - the default)
-    python breakout_groups init        (run one time for setup)
-    python breakout_groups --help      (or -h  displays this text)
-
- If an arg of --help or -h is passed with the command, this message is
-     printed
-"""
-
-    # if no args, run with default
-    if len(sys.argv) > 1:
-        # check for help
-        if sys.argv[1] in help_arg:
-            print(help_text)
-            exit()
-        # check for init
-        if sys.argv[1] in init_arg:
-            print(init_text)
-            exit()
 
 if __name__ == '__main__':
     """get and check the args and run compare """
