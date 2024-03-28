@@ -35,7 +35,8 @@ def test_gen_run_stats(config_event_defaults):
     rrs.gen_run_stats()
     mcnt = 0
     for k,v in rrs.all_interactions.items():
-        mcnt += v.count(0)
+        # -1 eliminate interaction with self
+        mcnt += v.count(0) -1
     mcnt = mcnt // 2
     assert 38 == rrs.ui_cnt
     assert 16 == rrs.dup_inter_cnt

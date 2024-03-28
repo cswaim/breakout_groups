@@ -39,7 +39,6 @@ class Card():
         self.card_interactions.update(upd_dict)
         # set interactions with self to 0
         self.card_interactions[self.id] = 0
-        no_opt = 0
 
     def update_group_labels(self, label) -> None:
         """append the label to the sess label list"""
