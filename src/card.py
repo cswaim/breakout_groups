@@ -37,6 +37,8 @@ class Card():
         if type(upd_dict) != dict:
             upd_dict = self.convert_grp_to_dict(upd_dict)
         self.card_interactions.update(upd_dict)
+        # set interactions with self to 0
+        self.card_interactions[self.id] = 0
 
     def update_group_labels(self, label) -> None:
         """append the label to the sess label list"""

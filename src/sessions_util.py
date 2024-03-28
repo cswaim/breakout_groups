@@ -12,10 +12,8 @@ log = logging.getLogger(__name__)
 
 """ This is a collection of utilities used in creating sessions
 
-    These functions are called statically :: note no self in the function definition
-
     import the module:
-        from src.sessions_util import SessionsUtils as su
+        from src import sessions_util as su
     then all functions:
         su.functionname()
     """
@@ -129,16 +127,19 @@ def update_cards(all_cards) -> list:
                 all_cards[c].update_group_labels(glabel)
     return all_cards
 
-def build_all_card_interactions():
-    """Builds a list of all the interactions from all cards.
+def build_all_card_interactions() -> dict:
+    """Builds a dict of all the interactions from all cards.
+       Interactions with self are set to zero; for item 1 counter value 1 = 0, for item counter value 2 = 0 etc.
 
     Returns:
-        A list of all the interactions from all cards.
+        A dict of all the interactions from all cards.
     """
 
     all_card_interactions = {}
     for c in cfg.all_cards:
         all_card_interactions[c.id] = c.card_interactions
+        # zero interactions with self
+        all_card_interactions[c.id][c.id] = 0
 
     return all_card_interactions
 

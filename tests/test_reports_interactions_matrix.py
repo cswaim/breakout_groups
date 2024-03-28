@@ -11,7 +11,7 @@ def test_build_interactions(config_event_defaults):
     rim = InteractionsMatrix()
     print('')
     result = rim.build_interactions()
-    assert result[1][1] == 4
+    assert result[1][1] == 0
 
 def test_gen_matrix(config_event_defaults, create_folders):
     """ test gen of matrix and stats"""

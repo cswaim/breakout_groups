@@ -44,6 +44,6 @@ def test_update_card_interactions(config_event_defaults, get_random_seed):
     sc.update_card_interactions(sess)
     assert sc.all_cards[0].card_interactions[6] == 1
     assert sc.all_cards[0].card_interactions[9] == 1
-    assert sc.all_cards[1].card_interactions[1] == 1
+    assert sc.all_cards[1].card_interactions[1] == 0
     assert sc.all_cards[1].card_interactions[10] == 1
     assert sc.all_cards[1].card_interactions[6] == 0
