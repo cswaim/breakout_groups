@@ -7,7 +7,7 @@ from src import config as cfg
 
 log = logging.getLogger('SessionsNetworkx')
 log.setLevel(logging.WARNING)
-file_handler = logging.FileHandler('../logs/SessionsNetworkx.log')
+file_handler = logging.FileHandler(cfg.datadir + 'SessionsNetworkx.log')
 formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(formatter)
 log.addHandler(file_handler)
@@ -24,7 +24,7 @@ class SessionsNetworkx(SessionsBruteForce1):
     Interactions between attenddes are stored as a network.
     Node: Attendee
     Edge: Indicates and interaction.  No edge between nodes means no interactions
-    
+
     BFI is responsible for filling each session, and for filling all sessions.
     This class contains the algorithm for filling one group.
     The method "your_algorithm_goes_here" overrides the one in BF1.
@@ -39,19 +39,19 @@ class SessionsNetworkx(SessionsBruteForce1):
 
     def your_algorithm_goes_here(self,
                         candidates=None,
-                        group_size=None, 
+                        group_size=None,
                         session=None,
                         sessions_so_far=None) -> list:
- 
+
         """This algorithm just selects attendees by considering
             interactions between attendees in previous sessions.
-        
+
         Args:
             candidates: A list of every attendee eligible to join the group.
             group_size: Stop when this many attendees were added to group
             session: current session.  May have groups already formed.
             sessions_so_far: Not used.  Interaction information is in network.
-           
+
 
         Returns:
             The filled in group as a list.
@@ -78,8 +78,8 @@ class SessionsNetworkx(SessionsBruteForce1):
                     self.network.add_edge(attendee,new_member)
 
         return group_so_far
-    
-        
+
+
     def get_next_member(self, network=None, session=None, group_so_far=None):
         """
         Get the next eligible member for the session.
@@ -121,20 +121,20 @@ class SessionsNetworkx(SessionsBruteForce1):
             log.error(f"   session: {session}")
             log.error(f"   not:eligible: {not_eligible}")
             member =  None
-        
+
         elif len(eligible) == 1:
             log.info(f"   eligible is == 1 so picking it.  {eligible}")
             log.info(f"   not_eligible is:  {not_eligible}")
             member = eligible[0]
-        
+
         else :
-            # Find a node that is a.) eligible, and b.) has the smallest number of 
-            # edges to the nodes in the group being formed. 
+            # Find a node that is a.) eligible, and b.) has the smallest number of
+            # edges to the nodes in the group being formed.
             # Find all the neighbors for all the nodes already in the group.
             neighbors = set([])
             for attendee in group_so_far:
                 neighbors = neighbors.union(set(self.network.neighbors(attendee)))
-                
+
             # Find a node that is not a neighbor
             candidates = list ( set(eligible) - set(neighbors))
             if len(candidates) == 0:
