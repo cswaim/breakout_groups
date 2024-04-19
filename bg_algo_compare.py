@@ -55,7 +55,6 @@ def main(args):
     parms = parser.parse_args()
     bg_parser.set_cfg_values(parms, cfg)
     loop_cnt = parms.loop_cnt
-    loop_cnt = 1
 
     # get the cfg parameters
     cfg.cp.run()
