@@ -35,8 +35,13 @@ def set_config():
     cfg.sys_run_stats_txt = 'run_stats_compare.txt'
     return
 
-def set_algorithm(algo=su.get_algorithms()):
-    """ this is a generator and will set the cfg algorithm options with each next call"""
+def set_algorithm(algo=None):
+    """ this is a generator and will set the cfg algorithm options with each next call
+        algo is a list of module, class pairs
+        algo = [['m1','cm1'],['m2','cm2'],['m3','cm3']]
+    """
+    if algo is None:
+        algo = su.get_algorithms()
     for a in algo:
         cfg.sys_group_algorithm = a[0]
         cfg.sys_group_algorithm_class = a[1]

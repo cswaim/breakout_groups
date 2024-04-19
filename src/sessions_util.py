@@ -18,16 +18,15 @@ log = logging.getLogger(__name__)
         su.functionname()
     """
 
-
 def get_algorithms():
-    """ return a list of session modules, session algorithms
-        changed to use cfg for list of algorithms, instead of hard coded
+    """ return a list of pairs (session modules, class) from list
+        ac = ['m1','cm1','m2','cm2','m3','cm3']
+        algo = [['m1','cm1'],['m2','cm2'],['m3','cm3']]
     """
     algo_vals = cfg.sys_algorithm_compare
     algo = [[algo_vals[i], algo_vals[i+1]] for i in range(0, len(algo_vals), 2)]
 
     return algo
-
 
 def set_seed(seed=None):
     """Sets the random seed.
