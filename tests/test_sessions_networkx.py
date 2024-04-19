@@ -15,7 +15,8 @@ def test_run_end_to_end():
     reference= list(range(0, cfg.n_attendees))
 
     snx = SessionsNetworkx()
-    sessions_returned = snx.build_sessions()
+    sessions = snx.build_sessions()
+    sessions_returned = snx.sessions_returned
 
     print(f"\n")
     print(f"\nElapsed time: {sessions_returned.elappsed:.6f} seconds")
@@ -41,7 +42,8 @@ def test_plot_network():
 
     snx = SessionsNetworkx()
     # Build the newtork as a side effect of creating the sessions
-    sessions_returned = snx.build_sessions()
+    sessions = snx.build_sessions()
+    sessions_returned = snx.sessions_returned
     snx.plot_network()
 
 def test_show_neighbors():
@@ -52,7 +54,8 @@ def test_show_neighbors():
     reference= list(range(0, cfg.n_attendees))
 
     snx = SessionsNetworkx()
-    sessions_returned = snx.build_sessions()
+    sessions = snx.build_sessions()
+    sessions_returned = snx.sessions_returned
     assert sessions_returned
 
     for node in snx.network.nodes:
@@ -74,12 +77,13 @@ def  test_simulate_retreat():
     cfg.n_sessions = 2
 
     snx = SessionsNetworkx()
-    sessions_returned = snx.build_sessions()
+    sessions = snx.build_sessions()
+    sessions_returned = snx.sessions_returned
     assert sessions_returned
 
     for node in snx.network.nodes:
         print(f"Node {node} has degree {snx.network.degree(node)}  and neighbors {list(snx.network.neighbors(node))}")
-    
+
 
     [print(session) for session in sessions_returned.sessions]
 

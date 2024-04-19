@@ -4,7 +4,7 @@ from src import config as cfg
 import pytest
 
 """Test cases and helper methods for the algorithm brute_force_1"""
-
+@pytest.mark.skip(reason="eliminate brute force class")
 # Crude end-to-end systems test
 def test_run_end_to_end():
     cfg.n_attendees = 16
@@ -18,23 +18,23 @@ def test_run_end_to_end():
     print(f"\n")
     [print(session) for session in sessions_returned.sessions]
 
-
+@pytest.mark.skip(reason="eliminate brute force class")
 def test_eligible_if_not_already_populated():
         bf = bf1.SessionsBruteForce1()
         attendees = [0,1,2,3,4,5,6,7,8,9,10,11]
         session=[[0,1,2,3]]
 
-        eligible = bf.eligible_if_not_already_populated( 
+        eligible = bf.eligible_if_not_already_populated(
              attendees=attendees,
              session=session
         )
         assert eligible == [4, 5, 6, 7, 8, 9, 10, 11]
 
-
+@pytest.mark.skip(reason="eliminate brute force class")
 # Happy day, empty lists, various sizes, invalid types for parameters, etc.
 def test_eligible_if_not_already_populated_param():
     attendees = [0,1,2,3,4,5,6,7,8,9,10,11]
-    sessions = [ [[]], 
+    sessions = [ [[]],
             [[11,10,9,8]],
             [[0,1,2,3],[4,5,6,7]],
             [[0,1,2,3], [4,5,6,7], [8,9,10,11]]
