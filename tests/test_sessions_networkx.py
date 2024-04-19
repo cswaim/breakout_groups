@@ -94,3 +94,37 @@ def  test_simulate_retreat():
                     expected_n_groups=cfg.n_groups,
                     session=a_session)
 
+@pytest.mark.skip(reason="eliminate brute force class")
+def test_eligible_if_not_already_populated():
+        bf = SessionsNetworkx()
+        attendees = [0,1,2,3,4,5,6,7,8,9,10,11]
+        session=[[0,1,2,3]]
+
+        eligible = bf.eligible_if_not_already_populated(
+             attendees=attendees,
+             session=session
+        )
+        assert eligible == [4, 5, 6, 7, 8, 9, 10, 11]
+
+@pytest.mark.skip(reason="eliminate brute force class")
+# Happy day, empty lists, various sizes, invalid types for parameters, etc.
+def test_eligible_if_not_already_populated_param():
+    attendees = [0,1,2,3,4,5,6,7,8,9,10,11]
+    sessions = [ [[]],
+            [[11,10,9,8]],
+            [[0,1,2,3],[4,5,6,7]],
+            [[0,1,2,3], [4,5,6,7], [8,9,10,11]]
+    ]
+    candidates = [
+    [0,1,2,3,4,5,6,7,8,9,10,11],
+    [0,1,2,3,4,5,6,7],
+    [8,9,10,11],
+    []
+    ]
+    bf = SessionsNetworkx()
+    for i in range(0,4):
+        actual = bf.eligible_if_not_already_populated(
+            attendees=attendees,
+            session=sessions[i]
+        )
+        assert candidates[i] == actual
