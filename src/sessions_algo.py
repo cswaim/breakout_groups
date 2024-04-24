@@ -1,15 +1,15 @@
 
 import copy
 from src import config as cfg
-from src.sessions_algo import SessionsAlgo
 from src import sessions_util as su
 import logging
 log = logging.getLogger(__name__)
 
 """
-    This model shows an implementation of the sessions_algo class
-
-    This module creates the following instance attributes:
+    Run parameters are passed in thru the config module
+    Build session dictionary 1 thru x
+    Populate session dictionary by the algorithm
+    This base class creates the following instance attributes:
         sessions: the sessions dictionary contains the outbreak sessions in the format
                 {0:[[1,2,3],[4,5,6],[7,8,9]],
                  1:[[1,4,7],[2,5,8],[3,6,9]],
@@ -22,12 +22,11 @@ log = logging.getLogger(__name__)
 
 """
 
-class SessionsModel(SessionsAlgo):
-    """ The sessions algorithm which establishes the breakout groups"""
+class SessionsAlgo():
+    """ The sessions algorithm base class which establishes the breakout groups"""
 
     def __init__(self, seed=None, autorun=False):
         """init"""
-        super().__init__(seed, autorun)
         self.seed = seed
         su.set_seed(seed)
         self.groups = []
@@ -47,8 +46,8 @@ class SessionsModel(SessionsAlgo):
                     2:[[1,5,9],[2,4,7],[3,6,8]],
                     3:[[2,4,6,8],[0,1,7],[3,5,9,10]],
                     }
-        self.sessions = self.check_num_groups(sessions)
-        return self.sessions
+        new_sessions = self.check_num_groups(sessions)
+        return new_sessions
 
     def check_num_groups(self, sessions: list) ->list:
         """verify the number of groups in a session do not exceed cfg.n_groups
@@ -62,5 +61,5 @@ class SessionsModel(SessionsAlgo):
             This must create a self.sessions attribute and optionally, can create
             an interactions attribute
         """
-        log.info("running sessions model")
+        log.info("running sessions algo")
         self.sessions = self.build_sessions()
