@@ -42,12 +42,12 @@ class SessionsAlgo():
     def build_sessions(self) -> dict:
         """build the sessions and return"""
         sessions = {0:[[1,2,3],[4,5,6],[7,8,9], [10,11]],
-                    1:[[1,4,7],[2,5,8],[3,6,9], [10,11,12,13]],
-                    2:[[1,5,9],[2,4,7],[3,6,8]],
-                    3:[[2,4,6,8],[0,1,7],[3,5,9,10]],
+                    1:[[1,4,7,8],[2,5,11,12],[3,6,9], [10,13]],
+                    2:[[1,5,9],[2,4,7],[3,6,8,10]],
+                    3:[[2,4,6,8],[0,1,7],[3,5,9],[10]],
                     }
-        new_sessions = self.check_num_groups(sessions)
-        return new_sessions
+
+        return sessions
 
     def check_num_groups(self, sessions: list) ->list:
         """verify the number of groups in a session do not exceed cfg.n_groups
@@ -62,4 +62,5 @@ class SessionsAlgo():
             an interactions attribute
         """
         log.info("running sessions algo")
-        self.sessions = self.build_sessions()
+        new_sessions = self.build_sessions()
+        self.sessions = self.check_num_groups(new_sessions)

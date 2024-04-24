@@ -28,17 +28,6 @@ class SessionsModel(SessionsAlgo):
     def __init__(self, seed=None, autorun=False):
         """init"""
         super().__init__(seed, autorun)
-        self.seed = seed
-        su.set_seed(seed)
-        self.groups = []
-        self.sessions = su.init_sessions(cfg.n_sessions)
-        self.interactions = {}
-        # other instance variables for algorithm
-        self.rand_attendees = copy.copy(cfg.attendees_list)
-
-        # autorun the session
-        if autorun:
-            self.run()
 
     def build_sessions(self) -> dict:
         """build the sessions and return"""
@@ -47,20 +36,5 @@ class SessionsModel(SessionsAlgo):
                     2:[[1,5,9],[2,4,7],[3,6,8]],
                     3:[[2,4,6,8],[0,1,7],[3,5,9,10]],
                     }
-        self.sessions = self.check_num_groups(sessions)
-        return self.sessions
-
-    def check_num_groups(self, sessions: list) ->list:
-        """verify the number of groups in a session do not exceed cfg.n_groups
-           and randomly distribute members to other groups"""
-        for k, v in sessions.items():
-            sessions[k] = su.assign_extra_attendees(v)
         return sessions
 
-    def run(self,) -> dict:
-        """ create the sessions
-            This must create a self.sessions attribute and optionally, can create
-            an interactions attribute
-        """
-        log.info("running sessions model")
-        self.sessions = self.build_sessions()
