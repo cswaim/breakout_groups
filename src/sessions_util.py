@@ -5,6 +5,7 @@ from itertools import combinations
 import random
 from src import config as cfg
 from src.card import Card
+from src.sessions_returned import SessionsReturned
 import logging
 
 log = logging.getLogger(__name__)
@@ -167,6 +168,75 @@ def print_item(prt_item, heading=''):
             print(prt_line.format(i, val))
     else:
         print("**Error:  item is not a dict, list or tuple")
+
+def make_sessions_returned(n_attendees=None,
+                            group_size=None,
+                            n_sessions=None):
+    """Creates all sessions for an event, based on the values in the parameters.
+
+    At the retreats, it seems the group size is a limiting factor.
+    On the other hand, the number of groups grows and shrinks based on the number
+    of attendees.
+    If a test wants to stipulate the number of groups, then calculate the
+    group_size based on the desired number of groups prior to calling this method.
+
+    Args:
+        n_attendees: The number of attendees.
+        group_size: The number of attendees in each group.
+        n_sessions: The number of sessions.
+
+    Returns:
+        A SessionsReturned object containing all of the sessions.
+    """
+
+    if not n_attendees:
+        n_attendees = cfg.n_attendees
+    attendees = list(range(0, n_attendees))
+
+    if not group_size:
+        group_size = cfg.group_size
+
+    if not n_sessions:
+        n_sessions = cfg.n_sessions
+
+    base = attendees
+    sessions = []
+
+    # For some variety in the test cases, rotate the members by one to the next group.
+    # For example,
+    # [[0, 1, 2] , [3, 4, 5]]   becomes   [[5, 0, 1], [2, 3, 4]]
+    # etc.
+    for new_attendee_order in range(1, n_sessions):
+        new_attendee_order_d = deque(base)
+        new_attendee_order_d.rotate(1)
+        new_attendee_order = list(new_attendee_order_d)
+        session = [base[group:group+group_size]
+                    for group in range(0, len(attendees), group_size)]
+        sessions.append(session)
+        base = new_attendee_order
+
+    # The rules for orphans prevent a group formed with only
+    # one or two attendees.  Need at least three.  A group with
+    # less than three attendees is disbanded and the attendees added
+    # to other groups.
+
+    for session in sessions:
+        for group in session:
+            # Due to orphans, do we need to disband this group?
+            if len(group) < 3:
+                # Find a new group for this orphan attendee
+                for index_orphan, orphan in enumerate(group):
+                    session[index_orphan].append(orphan)
+                    # group.remove(orphan)
+                # Cleanup by removing the group since no orphans remain
+                session.remove(group)
+
+    sr = SessionsReturned()
+    sr.group_size = group_size
+    sr.n_attendees = n_attendees
+    sr.sessions = sessions
+
+    return sr
 
 def groups_of_attendees_to_list(session=None):
     """Compress groups of attendees into a single list of attendees."""
