@@ -36,8 +36,8 @@ class SessionsAlgo():
         self.rand_attendees = copy.copy(cfg.attendees_list)
 
         # autorun the session
-        if autorun:
-            self.run()
+        # if autorun:
+        #     self.run()
 
     def build_sessions(self) -> dict:
         """build the sessions and return"""

@@ -29,6 +29,10 @@ class SessionsModel(SessionsAlgo):
         """init"""
         super().__init__(seed, autorun)
 
+        # autorun the session
+        if autorun:
+            self.run()
+
     def build_sessions(self) -> dict:
         """build the sessions and return"""
         sessions = {0:[[1,2,3],[4,5,6],[7,8,9], [10,11]],
