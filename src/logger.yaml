@@ -33,7 +33,8 @@ filters:
 handlers:
   console:
     class: logging.StreamHandler
-    level: INFO
+    # change level to INFO to see all logging on console
+    level: WARNING
     formatter: console
     stream: ext://sys.stdout
   file:
@@ -63,6 +64,6 @@ loggers:
     handlers: [console, file_rotate]
     propagate: no
 root:
-  level: DEBUG
+  level: INFO
   handlers: [console, file_rotate]
 disable_existing_loggers: False
