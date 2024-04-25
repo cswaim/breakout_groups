@@ -27,6 +27,7 @@ class SessionsAlgo():
 
     def __init__(self, seed=None, autorun=False):
         """init"""
+        self.class_name = type(self).__name__
         self.seed = seed
         su.set_seed(seed)
         self.groups = []
@@ -61,6 +62,7 @@ class SessionsAlgo():
             This must create a self.sessions attribute and optionally, can create
             an interactions attribute
         """
-        log.info("running sessions algo")
+        log.info(f"beg {self.class_name}")
         new_sessions = self.build_sessions()
         self.sessions = self.check_num_groups(new_sessions)
+        log.info(f"end {self.class_name}")

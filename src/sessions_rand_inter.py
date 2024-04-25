@@ -2,6 +2,7 @@ import random
 import copy
 from collections import Counter
 from src import config as cfg
+from src.sessions_algo import SessionsAlgo
 import logging
 log = logging.getLogger(__name__)
 
@@ -9,19 +10,18 @@ from src.card import Card
 from src import sessions_util as su
 
 '''
-    use variables from cfg
-    Build session dictionary 0 thru x
     Populate session dictionary by randomly shuffling the attendees list
-        and gouping by least interactions
-    the sessions dictionary contains the breakout sessions
+        and gouping by least number of interactions
 
 '''
 
-class SessionsRandomInteractions():
+class SessionsRandInter(SessionsAlgo):
     """ Use random to build sessions"""
 
     def __init__(self, seed=None, autorun=False) -> None:
         """init"""
+        super().__init__(seed, autorun)
+
         self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
         self.interactions = {}
@@ -32,6 +32,8 @@ class SessionsRandomInteractions():
         for i in range(cfg.n_attendees):
             self.all_cards[i] = Card(i)
         self.used_attendee = []
+
+        # autorun the session
         if autorun:
             self.run()
 
@@ -108,12 +110,4 @@ class SessionsRandomInteractions():
             self.sessions[i] = sess
             # update card interaction with sess
             self.update_card_interactions(sess)
-        return
-
-
-    def run(self,) -> None:
-        """create the sessions"""
-        log.info("beg sessions_random_interactions")
-        self.build_sessions()
-        log.info("end sessions_random_interactions")
-
+        return self.sessions

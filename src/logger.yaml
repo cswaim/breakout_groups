@@ -49,7 +49,7 @@ handlers:
     filters: [skip_infocon]
     formatter: debug
     filename: logger.log
-    maxBytes: 5120
+    maxBytes: 51200
     backupCount: 3
     mode: a
     delay: False

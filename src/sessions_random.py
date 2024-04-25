@@ -1,6 +1,7 @@
 import random
 import copy
 from src import config as cfg
+from src.sessions_algo import SessionsAlgo
 from src import sessions_util as su
 import logging
 log = logging.getLogger(__name__)
@@ -14,17 +15,21 @@ log = logging.getLogger(__name__)
 '''
 
 
-class SessionsRandom():
+class SessionsRandom(SessionsAlgo):
     """ Use random to build sessions"""
 
     def __init__(self, seed=None, autorun=False) -> None:
         """init"""
+        super().__init__(seed, autorun)
+
         self.groups = []
         self.sessions = su.init_sessions(cfg.n_sessions)
         self.interactions = {}
         self.rand_attendees = copy.copy(cfg.attendees_list)
         self.seed = seed
         su.set_seed(seed)
+
+        # autorun the session
         if autorun:
             self.run()
 
@@ -47,8 +52,3 @@ class SessionsRandom():
             self.sessions[i] = sess
         return self.sessions
 
-
-    def run(self,) -> None:
-        """create the sessions"""
-        log.info("running sessions_random")
-        self.sessions = self.build_sessions()
