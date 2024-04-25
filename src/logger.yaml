@@ -33,7 +33,8 @@ filters:
 handlers:
   console:
     class: logging.StreamHandler
-    level: INFO
+    # change level to INFO to see all logging on console
+    level: WARNING
     formatter: console
     stream: ext://sys.stdout
   file:
@@ -49,7 +50,7 @@ handlers:
     filters: [skip_infocon]
     formatter: debug
     filename: logger.log
-    maxBytes: 5120
+    maxBytes: 51200
     backupCount: 3
     mode: a
     delay: False
@@ -63,6 +64,6 @@ loggers:
     handlers: [console, file_rotate]
     propagate: no
 root:
-  level: DEBUG
+  level: INFO
   handlers: [console, file_rotate]
 disable_existing_loggers: False
