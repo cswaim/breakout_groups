@@ -103,7 +103,7 @@ class SessionsRandInter(SessionsAlgo):
             for c in g:
                 self.all_cards[c].update_cards(upd_dict)
 
-    def build_sessions(self,) -> list:
+    def build_sessions(self,) -> dict:
         """build sessions"""
         for i in  self.sessions.keys():
             sess = self.create_a_session(i)

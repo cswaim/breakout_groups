@@ -45,7 +45,7 @@ class SessionsRandom(SessionsAlgo):
 
         return sess
 
-    def build_sessions(self,) -> list:
+    def build_sessions(self,) -> dict:
         """build sessions"""
         for i in  self.sessions.keys():
             sess = self.create_a_session()
