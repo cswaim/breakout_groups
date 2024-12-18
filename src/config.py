@@ -16,6 +16,7 @@
 import configparser
 from pathlib import Path
 import os
+import sys
 
 cfg_flnm = "breakout_groups.cfg"
 wkdir_path = None
@@ -133,6 +134,14 @@ class ConfigParms:
 
         global config
         config = configparser.ConfigParser(allow_no_value=True)
+
+
+        # check the version,
+        # 3.11 changed config parser prefix
+        if sys.version_info >= (3,11):
+            self.prefixes = config._prefixes.full
+        else:
+            self.prefixes = config._comment_prefixes
 
         if autorun:
             self.run()
@@ -273,7 +282,7 @@ class ConfigParms:
         for s in config.sections():
             # the key is a tuple (key, value)
             for key in config[s].items():
-                if key[0][:1] in config._comment_prefixes:
+                if key[0][:1] in self.prefixes:
                     config.remove_option(s, key[0])
 
     def verify_config_attributes(self, config):
