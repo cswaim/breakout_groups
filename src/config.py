@@ -138,7 +138,7 @@ class ConfigParms:
 
         # check the version,
         # 3.11 changed config parser prefix
-        if sys.version_info >= (3,11):
+        if sys.version_info >= (3,12):
             self.prefixes = config._prefixes.full
         else:
             self.prefixes = config._comment_prefixes
