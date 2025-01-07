@@ -111,6 +111,7 @@ sessions_info = {}
 all_card_interactions = {}
 all_cards = []
 algo_runtime = None
+
 """
 This module takes advantage of Python's behavior of importing the module
 the first time and for every import after the first, only a reference is passed.  The code is not re-executed.
