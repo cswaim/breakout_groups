@@ -8,11 +8,14 @@
 #     the config file is created in the data directory and can be modified
 #     for a specific run.
 #
-#  Copyright 2023 cswaim <cswaim@tpginc.net>
+#  Copyright 2024 cswaim <cswaim@jcrl.net>
+#  Licensed under the Apache License, Version 2.0
+#  http://www.apache.org/licenses/LICENSE-2.0
 
 # import this module as the first application module:
 #     import src.config as cfg
 
+# system variables change only the cfg_flnm
 cfg_flnm = "breakout_groups.cfg"
 wkdir_path = None
 wkdir = None
@@ -98,6 +101,8 @@ cfg_comments = {
 
 # config obj
 config = None
+cp = None
+cu = None
 
 # variables passed to all modules
 attendees_list = []
@@ -106,33 +111,54 @@ sessions_info = {}
 all_card_interactions = {}
 all_cards = []
 algo_runtime = None
-
-
 """
 This module takes advantage of Python's behavior of importing the module
-the first time and for every import after the first, only a reference is passed.
+the first time and for every import after the first, only a reference is passed.  The code is not re-executed.
 
-There are several ways to instantiate the ConfigParm class which reads
-the cfg file.  Pick an approach that you like.
+There are several ways to instantiate the ConfigParm class which reads the
+cfg file.  Pick an approach that you like.
 
 Note that setting the autorun may effect tests as the defaults from the
 config file are loaded and the test defaults must be reset.
 
 to autorun on the first import:
     cp = ConfigParms(cfg_values, cfg_comments, autorun=True)
-or
-    cp = ConfigParms(cfg_values, cfg_comments)
-    cp.run()
 
-to control the autorun, just instantiate the class in this module
-    cp = ConfigParms(cfg_values, cfg_comments)
+to control the run in your application, just instantiate the class in this module
+    run_init()
 
 and then in the application code, read the parm file:
-    cfg.cp.run()
+    cfg.run()
 """
 
-from config_tpg.configparms import ConfigParms
-# from configparms_ext import ConfigParmsExt as ConfigParms
-from config_tpg.configutils import ConfigUtils as cu
-cp = ConfigParms(cfg_values, cfg_comments)
-# cp.run()
+# the imports must be at end of the config module
+#
+# To override the behavior of ConfigParms
+# such as change the path to data or scr directories
+# or to modify the default behavior for a section or variable
+# (1) make the modifications in the configparms_ext modult
+#
+# the init will look for the configparms_ext module first and use it
+# if it exists, otherwise it will use the package configparms module
+
+def run_init():
+    """run the init
+        if the configparms_ext module exists, use it and is preferred
+        otherwise the package configparms module is used
+    """
+    global cp, cu
+    try:
+        from src.configparms_ext import ConfigParmsExt as ConfigParms
+    except Exception as e:
+        from config_tpg.configparms import ConfigParms
+
+    from config_tpg.configutils import ConfigUtils
+    cp = ConfigParms(cfg_values, cfg_comments, autorun=False)
+    cu = ConfigUtils()
+
+def run():
+    """read the config file & set values in module"""
+    cp.run()
+
+# instantiate the configparms module
+run_init()
