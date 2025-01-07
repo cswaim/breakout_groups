@@ -38,7 +38,7 @@ def test_default_config(config_event_defaults, tmp_path):
 
 def test_build_session_labels():
     """test the building of the session labels"""
-    cfg.cp.build_group_labels()
+    cfg.cp.build_group_labels(cfg.config)
     res0 = ["group1", "group2", "group3", "group4", "group5"]
     res2 = ["Portales", "Santa Fe", "Taos", "Chama", "Cuba"]
     assert cfg.group_labels[0] == res0
@@ -66,17 +66,17 @@ def test_adding_new_data_item(config_event_defaults, tmp_path):
     config.remove_option("SYSTEM", "sys_group_algorithm")
     config.set("SYSTEM", "sys_version", new_version)
     cfg.cp.write_cfg(config)
-    config = cfg.cp.set_config_variables(config)
+    config = cfg.cp.set_config_module_variables(config)
 
-    assert config.has_option("EVENT", "n_attendees") == False
-    assert config.has_option("SYSTEM", "sys_group_algorithm") == False
+    assert config.has_option("EVENT", "n_attendees") is False
+    assert config.has_option("SYSTEM", "sys_group_algorithm") is False
 
     # read and build missing options
     config = cfg.cp.read_config_file(cfg.config)
     # confirm options are added back when missing
     assert orig_version == cfg.sys_cfg_version
-    assert config.has_option("EVENT", "n_attendees") == True
-    assert config.has_option("SYSTEM", "sys_group_algorithm") == True
+    assert config.has_option("EVENT", "n_attendees") is True
+    assert config.has_option("SYSTEM", "sys_group_algorithm") is True
 
 def test_add_missing_group_labels(config_event_defaults, tmp_path):
     """test add missing group labels"""
@@ -91,24 +91,24 @@ def test_add_missing_group_labels(config_event_defaults, tmp_path):
     config.remove_section("GROUP_LABELS")
     cfg.cp.write_cfg(config)
     # config = cfg.cp.set_config_variables(config)
-    assert config.has_section("GROUP_LABELS") == False
+    assert config.has_section("GROUP_LABELS") is False
 
     # read and build missing options
     config = cfg.cp.read_config_file(cfg.config)
     assert orig_version == cfg.sys_cfg_version
-    assert config.has_section("GROUP_LABELS") == True
-    assert config.has_option("GROUP_LABELS", "sess2") == True
+    assert config.has_section("GROUP_LABELS") is True
+    assert config.has_option("GROUP_LABELS", "sess2") is True
 
     # remove group labels from config
     config.remove_option("GROUP_LABELS", "sess2")
     cfg.cp.write_cfg(config)
     # config = cfg.cp.set_config_variables(config)
-    assert config.has_option("GROUP_LABELS", "sess2") == False
+    assert config.has_option("GROUP_LABELS", "sess2") is False
 
     # read and build missing options
     config = cfg.cp.read_config_file(cfg.config)
     assert orig_version == cfg.sys_cfg_version
-    assert config.has_option("GROUP_LABELS", "sess2") == True
+    assert config.has_option("GROUP_LABELS", "sess2") is True
 
 def test_remove_default_comments(config_event_defaults):
     """test remove_default_comments"""
@@ -120,7 +120,7 @@ def test_remove_default_comments(config_event_defaults):
     cfg.cp.remove_default_comments(cfg.config)
 
     for k in comments.keys():
-        assert config.has_option("GROUP_LABELS", k) == False
+        assert config.has_option("GROUP_LABELS", k) is False
 
 def test_set_session_label_values(config_event_defaults):
     """test setting of sesion lables"""
@@ -137,5 +137,5 @@ def test_print_config_vars(config_event_defaults):
     # load the default values
     config = cfg.cp.set_default_config(cfg.config)
     cfg.cp.remove_default_comments(cfg.config)
-    cfg.print_config_vars(heading="with comments")
-    cfg.print_config_vars(heading="no comments", comments=False)
+    cfg.cu.print_config_vars(heading="with comments")
+    cfg.cu.print_config_vars(heading="no comments", comments=False)
