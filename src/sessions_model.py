@@ -29,12 +29,15 @@ class SessionsModel(SessionsAlgo):
         """init"""
         super().__init__(seed, autorun)
 
+        # allow group_size to be overridden by session
+        self.group_size = cfg.group_size
         # autorun the session
         if autorun:
             self.run()
 
     def build_sessions(self) -> dict:
         """build the sessions and return"""
+        self.group_size = su.set_group_size()
         sessions = {0:[[1,2,3],[4,5,6],[7,8,9], [10,11]],
                     1:[[1,4,7],[2,5,8],[3,6,9], [10,11,12,13]],
                     2:[[1,5,9],[2,4,7],[3,6,8]],

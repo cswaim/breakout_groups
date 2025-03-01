@@ -168,10 +168,15 @@ def print_item(prt_item, heading=''):
     else:
         print("**Error:  item is not a dict, list or tuple")
 
-def groups_of_attendees_to_list(session=None):
+def groups_of_attendees_to_list(session=None) -> list:
     """Compress groups of attendees into a single list of attendees."""
     all_attendees = []
     for group in session:
         for attendee in group:
             all_attendees.append(attendee)
     return all_attendees
+
+def set_group_size() -> int:
+    """check the session group_size overide and set group_size"""
+    group_size = cfg.group_size
+    return group_size

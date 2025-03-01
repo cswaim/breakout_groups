@@ -22,6 +22,8 @@ class SessionsRandInter(SessionsAlgo):
         """init"""
         super().__init__(seed, autorun)
 
+        # allow group_size to be overridden by session
+        self.group_size = cfg.group_size
         self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
         self.interactions = {}
@@ -44,8 +46,8 @@ class SessionsRandInter(SessionsAlgo):
         sess = []
         # for first session, use random then use interaction weighted random
         if sess_num == 0:
-            for i in range(0, cfg.n_attendees, cfg.group_size):
-                sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
+            for i in range(0, cfg.n_attendees, self.group_size):
+                sess.append(sorted(self.rand_attendees[i: i + self.group_size]))
         else:
             sess = self.interactions_weighted_random(sess)
 
@@ -77,7 +79,7 @@ class SessionsRandInter(SessionsAlgo):
             i_list = self.all_cards[c].card_interactions.most_common()
             min_int = i_list[-1][0]
 
-            if len(group) < cfg.group_size:
+            if len(group) < self.group_size:
                 group.append(c)
                 self.used_attendee.append(c)
 
@@ -86,7 +88,7 @@ class SessionsRandInter(SessionsAlgo):
                 else:
                     group.append(min_int)
                     self.used_attendee.append(min_int)
-            if len(group) >= cfg.group_size:
+            if len(group) >= self.group_size:
                 # add group to sess and reset
                 sess.append(copy.copy(group))
                 group.clear()
@@ -104,8 +106,9 @@ class SessionsRandInter(SessionsAlgo):
                 self.all_cards[c].update_cards(upd_dict)
 
     def build_sessions(self,) -> dict:
-        """build sessions"""
+        """build sessions - this is the driver called by parent class"""
         for i in  self.sessions.keys():
+            self.group_size = su.set_group_size()
             sess = self.create_a_session(i)
             self.sessions[i] = sess
             # update card interaction with sess

@@ -22,6 +22,8 @@ class SessionsRandom(SessionsAlgo):
         """init"""
         super().__init__(seed, autorun)
 
+        # allow group_size to be overridden by session
+        self.group_size = cfg.group_size
         self.groups = []
         self.sessions = su.init_sessions(cfg.n_sessions)
         self.interactions = {}
@@ -38,8 +40,8 @@ class SessionsRandom(SessionsAlgo):
         # shuffle the list
         random.shuffle(self.rand_attendees)
         sess = []
-        for i in range(0, cfg.n_attendees, cfg.group_size):
-            sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
+        for i in range(0, cfg.n_attendees, self.group_size):
+            sess.append(sorted(self.rand_attendees[i: i + self.group_size]))
 
         sess = su.assign_extra_attendees(sess)
 
@@ -48,6 +50,7 @@ class SessionsRandom(SessionsAlgo):
     def build_sessions(self,) -> dict:
         """build sessions"""
         for i in  self.sessions.keys():
+            self.group_size = su.set_group_size()
             sess = self.create_a_session()
             self.sessions[i] = sess
         return self.sessions
