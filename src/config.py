@@ -38,6 +38,7 @@ group_labels = [['group1,group2,group3,group4,group5'],
                 ['Elbert,Massive,Harvard,Blanca,La Plata'],
                ]
 session_labels = []
+session_gs_overrides = {}
 
 # reports
 report_interactions_matrix = True
@@ -45,7 +46,7 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.9'
+sys_cfg_version = '0.10'
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 sys_algorithm_compare = ["sessions_random","SessionsRandom",
@@ -71,6 +72,7 @@ cfg_values = {'EVENT': [
                 ('random_seed', 'i'),('session_labels', 'l'),
                 ],
               'GROUP_LABELS': [],
+              'SESSION_GS_OVERRIDES' : {},
               'REPORTS':[
                   ('report_interactions_matrix', 'b'),
                   ('report_run_stats', 'b'),
@@ -92,6 +94,7 @@ cfg_comments = {
     'event_date': ['date is a string and will be printed as entered, examples:', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
     'group_size': ['if 0, group size is calculated, recommend 0',],
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
+    'SESSION_GS_OVERRIDES': ['the group size of a session may be overidden by entering sess_num = integer, for example', '3 = 6', 'the offset is 0, that is the first session is 0'],
     'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
     'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
     'session_labels': ['a common separated list of labels = Fri 9:00,Sat 10:00,Sat 1:00pm ', 'if empty Session xx will be generated for each session', 'if number of labels provided is less than number of sessions, ','then Session xx will be generated for missing sessions'],
