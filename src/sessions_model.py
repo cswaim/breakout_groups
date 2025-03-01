@@ -36,8 +36,11 @@ class SessionsModel(SessionsAlgo):
             self.run()
 
     def build_sessions(self) -> dict:
-        """build the sessions and return"""
-        self.group_size = su.set_group_size()
+        """build sessions
+           - this is the driver called by parent class run method
+
+        """
+        self.group_size = su.set_group_size(0)
         sessions = {0:[[1,2,3],[4,5,6],[7,8,9], [10,11]],
                     1:[[1,4,7],[2,5,8],[3,6,9], [10,11,12,13]],
                     2:[[1,5,9],[2,4,7],[3,6,8]],

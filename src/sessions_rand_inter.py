@@ -106,9 +106,11 @@ class SessionsRandInter(SessionsAlgo):
                 self.all_cards[c].update_cards(upd_dict)
 
     def build_sessions(self,) -> dict:
-        """build sessions - this is the driver called by parent class"""
+        """build sessions
+           - this is the driver called by parent class run method
+        """
         for i in  self.sessions.keys():
-            self.group_size = su.set_group_size()
+            self.group_size = su.set_group_size(i)
             sess = self.create_a_session(i)
             self.sessions[i] = sess
             # update card interaction with sess

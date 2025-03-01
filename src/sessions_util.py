@@ -176,7 +176,10 @@ def groups_of_attendees_to_list(session=None) -> list:
             all_attendees.append(attendee)
     return all_attendees
 
-def set_group_size() -> int:
+def set_group_size(sess_id) -> int:
     """check the session group_size overide and set group_size"""
-    group_size = cfg.group_size
+    if sess_id in cfg.session_gs_overrides:
+        group_size = cfg.session_gs_overrides[sess_id]
+    else:
+        group_size = cfg.group_size
     return group_size

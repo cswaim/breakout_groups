@@ -65,7 +65,14 @@ class ConfigParmsExt(ConfigParms):
                 config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
             next_iter = True
 
+        if sec == 'SESSION_GS_OVERRIDES':
+            for i, g in enumerate(cfg.session_gs_overrides):
+                config.set('SESSION_GS_OVERRIDES', f'{i}', ','.join(x for x in g))
+            next_iter = True
+
         return next_iter
+
+
 
     def set_custom_default_vars(self, config, sec, vars, var) -> bool:
         """ Process any variable that needs special handling """

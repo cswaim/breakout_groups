@@ -48,9 +48,11 @@ class SessionsRandom(SessionsAlgo):
         return sess
 
     def build_sessions(self,) -> dict:
-        """build sessions"""
+        """build sessions
+           - this is the driver called by parent class run method
+        """
         for i in  self.sessions.keys():
-            self.group_size = su.set_group_size()
+            self.group_size = su.set_group_size(i)
             sess = self.create_a_session()
             self.sessions[i] = sess
         return self.sessions
