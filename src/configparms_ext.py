@@ -66,8 +66,8 @@ class ConfigParmsExt(ConfigParms):
             next_iter = True
 
         if sec == 'SESSION_GS_OVERRIDES':
-            for i, g in enumerate(cfg.session_gs_overrides):
-                config.set('SESSION_GS_OVERRIDES', f'{i}', ','.join(x for x in g))
+            for k, v in cfg.session_gs_overrides.items():
+                config.set('SESSION_GS_OVERRIDES', str(k), str(v))
             next_iter = True
 
         return next_iter
