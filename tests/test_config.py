@@ -162,5 +162,7 @@ def test_n_groups_overrides(config_event_defaults, tmp_path) -> None:
     assert config.has_option("SESSION_NG_OVERRIDES", "1") is True
     assert config["GROUP_LABELS"]["sess1"] == ','.join(x for x in new_labels)
 
+    # clear overrides
+    cfg.session_ng_overrides = {}
 
 

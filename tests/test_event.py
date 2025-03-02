@@ -11,11 +11,17 @@ def test_event(config_event_defaults, get_random_seed):
     assert len(event.all_cards) == cfg.n_attendees
 
 def test_build_card_interactions(get_random_seed, config_event_defaults):
-    """ test build tnteractions """
+    """ test build interactions """
+    # clear overrides
+    cfg.session_ng_overrides = {}
     event = Event(seed=get_random_seed)
     event.update_cards()
-    res0 = Counter({0:0, 1:1, 3:2, 5:2, 6:2, 7:1, 9:2})
-    res1 = Counter({0:1, 1:0, 2:2, 3:1, 4:1, 5:1, 7:3, 9:1})
+    # res0 = Counter({0:0, 1:1, 3:2, 5:2, 6:2, 7:1, 9:2})
+    # res1 = Counter({0:1, 1:0, 2:2, 3:1, 4:1, 5:1, 7:3, 9:1})
+    res0 = Counter({0:0, 1:0, 2:1, 3:2, 4:1, 5:1, 6:1, 7:3, 8:0, 9:0, 10:1})
+    res1 = Counter({0:0, 1:0, 2:1, 3:2, 4:1, 5:0, 6:0, 7:1, 8:1, 9:3, 10:1})
+
+    print(" event sess_ng",cfg.session_ng_overrides)
     assert res0 == event.all_cards[0].card_interactions
     assert res1 == event.all_cards[1].card_interactions
 
