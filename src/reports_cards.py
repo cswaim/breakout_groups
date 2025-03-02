@@ -140,7 +140,7 @@ class CardsReports():
         # textline and for loop
         # move down the page - init y - x.x inches from bottom
         last_y += -.45
-        text = cardpdf.beginText(.5 * inch, last_y * inch)
+        text = cardpdf.beginText(.25 * inch, last_y * inch)
 
         for n, label in enumerate(card.group_labels):
             #n += 1   # adj for 0 offset
@@ -148,7 +148,7 @@ class CardsReports():
             text.setFont("Courier-Oblique", sess_lbl_fs)
             text.setFillColor(colors.black)
             text.textOut(line)
-            line = f"   {label}"
+            line = f"  {label}"
             text.setFont("Helvetica", sess_text_fs)
             text.setFillColor(colors.red)
             text.textOut(line)
