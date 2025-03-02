@@ -22,8 +22,10 @@ class SessionsRandom(SessionsAlgo):
         """init"""
         super().__init__(seed, autorun)
 
-        # allow group_size to be overridden by session
+        # allow n_groups to be overridden by session
+        self.n_groups = cfg.n_groups
         self.group_size = cfg.group_size
+
         self.groups = []
         self.sessions = su.init_sessions(cfg.n_sessions)
         self.interactions = {}
@@ -43,7 +45,7 @@ class SessionsRandom(SessionsAlgo):
         for i in range(0, cfg.n_attendees, self.group_size):
             sess.append(sorted(self.rand_attendees[i: i + self.group_size]))
 
-        sess = su.assign_extra_attendees(sess)
+        #sess = su.assign_extra_attendees(sess)
 
         return sess
 
@@ -52,7 +54,7 @@ class SessionsRandom(SessionsAlgo):
            - this is the driver called by parent class run method
         """
         for i in  self.sessions.keys():
-            self.group_size = su.set_group_size(i)
+            self.n_groups, self.group_size = su.set_n_groups(i)
             sess = self.create_a_session()
             self.sessions[i] = sess
         return self.sessions

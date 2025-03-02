@@ -11,6 +11,7 @@
 
 from pathlib import Path
 import os
+import copy
 import importlib.util
 import src.config as cfg
 from config_tpg.configparms import ConfigParms
@@ -55,7 +56,9 @@ class ConfigParmsExt(ConfigParms):
     # set custom default values in the config object before writing the config file
 
     def set_custom_default_sects(self, config, sec, vars) -> bool:
-        """ Process any section that needs special handling, such as a dictionary that is converted into variables within a section in the config file
+        """ Process any section that needs special handling, such as a
+        dictionary that is converted into variables within a section
+        in the config file
         """
         #  set to True to skip the rest of the loop
         next_iter = False
@@ -65,9 +68,9 @@ class ConfigParmsExt(ConfigParms):
                 config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
             next_iter = True
 
-        if sec == 'SESSION_GS_OVERRIDES':
-            for k, v in cfg.session_gs_overrides.items():
-                config.set('SESSION_GS_OVERRIDES', str(k), str(v))
+        if sec == 'SESSION_NG_OVERRIDES':
+            for k, v in cfg.session_ng_overrides.items():
+                config.set('SESSION_NG_OVERRIDES', str(k), str(v))
             next_iter = True
 
         return next_iter
@@ -110,11 +113,17 @@ class ConfigParmsExt(ConfigParms):
 
             For example: build a list based on the number of items, as set in a config file varible
         """
+        # n_groups is an integer so this is a copy
+        cfg.orig_n_groups = cfg.n_groups
+
         # custom code for group labels and attendee list
         self.set_session_label_values(config)
 
         cfg.attendees_list = self.gen_attendees_list()
         cfg.group_labels = self.build_group_labels(config)
+
+        # set the cfg.session_ng_overrides dict
+        cfg.session_ng_overrides = self.build_ng_overrides(config)
         return
 
 
@@ -134,6 +143,10 @@ class ConfigParmsExt(ConfigParms):
                     config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
                 sorted_lbls = {k:config['GROUP_LABELS'][k] for k in sorted(config['GROUP_LABELS'].keys())}
                 config['GROUP_LABELS'] = sorted_lbls
+            next_iter = True
+
+        # set config ng overrides to match the cfg session_ng_overides
+        if sec == 'SESSION_NG_OVERRIDES':
             next_iter = True
 
         return next_iter
@@ -211,3 +224,11 @@ class ConfigParmsExt(ConfigParms):
             slabels.append(f"Session {sn:02}")
 
         return slabels
+
+    def build_ng_overrides(self, config) -> dict:
+        """build the override dict from the config file"""
+        over_dict = {}
+        for k, v in config['SESSION_NG_OVERRIDES'].items():
+            over_dict[int(k)] = int(v)
+
+        return over_dict

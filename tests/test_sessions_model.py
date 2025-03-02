@@ -40,3 +40,12 @@ def test_build_sessions(config_event_defaults, get_random_seed):
     sm = SessionsModel(seed=get_random_seed)
     sm.build_sessions()
     assert len(sm.sessions) == cfg.n_sessions
+
+cfg.orig_n_groups = cfg.n_groups
+
+def test_n_group_override(config_event_defaults):
+    """ test n_group override withbuild sessions"""
+    cfg.session_ng_overrides[1] = 5
+    sc = SessionsModel()
+    sc.build_sessions()
+    assert len(sc.sessions[1]) == 4

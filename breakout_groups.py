@@ -44,6 +44,7 @@ class BreakoutGroups():
             self.group_size = cfg.group_size
         else:
             cfg.group_size = floor(cfg.n_attendees / cfg.n_groups)
+            self.group_size = cfg.group_size
 
         logger_setup.run()
         log.info("beg breakout-groups")

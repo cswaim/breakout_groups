@@ -141,8 +141,8 @@ def test_print_config_vars(config_event_defaults):
     cfg.cu.print_config_vars(heading="with comments")
     cfg.cu.print_config_vars(heading="no comments", comments=False)
 
-def test_group_size_overrides(config_event_defaults, tmp_path) -> None:
-    """test group size overides"""
+def test_n_groups_overrides(config_event_defaults, tmp_path) -> None:
+    """test n_groups overides"""
 
     base_dir = tmp_path / "breakout_groups"
     base_dir.mkdir()
@@ -152,14 +152,14 @@ def test_group_size_overrides(config_event_defaults, tmp_path) -> None:
 
     # set the override & write config file
     new_labels = ['A', 'B', 'C', 'D', 'E']
-    cfg.session_gs_overrides[1] = 5
+    cfg.session_ng_overrides[1] = 5
     cfg.group_labels[1] = new_labels
     config = cfg.cp.set_default_config(cfg.config)
     cfg.cp.write_cfg(config)
 
     # read config file and check for overrides
     config = cfg.cp.read_config_file(cfg.config)
-    assert config.has_option("SESSION_GS_OVERRIDES", "1") is True
+    assert config.has_option("SESSION_NG_OVERRIDES", "1") is True
     assert config["GROUP_LABELS"]["sess1"] == ','.join(x for x in new_labels)
 
 

@@ -37,7 +37,7 @@ group_labels = [['group1,group2,group3,group4,group5'],
                 ['Portales,Santa Fe,Taos,Chama,Cuba'],
                 ['Elbert,Massive,Harvard,Blanca,La Plata'],
                ]
-session_gs_overrides = {}
+session_ng_overrides = {}
 session_labels = []
 
 # reports
@@ -66,12 +66,12 @@ sys_interactions_reports_txt = "interactions_reports.txt"
 cfg_values = {'EVENT': [
                 ('event_title', 's'), ('event_subtitle', 's'),
                 ('event_date', 's'),
-                ('n_attendees', 'i'), ('group_size', 'i'),
+                ('n_attendees', 'i'),
                 ('n_groups', 'i'), ('n_sessions', 'i'),
                 ('n_extra_cards', 'i'),
                 ('random_seed', 'i'),('session_labels', 'l'),
                 ],
-              'SESSION_GS_OVERRIDES' : {},
+              'SESSION_NG_OVERRIDES' : {},
               'GROUP_LABELS': [],
               'REPORTS':[
                   ('report_interactions_matrix', 'b'),
@@ -94,7 +94,7 @@ cfg_comments = {
     'event_date': ['date is a string and will be printed as entered, examples:', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
     'group_size': ['if 0, group size is calculated, recommend 0',],
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
-    'SESSION_GS_OVERRIDES': ['the group size of a session may be overidden by entering:', 'sess_num = integer', '3 = 6', 'session are 0 offset, so session1 is 0, session2 is 1'],
+    'SESSION_NG_OVERRIDES': ['the num of groups per session may be overidden by entering:', 'sess_num = integer', '3 = 6', 'session are 0 offset, so session1 is 0, session2 is 1'],
     'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
     'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
     'session_labels': ['a common separated list of labels = Fri 9:00,Sat 10:00,Sat 1:00pm ', 'if empty Session xx will be generated for each session', 'if number of labels provided is less than number of sessions, ','then Session xx will be generated for missing sessions'],
@@ -106,6 +106,8 @@ cfg_comments = {
 config = None
 cp = None
 cu = None
+# store orig n_groups to restore from if overridden
+orig_n_groups = 0
 
 # variables passed to all modules
 attendees_list = []

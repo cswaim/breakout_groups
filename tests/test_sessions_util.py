@@ -33,17 +33,17 @@ def test_get_algorithms(config_event_defaults):
     algos = su.get_algorithms()
     assert algos == rsp
 
-def test_set_group_size(config_event_defaults):
-    """test set group size which checks for a group_size override
-        in cfg.session_gs_override and use it
+def test_set_n_groups(config_event_defaults):
+    """test set n_groups which checks for a n_group override
+        in cfg.session_ng_override and use it
     """
     # test no override
-    rsp = cfg.group_size
-    gs = su.set_group_size(0)
-    assert gs == rsp
+    rsp = cfg.n_groups
+    ng, gs = su.set_n_groups(0)
+    assert ng == rsp
 
     # test override of first session
     rsp = 6
-    cfg.session_gs_overrides[0] = 6
-    gs = su.set_group_size(0)
-    assert gs == rsp
+    cfg.session_ng_overrides[0] = 6
+    ng, gs = su.set_n_groups(0)
+    assert ng == rsp
