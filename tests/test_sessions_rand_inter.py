@@ -55,3 +55,6 @@ def test_n_group_override(config_event_defaults, get_random_seed):
     sc = SessionsRandInter(get_random_seed)
     sc.build_sessions()
     assert len(sc.sessions[1]) == 6
+
+    # reset session_ng_overrides
+    cfg.session_ng_overrides.pop(1)

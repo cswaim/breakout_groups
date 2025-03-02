@@ -92,14 +92,11 @@ def assign_extra_attendees(k: int, sess: list) -> list:
     ng, gs = set_n_groups(k)
 
     g_used = []
-    #if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
     if len(sess) > ng and len(sess[-1]) != gs:
         for x in sess[-1]:
             # gen number until not used
-            # while (g:= random.randrange(cfg.n_groups )) in g_used:
             while (g:= random.randrange(ng )) in g_used:
                 # reset g_used if attendees still exist but all groups have been used
-                #if len(g_used) >= cfg.n_groups:
                 if len(g_used) >= ng:
                     g_used = []
             g_used.append(g)

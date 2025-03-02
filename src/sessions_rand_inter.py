@@ -53,9 +53,6 @@ class SessionsRandInter(SessionsAlgo):
         else:
             sess = self.interactions_weighted_random(sess)
 
-        # if last group is not full size group, randomly allocate members to other groups
-        #sess = su.assign_extra_attendees(sess)
-
         return sess
 
     def get_unused_attendee(self, i):

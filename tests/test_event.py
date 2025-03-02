@@ -21,7 +21,6 @@ def test_build_card_interactions(get_random_seed, config_event_defaults):
     res0 = Counter({0:0, 1:0, 2:1, 3:2, 4:1, 5:1, 6:1, 7:3, 8:0, 9:0, 10:1})
     res1 = Counter({0:0, 1:0, 2:1, 3:2, 4:1, 5:0, 6:0, 7:1, 8:1, 9:3, 10:1})
 
-    print(" event sess_ng",cfg.session_ng_overrides)
     assert res0 == event.all_cards[0].card_interactions
     assert res1 == event.all_cards[1].card_interactions
 

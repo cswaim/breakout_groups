@@ -47,3 +47,6 @@ def test_set_n_groups(config_event_defaults):
     cfg.session_ng_overrides[0] = 6
     ng, gs = su.set_n_groups(0)
     assert ng == rsp
+
+    # reset session_ng_overrides
+    cfg.session_ng_overrides.pop(0)

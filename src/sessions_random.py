@@ -45,8 +45,6 @@ class SessionsRandom(SessionsAlgo):
         for i in range(0, cfg.n_attendees, self.group_size):
             sess.append(sorted(self.rand_attendees[i: i + self.group_size]))
 
-        #sess = su.assign_extra_attendees(sess)
-
         return sess
 
     def build_sessions(self,) -> dict:
