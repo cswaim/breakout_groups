@@ -19,7 +19,9 @@ from src import sessions_util as su
 from src import reports_util as rptu
 
 class ReportsCardsExtra():
-    """ After the sessions are built, for the set number of attendees, this module will generate x number of extra cards to allow for last minute sign-ups.
+    """ After the sessions are built, for the set number of attendees,
+        this module will generate x number of extra cards to allow
+        for last minute sign-ups.
     The number of extra cards is set by the cfg.n_extra_cards
     """
 
@@ -34,10 +36,13 @@ class ReportsCardsExtra():
 
         # init extra session {0: [[],[],[]...]}
         self.extra_sess = su.init_sessions(cfg.n_sessions)
-        sess_groups = []
-        for a in range(cfg.n_groups):
-            sess_groups.append([])
+
         for k, v in self.extra_sess.items():
+            sess_groups = []
+            # check group size for override
+            cfg.n_groups, cfg.group_size = su.set_n_groups(k)
+            for a in range(cfg.n_groups):
+                sess_groups.append([])
             self.extra_sess[k] = copy.deepcopy(sess_groups)
 
         # autorun the build
