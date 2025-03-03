@@ -130,6 +130,23 @@ class InteractionsMatrix():
              rptu.print_dtl(line, fileobj=fileobj)
         pass
 
+    def print_interactions(self, fileobj=None):
+        """Print the interactions for each card"""
+
+        hd1 = "Interactions"
+        hd2  = ""
+        col_hd1 = f"Card    0    1    2    3    4... -> {cfg.n_attendees}"
+        col_hd2 =  " Id  "
+        rptu.print_header(hd1, hd2, col_hd1, col_hd2, fileobj=fileobj)
+
+        for k, v in cfg.all_card_interactions.items():
+            line = f"{k:>4}  - "
+            rptu.print_dtl(line, fileobj=fileobj, newline=False)
+            for i, c in v.items():
+                line = f"{c:^4} "
+                rptu.print_dtl(line, fileobj=fileobj, newline=False)
+            rptu.print_dtl('', fileobj=fileobj, newline=True)
+
     def run(self,):
         with open(f'{cfg.datadir}interactions_reports.txt', 'w') as itxt:
             # make file obj available to all methods
@@ -142,6 +159,9 @@ class InteractionsMatrix():
             # self.print_matrix(df)
             df = self.gen_matrix()
             self.print_matrix(df, fileobj=itxt)
+
+            itxt.write("\n\n\n\n")
+            self.print_interactions(fileobj=itxt)
 
 
 
