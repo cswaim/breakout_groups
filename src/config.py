@@ -94,7 +94,7 @@ cfg_comments = {
     'event_date': ['date is a string and will be printed as entered, examples:', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
     'group_size': ['if 0, group size is calculated, recommend 0',],
     'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
-    'SESSION_NG_OVERRIDES': ['the num of groups per session may be overidden by entering:', 'sess_num = integer', '3 = 6', 'session are 0 offset, so session1 is 0, session2 is 1'],
+    'SESSION_NG_OVERRIDES': ['the num of groups per session may be overidden by entering:', 'sess_num = integer', '3 = 6', 'session is 0 offset, so session1 is 0, session2 is 1'],
     'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
     'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
     'session_labels': ['a common separated list of labels = Fri 9:00,Sat 10:00,Sat 1:00pm ', 'if empty Session xx will be generated for each session', 'if number of labels provided is less than number of sessions, ','then Session xx will be generated for missing sessions'],
