@@ -74,9 +74,9 @@ class SessionsRandInter(SessionsAlgo):
             # get the card number
             c = self.get_unused_attendee(i)
 
-            # get min interaction for card
+            # get min interaction for card that is not in used
             i_list = self.all_cards[c].card_interactions.most_common()
-            min_int = i_list[-1][0]
+            min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
 
             if len(group) < self.group_size:
                 group.append(c)
@@ -87,11 +87,14 @@ class SessionsRandInter(SessionsAlgo):
                 else:
                     group.append(min_int)
                     self.used_attendee.append(min_int)
+
+            # chk group size, append to session if group size
             if len(group) >= self.group_size:
                 # add group to sess and reset
                 sess.append(copy.copy(group))
                 group.clear()
 
+        # append remainder to session
         if len(group) != 0:
             sess.append(group)
         return sess
