@@ -12,7 +12,6 @@ from src.sessions_random import SessionsRandom
 
 """Unit tests for Sessions methods."""
 
-
 def test_init():
     """test Sessions init"""
     sc = SessionsRandom(autorun=True)
@@ -28,9 +27,18 @@ def test_check_sess_attendees(config_event_defaults):
         attend_list.sort()
         assert attend_list == good_session
 
-
 def test_build_sessions(config_event_defaults):
     """ test build sessions"""
     sc = SessionsRandom()
     sc.build_sessions()
     assert len(sc.sessions) == cfg.n_sessions
+
+def test_n_group_override(config_event_defaults):
+    """ test n_group override withbuild sessions"""
+    cfg.session_ng_overrides[1] = 5
+    sc = SessionsRandom()
+    sc.build_sessions()
+    assert len(sc.sessions[1]) == 6
+
+    # reset session_ng_overrides
+    cfg.session_ng_overrides.pop(1)

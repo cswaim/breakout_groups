@@ -47,3 +47,14 @@ def test_update_card_interactions(config_event_defaults, get_random_seed):
     assert sc.all_cards[1].card_interactions[1] == 0
     assert sc.all_cards[1].card_interactions[10] == 1
     assert sc.all_cards[1].card_interactions[6] == 0
+
+
+def test_n_group_override(config_event_defaults, get_random_seed):
+    """ test n_group override withbuild sessions"""
+    cfg.session_ng_overrides[1] = 5
+    sc = SessionsRandInter(get_random_seed)
+    sc.build_sessions()
+    assert len(sc.sessions[1]) == 5
+
+    # reset session_ng_overrides
+    cfg.session_ng_overrides.pop(1)

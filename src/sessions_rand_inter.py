@@ -22,6 +22,10 @@ class SessionsRandInter(SessionsAlgo):
         """init"""
         super().__init__(seed, autorun)
 
+        # allow n_groups to be overridden by session
+        self.n_groups = cfg.n_groups
+        self.group_size = cfg.group_size
+
         self.groups = []
         self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
         self.interactions = {}
@@ -44,13 +48,10 @@ class SessionsRandInter(SessionsAlgo):
         sess = []
         # for first session, use random then use interaction weighted random
         if sess_num == 0:
-            for i in range(0, cfg.n_attendees, cfg.group_size):
-                sess.append(sorted(self.rand_attendees[i: i + cfg.group_size]))
+            for i in range(0, cfg.n_attendees, self.group_size):
+                sess.append(sorted(self.rand_attendees[i: i + self.group_size]))
         else:
             sess = self.interactions_weighted_random(sess)
-
-        # if last group is not full size group, randomly allocate members to other groups
-        sess = su.assign_extra_attendees(sess)
 
         return sess
 
@@ -73,11 +74,11 @@ class SessionsRandInter(SessionsAlgo):
             # get the card number
             c = self.get_unused_attendee(i)
 
-            # get min interaction for card
+            # get min interaction for card that is not in used
             i_list = self.all_cards[c].card_interactions.most_common()
-            min_int = i_list[-1][0]
+            min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
 
-            if len(group) < cfg.group_size:
+            if len(group) < self.group_size:
                 group.append(c)
                 self.used_attendee.append(c)
 
@@ -86,11 +87,14 @@ class SessionsRandInter(SessionsAlgo):
                 else:
                     group.append(min_int)
                     self.used_attendee.append(min_int)
-            if len(group) >= cfg.group_size:
+
+            # chk group size, append to session if group size
+            if len(group) >= self.group_size:
                 # add group to sess and reset
                 sess.append(copy.copy(group))
                 group.clear()
 
+        # append remainder to session
         if len(group) != 0:
             sess.append(group)
         return sess
@@ -104,8 +108,11 @@ class SessionsRandInter(SessionsAlgo):
                 self.all_cards[c].update_cards(upd_dict)
 
     def build_sessions(self,) -> dict:
-        """build sessions"""
+        """build sessions
+           - this is the driver called by parent class run method
+        """
         for i in  self.sessions.keys():
+            self.n_groups, self.group_size = su.set_n_groups(i)
             sess = self.create_a_session(i)
             self.sessions[i] = sess
             # update card interaction with sess

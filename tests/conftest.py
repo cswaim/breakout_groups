@@ -48,6 +48,7 @@ def config_event_defaults():
     cfg.event_date = "yyyy/mm/dd - yyyy/mm/dd"
     cfg.n_attendees = 11
     cfg.n_groups = 3
+    cfg.orig_n_groups = cfg.n_groups
     cfg.group_size = 3
     cfg.n_sessions = 4
     cfg.n_extra_cards = 2

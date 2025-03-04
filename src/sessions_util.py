@@ -2,7 +2,10 @@ from collections import Counter
 from collections import deque
 
 from itertools import combinations
+from math import floor
 import random
+
+from numpy import integer
 from src import config as cfg
 from src.card import Card
 import logging
@@ -67,7 +70,7 @@ def init_cards(nc=cfg.n_attendees) -> list:
         all_cards.append(Card(i))
     return all_cards
 
-def assign_extra_attendees(sess: list) -> list:
+def assign_extra_attendees(k: int, sess: list) -> list:
     """Using a set number of groups in a session, allocate 'extra' attendees
         to the groups defined by n_groups variables
         assume n_goups = 3
@@ -85,14 +88,16 @@ def assign_extra_attendees(sess: list) -> list:
     Returns:
         A list of groups, where the number of groups has been set to n_groups.
     """
+    # check for override
+    ng, gs = set_n_groups(k)
 
     g_used = []
-    if len(sess) > cfg.n_groups and len(sess[-1]) != cfg.group_size:
+    if len(sess) > ng and len(sess[-1]) != gs:
         for x in sess[-1]:
             # gen number until not used
-            while (g:= random.randrange(cfg.n_groups )) in g_used:
+            while (g:= random.randrange(ng )) in g_used:
                 # reset g_used if attendees still exist but all groups have been used
-                if len(g_used) >= cfg.n_groups:
+                if len(g_used) >= ng:
                     g_used = []
             g_used.append(g)
             sess[g].append(x)
@@ -127,7 +132,8 @@ def update_cards(all_cards) -> list:
 
 def build_all_card_interactions() -> dict:
     """Builds a dict of all the interactions from all cards.
-       Interactions with self are set to zero; for item 1 counter value 1 = 0, for item counter value 2 = 0 etc.
+       Interactions with self are set to zero;
+       for item 1 counter value 1 = 0, for item counter value 2 = 0 etc.
 
     Returns:
         A dict of all the interactions from all cards.
@@ -168,10 +174,20 @@ def print_item(prt_item, heading=''):
     else:
         print("**Error:  item is not a dict, list or tuple")
 
-def groups_of_attendees_to_list(session=None):
+def groups_of_attendees_to_list(session=None) -> list:
     """Compress groups of attendees into a single list of attendees."""
     all_attendees = []
     for group in session:
         for attendee in group:
             all_attendees.append(attendee)
     return all_attendees
+
+def set_n_groups(sess_id) -> int:
+    """check the session group_size overide and set group_size"""
+    if sess_id in cfg.session_ng_overrides:
+        n_groups = cfg.session_ng_overrides[sess_id]
+        group_size = floor(cfg.n_attendees / n_groups)
+    else:
+        n_groups = cfg.orig_n_groups
+        group_size = floor(cfg.n_attendees / n_groups)
+    return n_groups, group_size

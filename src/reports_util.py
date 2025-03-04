@@ -58,9 +58,12 @@ def print_header(hd1, hd2=None, col_hd1=None, col_hd2=None, fmt="std", fileobj=N
     if col_hd2 is not None:
         print(col2_template.format(col_hd2), file=fileobj)
 
-def print_dtl(line, fileobj=None):
+def print_dtl(line, fileobj=None, newline=True):
     """print detail report line"""
-    print(line, file=fileobj)
+    if newline:
+        print(line, file=fileobj)
+    else:
+        print(line, end="", file=fileobj)
 
 def print_event_parms_limited(fileobj=None):
     """ print the event parameters"""

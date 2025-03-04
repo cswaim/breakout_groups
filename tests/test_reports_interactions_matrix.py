@@ -41,3 +41,10 @@ def test_hist(config_event_defaults, create_folders):
         rim.show_ascii_histogram(fileobj=itxt)
     assert result == None
 
+def test_interactions(config_event_defaults, create_folders):
+    rim = InteractionsMatrix()
+    print("\n\n")
+    result = rim.print_interactions()
+    with open(f'{cfg.datadir}interactions_list.txt', 'w') as itxt:
+        rim.print_interactions(fileobj=itxt)
+    assert result == None

@@ -31,6 +31,8 @@ class SessionsAlgo():
         self.seed = seed
         su.set_seed(seed)
         self.groups = []
+        # initialize the orig n_groups
+        cfg.orig_n_groups = cfg.n_groups
         self.sessions = su.init_sessions(cfg.n_sessions)
         self.interactions = {}
         # other instance variables for algorithm
@@ -54,7 +56,7 @@ class SessionsAlgo():
         """verify the number of groups in a session do not exceed cfg.n_groups
            and randomly distribute members to other groups"""
         for k, v in sessions.items():
-            sessions[k] = su.assign_extra_attendees(v)
+            sessions[k] = su.assign_extra_attendees(k,v)
         return sessions
 
     def run(self,) -> dict:
