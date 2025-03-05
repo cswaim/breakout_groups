@@ -141,12 +141,13 @@ class ConfigParmsExt(ConfigParms):
         # set the config labels to match the cfg labels
         if sec == 'GROUP_LABELS':
             conf_gl_len = len(config['GROUP_LABELS'])
-            # default len of cfg.group_labels is 4
-            # if len(cfg.group_labels) > conf_gl_len:
-            #     for i, g in enumerate(cfg.group_labels):
-            #         config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
-            #     sorted_lbls = {k:config['GROUP_LABELS'][k] for k in sorted(config['GROUP_LABELS'].keys())}
-            #     config['GROUP_LABELS'] = sorted_lbls
+            # if no labels defined, load the default template labels
+            if conf_gl_len == 0:
+                for i, g in enumerate(cfg.group_labels):
+                    config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
+                # put them in sess number order
+                sorted_lbls = {k:config['GROUP_LABELS'][k] for k in sorted(config['GROUP_LABELS'].keys())}
+                config['GROUP_LABELS'] = sorted_lbls
             next_iter = True
 
         # set config ng overrides to match the cfg session_ng_overides
