@@ -66,7 +66,7 @@ class ConfigParmsExt(ConfigParms):
         if sec == 'GROUP_LABELS':
             for i, g in enumerate(cfg.group_labels):
                 config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
-            next_iter = True
+        #     next_iter = True
 
         if sec == 'SESSION_NG_OVERRIDES':
             for k, v in cfg.session_ng_overrides.items():
@@ -86,9 +86,14 @@ class ConfigParmsExt(ConfigParms):
     # set the values in the cfg module
 
     def set_module_sects(self, config, sec, vars) -> bool:
-        """ special processing for module groups """
+        """ special processing to set sec in cfg module  """
         #  set to True to skip the rest of the loop
         next_iter = False
+
+        if sec == 'GROUP_LABELS':
+            cfg.group_labels = self.build_group_labels(config)
+            next_iter = True
+
         return next_iter
 
     def set_module_vars(self, config, sec, vars, var) -> bool:
@@ -120,7 +125,6 @@ class ConfigParmsExt(ConfigParms):
         self.set_session_label_values(config)
 
         cfg.attendees_list = self.gen_attendees_list()
-        cfg.group_labels = self.build_group_labels(config)
 
         # set the cfg.session_ng_overrides dict
         cfg.session_ng_overrides = self.build_ng_overrides(config)
@@ -138,11 +142,11 @@ class ConfigParmsExt(ConfigParms):
         if sec == 'GROUP_LABELS':
             conf_gl_len = len(config['GROUP_LABELS'])
             # default len of cfg.group_labels is 4
-            if len(cfg.group_labels) > conf_gl_len:
-                for i, g in enumerate(cfg.group_labels):
-                    config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
-                sorted_lbls = {k:config['GROUP_LABELS'][k] for k in sorted(config['GROUP_LABELS'].keys())}
-                config['GROUP_LABELS'] = sorted_lbls
+            # if len(cfg.group_labels) > conf_gl_len:
+            #     for i, g in enumerate(cfg.group_labels):
+            #         config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
+            #     sorted_lbls = {k:config['GROUP_LABELS'][k] for k in sorted(config['GROUP_LABELS'].keys())}
+            #     config['GROUP_LABELS'] = sorted_lbls
             next_iter = True
 
         # set config ng overrides to match the cfg session_ng_overides
@@ -187,7 +191,7 @@ class ConfigParmsExt(ConfigParms):
         max_len = max(len(s) for s in cfg.session_labels)
         cfg.session_labels = [s.rjust(max_len) for s in cfg.session_labels]
 
-        config.set('EVENT', 'session_labels',  ",".join(x for x in cfg.session_labels))
+        config.set('EVENT', 'session_labels',  ",".join(x.strip() for x in cfg.session_labels))
 
     def gen_attendees_list(self,) -> list:
         """generate the list for attendees"""
@@ -202,7 +206,8 @@ class ConfigParmsExt(ConfigParms):
         group_labels = []
         for k, v in config['GROUP_LABELS'].items():
             if k not in config['EVENT']:
-                group_labels.append(v.split(','))
+                group_labels.append([item.strip() for item in v.split(',')])
+                #group_labels.append(v.split(','))
 
         # group_labels is a list of list, check for '' and remove
         ngl = []
