@@ -66,7 +66,7 @@ class ConfigParmsExt(ConfigParms):
         if sec == 'GROUP_LABELS':
             for i, g in enumerate(cfg.group_labels):
                 config.set('GROUP_LABELS', f'sess{i}', ','.join(x for x in g))
-        #     next_iter = True
+            next_iter = True
 
         if sec == 'SESSION_NG_OVERRIDES':
             for k, v in cfg.session_ng_overrides.items():
