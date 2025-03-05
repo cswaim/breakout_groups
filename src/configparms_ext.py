@@ -207,7 +207,6 @@ class ConfigParmsExt(ConfigParms):
         for k, v in config['GROUP_LABELS'].items():
             if k not in config['EVENT']:
                 group_labels.append([item.strip() for item in v.split(',')])
-                #group_labels.append(v.split(','))
 
         # group_labels is a list of list, check for '' and remove
         ngl = []
