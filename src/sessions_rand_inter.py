@@ -82,7 +82,6 @@ class SessionsRandInter(SessionsAlgo):
             # loop until group >= group_size
             while len(group) < self.group_size:
                 # get min interaction for card that is not in used
-                # min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
                 min_int = self.get_min_interaction(i_list)
 
                 # break out of while if all attendees assigned
@@ -107,7 +106,9 @@ class SessionsRandInter(SessionsAlgo):
         return sess
 
     def get_min_interaction(self, i_list):
-        """ get next card with lowest interaction count"""
+        """ get next card with lowest interaction count that is
+            not in the used_attendee list
+        """
         min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
         return min_int
 
