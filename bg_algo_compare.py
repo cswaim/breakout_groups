@@ -33,6 +33,8 @@ def set_config():
     cfg.report_interactions_matrix = False
     cfg.sys_run_stats_csv = 'run_stats_compare.csv'
     cfg.sys_run_stats_txt = 'run_stats_compare.txt'
+    # calc group size
+    n_groups, cfg.group_size = su.set_n_groups(0)
     return
 
 def set_algorithm(algo=None):
