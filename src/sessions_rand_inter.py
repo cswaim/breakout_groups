@@ -27,14 +27,12 @@ class SessionsRandInter(SessionsAlgo):
         self.group_size = cfg.group_size
 
         self.groups = []
-        self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
+        self.sessions = su.init_sessions(cfg.n_sessions)
         self.interactions = {}
         self.rand_attendees = copy.copy(cfg.attendees_list)
         self.seed = seed
         random.seed(seed)
-        self.all_cards = {}
-        for i in range(cfg.n_attendees):
-            self.all_cards[i] = Card(i)
+        self.all_cards = su.init_all_cards(cfg.n_attendees)
         self.used_attendee = set()
 
         # autorun the session
@@ -87,9 +85,9 @@ class SessionsRandInter(SessionsAlgo):
                 # break out of while if all attendees assigned
                 if min_int is None:
                     break
-                # get the next low interaction attendee if in used
-                elif min_int in self.used_attendee or min_int == c:
-                    pass
+                # # get the next low interaction attendee if in used
+                # elif min_int in self.used_attendee or min_int == c:
+                #     pass
                 else:
                     group.append(min_int)
                     self.used_attendee.add(min_int)
@@ -109,64 +107,67 @@ class SessionsRandInter(SessionsAlgo):
         """ get next card with lowest interaction count that is
             not in the used_attendee list
         """
-        min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
+        while True:
+            min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
+
+            if min_int is None or min_int not in self.used_attendee:
+                break
         return min_int
 
+    # def interactions_weighted_random2(self, sess: list) -> list:
+    #     """ Build random session with groups of attendees,
+    #         optimizing for unique interactions
+    #         and minimizing duplicates.
+    #     """
+    #     # Reset tracking variables
+    #     self.used_attendee = set()  # Change to set for O(1) lookup
+    #     available_attendees = set(self.rand_attendees.copy())
+    #     random.shuffle(self.rand_attendees)
 
-    def interactions_weighted_random2(self, sess: list) -> list:
-        """ Build random session with groups of attendees,
-            optimizing for unique interactions
-            and minimizing duplicates.
-        """
-        # Reset tracking variables
-        self.used_attendee = set()  # Change to set for O(1) lookup
-        available_attendees = set(self.rand_attendees.copy())
-        random.shuffle(self.rand_attendees)
+    #     while available_attendees:
+    #         group = []
+    #         # Start with a random unused attendee
+    #         if not available_attendees:
+    #             break
 
-        while available_attendees:
-            group = []
-            # Start with a random unused attendee
-            if not available_attendees:
-                break
+    #         # Get first attendee for the group
+    #         seed_attendee = next(iter(available_attendees))
+    #         group.append(seed_attendee)
+    #         available_attendees.remove(seed_attendee)
+    #         self.used_attendee.add(seed_attendee)
 
-            # Get first attendee for the group
-            seed_attendee = next(iter(available_attendees))
-            group.append(seed_attendee)
-            available_attendees.remove(seed_attendee)
-            self.used_attendee.add(seed_attendee)
+    #         # Fill the group with attendees who have had
+    #         #  minimal interactions with current group
+    #         while len(group) < self.group_size and available_attendees:
+    #             # Score each available attendee based on previous
+    #             #  interactions with current group
+    #             best_candidate = None
+    #             lowest_interaction_score = float('inf')
 
-            # Fill the group with attendees who have had
-            #  minimal interactions with current group
-            while len(group) < self.group_size and available_attendees:
-                # Score each available attendee based on previous
-                #  interactions with current group
-                best_candidate = None
-                lowest_interaction_score = float('inf')
+    #             for candidate in available_attendees:
+    #                 # Calculate interaction score (lower is better)
+    #                 interaction_score = sum(
+    #                     self.all_cards[candidate].card_interactions[member]
+    #                     for member in group
+    #                     if member in self.all_cards[candidate].card_interactions
+    #                 )
 
-                for candidate in available_attendees:
-                    # Calculate interaction score (lower is better)
-                    interaction_score = sum(
-                        self.all_cards[candidate].card_interactions[member]
-                        for member in group
-                        if member in self.all_cards[candidate].card_interactions
-                    )
+    #                 if interaction_score < lowest_interaction_score:
+    #                     lowest_interaction_score = interaction_score
+    #                     best_candidate = candidate
 
-                    if interaction_score < lowest_interaction_score:
-                        lowest_interaction_score = interaction_score
-                        best_candidate = candidate
+    #             if best_candidate:
+    #                 group.append(best_candidate)
+    #                 available_attendees.remove(best_candidate)
+    #                 self.used_attendee.add(best_candidate)
+    #             else:
+    #                 break  # No suitable candidates left
 
-                if best_candidate:
-                    group.append(best_candidate)
-                    available_attendees.remove(best_candidate)
-                    self.used_attendee.add(best_candidate)
-                else:
-                    break  # No suitable candidates left
+    #         # Add completed group to session
+    #         if group:
+    #             sess.append(group)
 
-            # Add completed group to session
-            if group:
-                sess.append(group)
-
-        return sess
+    #     return sess
 
     def update_card_interactions(self, sess: list):
         """ use sess to update interactions"""
