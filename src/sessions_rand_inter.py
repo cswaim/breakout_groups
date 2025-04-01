@@ -75,12 +75,12 @@ class SessionsRandInter(SessionsAlgo):
             self.used_attendee.add(c)
 
             # build a list of interactions for card/attendee
-            i_list = self.all_cards[c].card_interactions.most_common()
+            # i_list = self.all_cards[c].card_interactions.most_common()
 
             # loop until group >= group_size
             while len(group) < self.group_size:
                 # get min interaction for card that is not in used
-                min_int = self.get_min_interaction(i_list)
+                min_int = self.get_min_interaction(group)
 
                 # break out of while if all attendees assigned
                 if min_int is None:
@@ -103,71 +103,21 @@ class SessionsRandInter(SessionsAlgo):
             sess.append(group)
         return sess
 
-    def get_min_interaction(self, i_list):
+    def get_min_interaction(self, group):
         """ get next card with lowest interaction count that is
             not in the used_attendee list
         """
+        # build a list of interactions for card/attendee
+        lc = Counter({i: 0 for i in range(cfg.n_attendees)})
+        for c in group:
+            lc.update(self.all_cards[c].card_interactions)
+        i_list = lc.most_common()[::-1]
         while True:
-            min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
+            min_int = next((item[0] for item in i_list if item[0] not in self.used_attendee), None)
 
             if min_int is None or min_int not in self.used_attendee:
                 break
         return min_int
-
-    # def interactions_weighted_random2(self, sess: list) -> list:
-    #     """ Build random session with groups of attendees,
-    #         optimizing for unique interactions
-    #         and minimizing duplicates.
-    #     """
-    #     # Reset tracking variables
-    #     self.used_attendee = set()  # Change to set for O(1) lookup
-    #     available_attendees = set(self.rand_attendees.copy())
-    #     random.shuffle(self.rand_attendees)
-
-    #     while available_attendees:
-    #         group = []
-    #         # Start with a random unused attendee
-    #         if not available_attendees:
-    #             break
-
-    #         # Get first attendee for the group
-    #         seed_attendee = next(iter(available_attendees))
-    #         group.append(seed_attendee)
-    #         available_attendees.remove(seed_attendee)
-    #         self.used_attendee.add(seed_attendee)
-
-    #         # Fill the group with attendees who have had
-    #         #  minimal interactions with current group
-    #         while len(group) < self.group_size and available_attendees:
-    #             # Score each available attendee based on previous
-    #             #  interactions with current group
-    #             best_candidate = None
-    #             lowest_interaction_score = float('inf')
-
-    #             for candidate in available_attendees:
-    #                 # Calculate interaction score (lower is better)
-    #                 interaction_score = sum(
-    #                     self.all_cards[candidate].card_interactions[member]
-    #                     for member in group
-    #                     if member in self.all_cards[candidate].card_interactions
-    #                 )
-
-    #                 if interaction_score < lowest_interaction_score:
-    #                     lowest_interaction_score = interaction_score
-    #                     best_candidate = candidate
-
-    #             if best_candidate:
-    #                 group.append(best_candidate)
-    #                 available_attendees.remove(best_candidate)
-    #                 self.used_attendee.add(best_candidate)
-    #             else:
-    #                 break  # No suitable candidates left
-
-    #         # Add completed group to session
-    #         if group:
-    #             sess.append(group)
-
-    #     return sess
 
     def update_card_interactions(self, sess: list):
         """ use sess to update interactions"""
