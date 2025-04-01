@@ -32,42 +32,34 @@ def get_algorithms():
 
 def set_seed(seed=None):
     """Sets the random seed.
-
-    Args:
-        seed: The random seed.
-
-    Returns:
-        None.
+        Args:
+            seed: The random seed.
+        Returns:
+            None.
     """
 
     random.seed(seed)
 
 def init_sessions(n_sess: int=cfg.n_sessions) -> dict:
     """Initializes a dictionary of sessions.
-
-    Args:
-        n_sess: The number of sessions.
-
-    Returns:
-        A dictionary of sessions, where each session is a list of groups.
+        Args:
+            n_sess: The number of sessions.
+        Returns:
+            A dictionary of sessions, where each session is a list of groups.
     """
-
     sessions = {i:[] for i in range(0, cfg.n_sessions)}
     return sessions
 
-def init_cards(nc=cfg.n_attendees) -> list:
+def init_all_cards(nc=cfg.n_attendees) -> dict:
     """Initializes a list of cards.
-
-    Args:
-        nc: The number of cards.
-
-    Returns:
-        A list of cards.
+        Args:
+            nc: The number of cards.
+        Returns:
+            A dict of cards.
     """
-
-    all_cards = []
-    for i in range(nc):
-        all_cards.append(Card(i))
+    all_cards = {}
+    for i in range(cfg.n_attendees):
+        all_cards[i] = Card(i)
     return all_cards
 
 def assign_extra_attendees(k: int, sess: list) -> list:
@@ -107,12 +99,10 @@ def assign_extra_attendees(k: int, sess: list) -> list:
 
 def update_cards(all_cards) -> list:
     """Updates the individual card iteractions and labels.
-
-    Args:
-        all_cards: A list of cards.
-
-    Returns:
-        A list of cards, where the individual card iteractions and labels have been updated.
+        Args:
+            all_cards: A list of cards.
+        Returns:
+            A list of cards, where the individual card iteractions and labels have been updated.
     """
 
     # k is session num,ber v is group list

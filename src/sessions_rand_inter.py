@@ -27,15 +27,13 @@ class SessionsRandInter(SessionsAlgo):
         self.group_size = cfg.group_size
 
         self.groups = []
-        self.sessions = {i:[] for i in range(0, cfg.n_sessions)}
+        self.sessions = su.init_sessions(cfg.n_sessions)
         self.interactions = {}
         self.rand_attendees = copy.copy(cfg.attendees_list)
         self.seed = seed
         random.seed(seed)
-        self.all_cards = {}
-        for i in range(cfg.n_attendees):
-            self.all_cards[i] = Card(i)
-        self.used_attendee = []
+        self.all_cards = su.init_all_cards(cfg.n_attendees)
+        self.used_attendee = set()
 
         # autorun the session
         if autorun:
@@ -59,13 +57,13 @@ class SessionsRandInter(SessionsAlgo):
         """get attend id"""
         c = self.rand_attendees[i]
         if c in self.used_attendee:
-            c_set = set(self.rand_attendees) - set(self.used_attendee)
+            c_set = set(self.rand_attendees) - self.used_attendee
             c = c_set.pop()
         return c
 
     def interactions_weighted_random(self, sess: list) -> list:
         """ build random session with interactions """
-        self.used_attendee = []
+        self.used_attendee = set()
         group = []
         random.shuffle(self.rand_attendees)
         for i in range(len(self.rand_attendees)):
@@ -73,20 +71,26 @@ class SessionsRandInter(SessionsAlgo):
                 break
             # get the card number
             c = self.get_unused_attendee(i)
+            group.append(c)
+            self.used_attendee.add(c)
 
-            # get min interaction for card that is not in used
-            i_list = self.all_cards[c].card_interactions.most_common()
-            min_int = next((item[0] for item in reversed(i_list) if item[0] not in self.used_attendee), None)
+            # build a list of interactions for card/attendee
+            # i_list = self.all_cards[c].card_interactions.most_common()
 
-            if len(group) < self.group_size:
-                group.append(c)
-                self.used_attendee.append(c)
+            # loop until group >= group_size
+            while len(group) < self.group_size:
+                # get min interaction for card that is not in used
+                min_int = self.get_min_interaction(group)
 
-                if min_int in self.used_attendee or min_int == c:
-                    pass
+                # break out of while if all attendees assigned
+                if min_int is None:
+                    break
+                # # get the next low interaction attendee if in used
+                # elif min_int in self.used_attendee or min_int == c:
+                #     pass
                 else:
                     group.append(min_int)
-                    self.used_attendee.append(min_int)
+                    self.used_attendee.add(min_int)
 
             # chk group size, append to session if group size
             if len(group) >= self.group_size:
@@ -98,6 +102,22 @@ class SessionsRandInter(SessionsAlgo):
         if len(group) != 0:
             sess.append(group)
         return sess
+
+    def get_min_interaction(self, group):
+        """ get next card with lowest interaction count that is
+            not in the used_attendee list
+        """
+        # build a list of interactions for card/attendee
+        lc = Counter({i: 0 for i in range(cfg.n_attendees)})
+        for c in group:
+            lc.update(self.all_cards[c].card_interactions)
+        i_list = lc.most_common()[::-1]
+        while True:
+            min_int = next((item[0] for item in i_list if item[0] not in self.used_attendee), None)
+
+            if min_int is None or min_int not in self.used_attendee:
+                break
+        return min_int
 
     def update_card_interactions(self, sess: list):
         """ use sess to update interactions"""
