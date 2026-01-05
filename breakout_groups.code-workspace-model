@@ -1,0 +1,62 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"python.analysis.extraPaths": [
+			"${workspaceFolder}"
+			],
+		"terminal.integrated.cwd": "${workspaceFolder}",
+		"terminal.integrated.env.windows": {
+		"PYTHONPATH": "${workspaceFolder}",
+			},
+		"terminal.integrated.env.linux": {
+		"PYTHONPATH": "${workspaceFolder}",
+			},
+			"python.testing.pytestEnabled": true,
+			"python.testing.unittestEnabled": true,
+			"[python]": {
+				"editor.defaultFormatter": "ms-python.black-formatter"
+			},
+			"chatgpt.openOnStartup": true,
+	 },
+	"launch": {
+		"version": "0.2.0",
+		"configurations": [
+			{
+				"name": "Python: Current File",
+				"type": "debugpy",
+				"request": "launch",
+				"program": "${file}",
+				"env": {"PYTHONPATH": "${workspaceFolder}/tests"},
+				"console": "integratedTerminal",
+				"justMyCode": true
+			  },
+			  {
+				"name": "Pytest Debug Tests",
+				"type": "debugpy",
+				"request": "launch",
+				"module": "pytest",
+				"purpose": ["debug-test"],
+				"console": "integratedTerminal",
+				"args": ["${fileBasename}", "-vv", "-s"],
+				"cwd": "${workspaceFolder}/tests",
+				// "debugOptions": [
+				// 	"WaitOnAbnormalExit",
+				// 	"WaitOnNormalExit",
+				// 	"RedirectOutput"
+				// ],
+			  },
+			  {
+				"name": "Pytest Discover",
+				"type": "debugpy",
+				"request": "launch",
+				"module": "pytest",
+				"args": ["-vs"],
+				"cwd": "${workspaceFolder}/tests",
+			  }
+		]
+	}
+}
