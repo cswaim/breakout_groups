@@ -46,7 +46,8 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.11'
+sys_cfg_version = '0.10'
+sys_comment_prefixes = ['#', ';']
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
 sys_algorithm_compare = ["sessions_random","SessionsRandom",
@@ -79,7 +80,9 @@ cfg_values = {'EVENT': [
                   ('report_cards', 'b'),
               ],
               'SYSTEM': [
-                ('sys_cfg_version', 's'), ('sys_group_algorithm', 's'),
+                ('sys_cfg_version', 's'),
+                ('sys_comment_prefixes', 'l'),
+                ('sys_group_algorithm', 's'),
                 ('sys_group_algorithm_class', 's'),
                 ('sys_algorithm_compare', 'l'),
                 ('sys_run_stats_csv', 's'),
@@ -156,9 +159,9 @@ def run_init():
     try:
         from src.configparms_ext import ConfigParmsExt as ConfigParms
     except Exception as e:
-        from config_tpg.configparms import ConfigParms
+        from app_config.configparms import ConfigParms
 
-    from config_tpg.configutils import ConfigUtils
+    from src.configutils import ConfigUtils
     cp = ConfigParms(cfg_values, cfg_comments, autorun=False)
     cu = ConfigUtils()
 
