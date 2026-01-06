@@ -46,7 +46,7 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.10'
+sys_cfg_version = '0.11'
 sys_comment_prefixes = ['#', ';']
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
