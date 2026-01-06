@@ -159,7 +159,12 @@ def run_init():
     try:
         from src.configparms_ext import ConfigParmsExt as ConfigParms
     except Exception as e:
-        from app_config.configparms import ConfigParms
+        # from app_config.configparms import ConfigParms
+        import os
+        print("Failed to import src.configparms_ext")
+        print(f"path:  {os.getcwd()}")
+        print(f"Error: {e}")
+        exit()
 
     from src.configutils import ConfigUtils
     cp = ConfigParms(cfg_values, cfg_comments, autorun=False)

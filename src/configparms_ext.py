@@ -14,7 +14,7 @@ import os
 import copy
 import importlib.util
 import src.config as cfg
-from config_tpg.configparms import ConfigParms
+from app_config.configparms import ConfigParms
 
 # ----------------------------------------------------------------
 # NOTE:
