@@ -166,7 +166,8 @@ def run_init():
         print(f"Error: {e}")
         exit()
 
-    from src.configutils import ConfigUtils
+    # from src.configutils import ConfigUtils
+    from app_config.configutils import ConfigUtils
     cp = ConfigParms(cfg_values, cfg_comments, autorun=False)
     cu = ConfigUtils()
 
