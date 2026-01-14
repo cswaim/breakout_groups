@@ -22,6 +22,12 @@ dependencies = [
     "six>=1.16.0",
 ]
 
+[project.optional-dependencies]
+dev = [
+    "flake8>=7.0.0",
+    "flake8-pyproject>=1.2.3",
+]
+
 [tool.flake8]
 exclude = [
     ".venv",

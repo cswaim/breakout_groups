@@ -34,11 +34,10 @@ jobs:
         uv venv
         source .venv/bin/activate
         #  sync the run
-        uv sync
+        uv sync --extra dev
         uv pip install .
         # -m pip install --upgrade pip
         #pip install flake8 pytest
-        uv pip install flake8 flake8-pyproject pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
