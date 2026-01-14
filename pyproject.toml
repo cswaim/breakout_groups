@@ -21,3 +21,12 @@ dependencies = [
     "seaborn>=0.12.2",
     "six>=1.16.0",
 ]
+
+[tool.flake8]
+exclude = [
+    ".venv",
+    ".git",
+    "__pycache__",
+    "build",
+    "dist",
+]
