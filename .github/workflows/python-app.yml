@@ -24,7 +24,7 @@ jobs:
     - name: Set up Python 3.x
       uses: actions/setup-python@v3
       with:
-        python-version: "3.14"
+        python-version: "3.12+"
     - name: Install dependencies
       run: |
         python --version ; pip --version  # For debugging
@@ -36,8 +36,6 @@ jobs:
         #  sync the run
         uv sync --extra dev
         uv pip install .
-        # -m pip install --upgrade pip
-        #pip install flake8 pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
