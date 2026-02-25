@@ -5,7 +5,7 @@ description = "The breakout groups application is designed to assign attendees o
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
-    "app-config>=2.0.4",
+    "app-config==2.1.1.dev3",
     "attrs>=22.2.0",
     "colorama>=0.4.6",
     "coverage>=7.4.0",
