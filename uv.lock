@@ -4,11 +4,11 @@ requires-python = ">=3.12"
 
 [[package]]
 name = "app-config"
-version = "2.1.1.dev3"
+version = "2.1.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/5d/55/a318f6bc0574122568f75171fa777d778376ae1d55155b136fcd4a0448d9/app_config-2.1.1.dev3.tar.gz", hash = "sha256:92c791afd682a4e298c87e040eed584ff06cb6d78e17721a3503dddfa7f61f03", size = 95055, upload-time = "2026-01-19T17:00:40.276Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d5/0c/50662bcf1c182860b50a24131caaba0a1ddd17283f319d0e8ed3c82f303e/app_config-2.1.1.tar.gz", hash = "sha256:aa957f89140269a70ed6cc06775e6884bd24ff211a9be48eb894d645aeb6b082", size = 99114, upload-time = "2026-01-26T19:44:21.315Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/90/e2/3c426bfad0d57bd83f981c4091826e15b6763840382fae8f50dac4b2b619/app_config-2.1.1.dev3-py3-none-any.whl", hash = "sha256:e40ba83407349ff2b9cdd19f5583e9012d4f276a47a8ac22ef5db2672c076594", size = 17111, upload-time = "2026-01-19T17:00:39.326Z" },
+    { url = "https://files.pythonhosted.org/packages/39/11/2bb26fd6d2dcba63b18894443ea401803196233527ee9d5c2926e479e4ec/app_config-2.1.1-py3-none-any.whl", hash = "sha256:2d7108e0dc37c3e7d79f1159a0c7e1634b10d340d525ca176fcaa161421754d3", size = 16926, upload-time = "2026-01-26T19:44:20.361Z" },
 ]
 
 [[package]]
@@ -50,7 +50,7 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "app-config", specifier = "==2.1.1.dev3" },
+    { name = "app-config", specifier = ">=2.1.1" },
     { name = "attrs", specifier = ">=22.2.0" },
     { name = "colorama", specifier = ">=0.4.6" },
     { name = "coverage", specifier = ">=7.4.0" },
