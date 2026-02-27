@@ -46,7 +46,7 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.10'
+sys_cfg_version = '0.12'
 sys_comment_prefixes = ['#', ';']
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
@@ -59,6 +59,9 @@ sys_run_stats_txt = "run_stats.txt"
 sys_cards_pdf = "cards.pdf"
 sys_cards_txt = "cards.txt"
 sys_interactions_reports_txt = "interactions_reports.txt"
+# card formatting
+sys_sess_lbl_fs=10
+sys_sess_text_fs=14
 
 # values passed to ConfigParms
 # dict key is the section, value is a list of variable names and type
@@ -90,6 +93,8 @@ cfg_values = {'EVENT': [
                 ('sys_cards_pdf', 's'),
                 ('sys_cards_txt', 's'),
                 ('sys_interactions_reports_txt', 's'),
+                ('sys_sess_lbl_fs', 'i'),
+                ('sys_sess_text_fs', 'i'),
                 ],
              }
 cfg_comments = {
