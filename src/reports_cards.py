@@ -111,8 +111,8 @@ class CardsReports():
         hd1_fs = 18
         hd2_fs = 14
         hdd_fs = 12
-        sess_lbl_fs = 10
-        sess_text_fs = 14
+        sess_lbl_fs = cfg.sys_sess_lbl_fs
+        sess_text_fs = cfg.sys_sess_text_fs
         footer_fs = 8
 
         # print header

@@ -46,7 +46,7 @@ report_run_stats = True
 report_cards = True
 
 # system variables
-sys_cfg_version = '0.10'
+sys_cfg_version = '0.12'
 sys_comment_prefixes = ['#', ';']
 sys_group_algorithm = "sessions_random"
 sys_group_algorithm_class = "SessionsRandom"
@@ -59,6 +59,9 @@ sys_run_stats_txt = "run_stats.txt"
 sys_cards_pdf = "cards.pdf"
 sys_cards_txt = "cards.txt"
 sys_interactions_reports_txt = "interactions_reports.txt"
+# card formatting
+sys_sess_lbl_fs=10
+sys_sess_text_fs=14
 
 # values passed to ConfigParms
 # dict key is the section, value is a list of variable names and type
@@ -90,17 +93,19 @@ cfg_values = {'EVENT': [
                 ('sys_cards_pdf', 's'),
                 ('sys_cards_txt', 's'),
                 ('sys_interactions_reports_txt', 's'),
+                ('sys_sess_lbl_fs', 'i'),
+                ('sys_sess_text_fs', 'i'),
                 ],
              }
 cfg_comments = {
-    'event_title': ['event title, subtitle and date must be <= 30 characters'],
-    'event_date': ['date is a string and will be printed as entered, examples:', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
+    'event_title': ['event title, subtitle and date must be less than 30 characters'],
+    'event_date': ['date is a string and will be printed as entered, examples', 'YYYY/MM/DD, Jan 1 thru Jan 4, Sat Apr 5'],
     'group_size': ['if 0, group size is calculated, recommend 0',],
-    'GROUP_LABELS': ['list labels as sess1 = label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
-    'SESSION_NG_OVERRIDES': ['the num of groups per session may be overidden by entering:', 'sess_num = integer', '3 = 6', 'session is 0 offset, so session1 is 0, session2 is 1'],
+    'GROUP_LABELS': ['list labels as sess1 (equal sign) label1,label2,label3...', 'labels can be different for each breakout session', 'if no session label is available, default labels of group1, group2, ... will be used', 'the session key must be unique but is ignored, only the values are used'],
+    'SESSION_NG_OVERRIDES': ['the num of groups per session may be overidden by entering', 'sess_num (equal sign) integer', '3 (equal sign) 6', 'session is 0 offset, so session1 is 0, session2 is 1'],
     'sys_cfg_version': ['changing the version number will cause file to be rewritten',],
-    'random_seed': ['random_seed = <int> forces random to return same value for each run', 'normally should be: random_seed = None '],
-    'session_labels': ['a common separated list of labels = Fri 9:00,Sat 10:00,Sat 1:00pm ', 'if empty Session xx will be generated for each session', 'if number of labels provided is less than number of sessions, ','then Session xx will be generated for missing sessions'],
+    'random_seed': ['random_seed (equal sign) <int> forces random to return same value for each run', 'normally should be -  random_seed (equal sign) None '],
+    'session_labels': ['a common separated list of labels (equal sign) Fri 9 00,Sat 10 00,Sat 1 00pm ', 'if empty Session xx will be generated for each session', 'if number of labels provided is less than number of sessions, ','then Session xx will be generated for missing sessions'],
     'sys_run_stats_csv': ['output files names'],
     'sys_algorithm_compare': ['format of this is module_name, class_name, module_name, class_name', ' The list is parsed into a list of lists (module,class), (module, class)']
              }
