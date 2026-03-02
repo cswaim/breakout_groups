@@ -50,3 +50,43 @@ def test_set_n_groups(config_event_defaults):
 
     # reset session_ng_overrides
     cfg.session_ng_overrides.pop(0)
+
+
+def test_calc_group_size_uses_function_args(config_event_defaults):
+    """test calc_group_size uses passed args, not module state"""
+    cfg.n_attendees = 99
+    assert su.calc_group_size(20, 6) == 3
+    assert su.calc_group_size(40, 7) == 5
+    assert su.calc_group_size(42, 7) == 6
+
+
+def test_calc_group_size_zero_groups_raises(config_event_defaults):
+    """test calc_group_size raises on zero groups"""
+    with pytest.raises(ZeroDivisionError):
+        su.calc_group_size(20, 0)
+
+
+def test_set_n_groups_override_zero_raises(config_event_defaults):
+    """test set_n_groups fails fast when override is zero"""
+    cfg.session_ng_overrides[0] = 0
+    with pytest.raises(ZeroDivisionError):
+        su.set_n_groups(0)
+    cfg.session_ng_overrides.pop(0)
+
+
+def test_set_n_groups_override_negative_returns_negative_group_size(config_event_defaults):
+    """test set_n_groups current behavior for negative override"""
+    cfg.session_ng_overrides[0] = -3
+    ng, gs = su.set_n_groups(0)
+    assert ng == -3
+    assert gs == -4
+    cfg.session_ng_overrides.pop(0)
+
+
+def test_set_n_groups_override_gt_attendees_returns_zero_group_size(config_event_defaults):
+    """test set_n_groups current behavior for very large override"""
+    cfg.session_ng_overrides[0] = cfg.n_attendees + 5
+    ng, gs = su.set_n_groups(0)
+    assert ng == cfg.n_attendees + 5
+    assert gs == 0
+    cfg.session_ng_overrides.pop(0)
