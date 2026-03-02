@@ -51,5 +51,5 @@ class Card():
             card_cnt += 1
             print(card.id)
             for n, label in enumerate(card.group_labels):
-                    print(f"   {cfg.session_labels[n-1]}: {label}")
+                    print(f"   {cfg.session_labels[n]}: {label}")
         return card_cnt

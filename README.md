@@ -101,27 +101,27 @@ See *`src/sessions_model.py`* for a sample of the session algorithm
 
 ### Summary of set up
 * run git clone
-* make sure all modules in requirements.txt are installed in python  
+* make sure all modules in requirements.txt are installed in python
     recommend using virtualenv and install with pip install -r requirements.txt
-* from the root directory of the project run:  
-    ***python breakout_groups.py init***  
+* from the root directory of the project run:
+    ***python breakout_groups.py init***
     (this creates the breakout_groups.cfg in the data folder)
 * configure the configuration file (see [Configuration](#Configuration) below)
 
 ### Analyze the Event
-To determine which algorithm performs best for an event, 
+To determine which algorithm performs best for an event,
 * Set up the config file for your event
-* Run the algorithm compare job  
-    ***python bg_algo_compare.py 1000***  
+* Run the algorithm compare job
+    ***python bg_algo_compare.py 1000***
     this will run each algorithm 1000 times with the settings in the config file
 * At the end of the run the top three runs for each algorithm is printed and the seed is shown
 * Select the run with the best interactions and set the seed in the config file
 * Run the Application
 
 ### Run the Application
-Help is available by passing the -h or --help parameter on the python cmd line 
-* run the application:  
-   ***python breakout_groups.py***   
+Help is available by passing the -h or --help parameter on the python cmd line
+* run the application:
+   ***python breakout_groups.py***
    This will produce a set of reports and a pdf of the cards
 * Print the cards on 3x5 cards to be given to attendees to direct them to the appropriate breakout group
 
@@ -132,6 +132,5 @@ Help is available by passing the -h or --help parameter on the python cmd line
 * set the seed if you wish to reproduce specific results
 
 ### How to run tests
-* from the root folder run:  
+* from the root folder run:
   ***pytest -vs***
-
