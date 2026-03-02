@@ -11,7 +11,6 @@
 import sys
 import os
 import random
-from math import floor
 from src import config as cfg
 from src import bg_parser
 from src.event import Event
