@@ -15,6 +15,7 @@ from math import floor
 from src import config as cfg
 from src import bg_parser
 from src.event import Event
+from src import sessions_util as su
 from src import logger_setup
 import logging
 log = logging.getLogger(__name__)
@@ -40,7 +41,7 @@ class BreakoutGroups():
         self.seed = self.gen_seed()
 
         # set group size
-        cfg.group_size = floor(cfg.n_attendees / cfg.n_groups)
+        cfg.group_size = su.calc_group_size(cfg.n_attendees, cfg.n_groups)
         self.group_size = cfg.group_size
 
         logger_setup.run()

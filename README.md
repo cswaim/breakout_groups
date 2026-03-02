@@ -128,7 +128,7 @@ Help is available by passing the -h or --help parameter on the python cmd line
 ### Configuration
 * in the data folder change the configuration file breakout_groups.cfg
 * set title, sub-title, date and breakout session names
-* set the number of attendees, number of groups, group_size
+* set the number of attendees, number of groups, (the group_size is calculated)
 * set the seed if you wish to reproduce specific results
 
 ### How to run tests

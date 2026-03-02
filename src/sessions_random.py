@@ -56,4 +56,3 @@ class SessionsRandom(SessionsAlgo):
             sess = self.create_a_session()
             self.sessions[i] = sess
         return self.sessions
-
