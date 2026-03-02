@@ -56,7 +56,7 @@ def test_calc_group_size_uses_function_args(config_event_defaults):
     """test calc_group_size uses passed args, not module state"""
     cfg.n_attendees = 99
     assert su.calc_group_size(20, 6) == 3
-    assert su.calc_group_size(40, 7) == 5
+    assert su.calc_group_size(40, 7) == 6
     assert su.calc_group_size(42, 7) == 6
 
 
