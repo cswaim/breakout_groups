@@ -182,6 +182,6 @@ def set_n_groups(sess_id) -> int:
         group_size = calc_group_size(cfg.n_attendees, n_groups)
     return n_groups, group_size
 
-def calc_group_size(n_attendees, n_groups):
+def calc_group_size(num_attendees, num_groups):
     """calc the group size"""
-    return floor(cfg.n_attendees / n_groups)
+    return floor(num_attendees / num_groups)
