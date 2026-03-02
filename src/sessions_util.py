@@ -176,8 +176,12 @@ def set_n_groups(sess_id) -> int:
     """check the session group_size overide and set group_size"""
     if sess_id in cfg.session_ng_overrides:
         n_groups = cfg.session_ng_overrides[sess_id]
-        group_size = floor(cfg.n_attendees / n_groups)
+        group_size = calc_group_size(cfg.n_attendees, n_groups)
     else:
         n_groups = cfg.orig_n_groups
-        group_size = floor(cfg.n_attendees / n_groups)
+        group_size = calc_group_size(cfg.n_attendees, n_groups)
     return n_groups, group_size
+
+def calc_group_size(n_attendees, n_groups):
+    """calc the group size"""
+    return floor(cfg.n_attendees / n_groups)
