@@ -49,6 +49,33 @@ def set_algorithm(algo=None):
         cfg.sys_group_algorithm_class = a[1]
         yield a
 
+def prt_loop_status(x, term=False, loopend=False):
+    """ print status of loop """
+    def prt_loop_end(x):
+        """print blank line at end of loop"""
+        prt_line(x)
+        print(file=sys.__stdout__)
+
+    def prt_term(x):
+        """print final blank lines"""
+        print(file=sys.__stdout__)
+        print(file=sys.__stdout__)
+
+    def prt_line(x):
+        """ default line print"""
+        print(
+            f"\r     algorithm: {cfg.sys_group_algorithm:<25}     loop cnt: {x:6d}",
+            end="",
+            flush=True,
+            file=sys.__stdout__,
+        )
+    if term:
+        prt_term(x)
+    elif loopend:
+        prt_loop_end(x)
+    else:
+        prt_line(x)
+
 def main(args):
     """ create breakout goups for an event"""
 
@@ -91,20 +118,24 @@ def main(args):
             next(algo_gen)
         except StopIteration:
             break
-        # print(cfg.sys_group_algorithm_class)
 
         # redirect to file
         with open(ofl, 'a') as f:
             with redirect_stdout(f):
                 for x in range(loop_cnt):
+                    if x % 20 == 0:
+                        prt_loop_status(x)
                     cfg.random_seed = None
                     bg = BreakoutGroups()
                     bg.run()
+                prt_loop_status(loop_cnt, loopend=True)
+    prt_loop_status(loop_cnt, term=True)
+
 
     # plot results of csv file
     algo_cnt = len(su.get_algorithms())
-    pac = PlotAlgoCompare(autorun=True,)
-    aca = AlgoCompareAnalysis(autorun=True)
+    PlotAlgoCompare(autorun=True,)
+    AlgoCompareAnalysis(autorun=True)
 
 
 if __name__ == '__main__':
