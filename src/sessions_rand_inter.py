@@ -3,11 +3,11 @@ import copy
 from collections import Counter
 from src import config as cfg
 from src.sessions_algo import SessionsAlgo
+from src import sessions_util as su
+
 import logging
 log = logging.getLogger(__name__)
 
-from src.card import Card
-from src import sessions_util as su
 
 '''
     Populate session dictionary by randomly shuffling the attendees list
@@ -74,9 +74,6 @@ class SessionsRandInter(SessionsAlgo):
             group.append(c)
             self.used_attendee.add(c)
 
-            # build a list of interactions for card/attendee
-            # i_list = self.all_cards[c].card_interactions.most_common()
-
             # loop until group >= group_size
             while len(group) < self.group_size:
                 # get min interaction for card that is not in used
@@ -85,9 +82,6 @@ class SessionsRandInter(SessionsAlgo):
                 # break out of while if all attendees assigned
                 if min_int is None:
                     break
-                # # get the next low interaction attendee if in used
-                # elif min_int in self.used_attendee or min_int == c:
-                #     pass
                 else:
                     group.append(min_int)
                     self.used_attendee.add(min_int)
@@ -101,6 +95,7 @@ class SessionsRandInter(SessionsAlgo):
         # append remainder to session
         if len(group) != 0:
             sess.append(group)
+
         return sess
 
     def get_min_interaction(self, group):
@@ -126,6 +121,57 @@ class SessionsRandInter(SessionsAlgo):
             upd_dict = self.all_cards[0].convert_grp_to_dict(g)
             for c in g:
                 self.all_cards[c].update_cards(upd_dict)
+
+    def get_group_interaction_total(self, attendee: int, group: list) -> int:
+        """sum prior interactions between attendee and all members of group"""
+        return sum(self.all_cards[attendee].card_interactions[g] for g in group)
+
+    def choose_overflow_group(self, attendee: int, sess: list, ng: int) -> int:
+        """pick target group for overflow attendee
+           1) prefer any group with zero prior interactions
+           2) otherwise use group with minimum interaction total
+        """
+        valid_groups = sess[:ng]
+        scores = []
+        zero_groups = []
+        for gi, grp in enumerate(valid_groups):
+            score = self.get_group_interaction_total(attendee, grp)
+            scores.append((gi, score))
+            if score == 0:
+                zero_groups.append(gi)
+
+        if len(zero_groups) != 0:
+            return random.choice(zero_groups)
+
+        min_score = min(score for _, score in scores)
+        min_groups = [gi for gi, score in scores if score == min_score]
+        return random.choice(min_groups)
+
+    def assign_extra_attendees_interactions(self, sess: list, ng: int) -> list:
+        """enforce number of groups using interaction-based overflow assignment"""
+        while len(sess) > ng:
+            overflow_group = sess[-1]
+            for attendee in overflow_group:
+                target_group = self.choose_overflow_group(attendee, sess, ng)
+                sess[target_group].append(attendee)
+            sess.pop()
+        return sess
+
+    def check_num_groups(self, sessions: dict) -> dict:
+        """ enforce n_groups per session using interaction logic for overflow
+
+        this method overrides the method in the base class and
+        is called after assigning based on group_size
+        then, any attendees in the 'extra' group are assigned based
+        on the min interactions logic
+
+        Honors session overrides by looking up ng for each session id in su.set_n_groups function.
+        """
+        for k, v in sessions.items():
+            ng, _ = su.set_n_groups(k)
+            if len(v) > ng:
+                sessions[k] = self.assign_extra_attendees_interactions(v, ng)
+        return sessions
 
     def build_sessions(self,) -> dict:
         """build sessions
