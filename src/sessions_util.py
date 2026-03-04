@@ -81,10 +81,10 @@ def assign_extra_attendees(k: int, sess: list) -> list:
         A list of groups, where the number of groups has been set to n_groups.
     """
     # check for override
-    ng, gs = set_n_groups(k)
+    ng, _ = set_n_groups(k)
 
     g_used = []
-    if len(sess) > ng and len(sess[-1]) != gs:
+    if len(sess) > ng:
         for x in sess[-1]:
             # gen number until not used
             while (g:= random.randrange(ng )) in g_used:
@@ -183,5 +183,5 @@ def set_n_groups(sess_id) -> int:
     return n_groups, group_size
 
 def calc_group_size(num_attendees, num_groups):
-    """calc the group size"""
+    """calc the base group size"""
     return floor(num_attendees / num_groups)
