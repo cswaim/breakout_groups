@@ -3,11 +3,11 @@ import copy
 from collections import Counter
 from src import config as cfg
 from src.sessions_algo import SessionsAlgo
+from src import sessions_util as su
+
 import logging
 log = logging.getLogger(__name__)
 
-from src.card import Card
-from src import sessions_util as su
 
 '''
     Populate session dictionary by randomly shuffling the attendees list

@@ -1,11 +1,7 @@
-from collections import Counter
-from collections import deque
 
-from itertools import combinations
 from math import floor
 import random
 
-from numpy import integer
 from src import config as cfg
 from src.card import Card
 import logging
@@ -115,7 +111,7 @@ def update_cards(all_cards) -> list:
                 # set the group label, if label not found, use default
                 try:
                     glabel = cfg.group_labels[k][n]
-                except:
+                except Exception:
                     glabel = f"group{n}"
                 all_cards[c].update_group_labels(glabel)
     return all_cards
