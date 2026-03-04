@@ -46,16 +46,8 @@ class SessionsRandInter(SessionsAlgo):
         sess = []
         # for first session, use random then use interaction weighted random
         if sess_num == 0:
-            # Build exactly n_groups base groups of group_size.
-            for i in range(self.n_groups):
-                beg = i * self.group_size
-                end = beg + self.group_size
-                sess.append(sorted(self.rand_attendees[beg:end]))
-
-            # Assign any remaining attendees to existing groups using interaction scoring.
-            overflow = self.rand_attendees[self.n_groups * self.group_size:]
-            if len(overflow) != 0:
-                sess = self.assign_overflow_with_interactions(sess, overflow)
+            for i in range(0, cfg.n_attendees, self.group_size):
+                sess.append(sorted(self.rand_attendees[i: i + self.group_size]))
         else:
             sess = self.interactions_weighted_random(sess)
 
@@ -72,7 +64,6 @@ class SessionsRandInter(SessionsAlgo):
     def interactions_weighted_random(self, sess: list) -> list:
         """ build random session with interactions """
         self.used_attendee = set()
-        overflow = []
         group = []
         random.shuffle(self.rand_attendees)
         for i in range(len(self.rand_attendees)):
@@ -103,50 +94,13 @@ class SessionsRandInter(SessionsAlgo):
 
             # chk group size, append to session if group size
             if len(group) >= self.group_size:
-                # Keep exactly n_groups groups. Extra full groups become overflow.
-                if len(sess) < self.n_groups:
-                    sess.append(copy.copy(group))
-                else:
-                    overflow.extend(group)
+                # add group to sess and reset
+                sess.append(copy.copy(group))
                 group.clear()
 
-        # any remainder attendee(s) are overflow
+        # append remainder to session
         if len(group) != 0:
-            overflow.extend(group)
-
-        # assign overflow attendees into existing groups using interaction scoring
-        if len(overflow) != 0:
-            sess = self.assign_overflow_with_interactions(sess, overflow)
-
-        return sess
-
-    def get_group_interaction_score(self, attendee, group):
-        """Return total prior interactions attendee has with a candidate group."""
-        return sum(self.all_cards[attendee].card_interactions[g] for g in group)
-
-    def assign_overflow_with_interactions(self, sess: list, overflow: list) -> list:
-        """Assign overflow attendees to existing groups using minimum interaction cost.
-
-        To spread attendees, groups are not reused until all groups are used once,
-        then the cycle restarts.
-        """
-        if len(sess) == 0 or len(overflow) == 0:
-            return sess
-
-        g_used = []
-        for attendee in overflow:
-            available = [gi for gi in range(len(sess)) if gi not in g_used]
-            if len(available) == 0:
-                g_used = []
-                available = list(range(len(sess)))
-
-            scores = [(gi, self.get_group_interaction_score(attendee, sess[gi])) for gi in available]
-            min_score = min(score for _, score in scores)
-            candidate_groups = [gi for gi, score in scores if score == min_score]
-
-            pick_group = random.choice(candidate_groups)
-            sess[pick_group].append(attendee)
-            g_used.append(pick_group)
+            sess.append(group)
 
         return sess
 
